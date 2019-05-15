@@ -1,0 +1,18 @@
+# Prerequisites
+.vscode
+
+# Object files
+*.py
+*.o
+*.a
+
+# Executables
+bomberman
+a.out
+
+# Miscellaneous
+
+# Emacs
+*~
+\#*\#
+.\#*
