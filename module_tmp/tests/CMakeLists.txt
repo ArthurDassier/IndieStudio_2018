@@ -12,6 +12,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-lgcov")
 # set(CMAKE_CXX_OUTPUT_ENTENSION_REPLACE ON)
 # set(CMAKE_EXE_LINKER "-fprofile-arcs -ftest-coverage")
 
-set_target_properties(module_tmp_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+set_target_properties(module_tmp_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 target_link_libraries(module_tmp_tests gtest gtest_main module_tmp)

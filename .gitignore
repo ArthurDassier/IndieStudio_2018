@@ -12,6 +12,9 @@ a.out
 
 # Miscellaneous
 
+# Unit tests
+module_tmp_tests
+
 # Emacs
 *~
 \#*\#
