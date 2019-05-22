@@ -11,7 +11,16 @@ a.out
 
 # Miscellaneous
 
+# Unit tests
+module_tmp_tests
+
 # Emacs
 *~
 \#*\#
 .\#*
+
+#CMake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
