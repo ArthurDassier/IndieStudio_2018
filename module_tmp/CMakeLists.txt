@@ -1,7 +1,7 @@
 project(module_tmp)
 
 add_library(module_tmp STATIC
-    ../test.cpp
+    ./src/toto.cpp
     )
 
 target_include_directories(module_tmp INTERFACE ./include)
