@@ -4,7 +4,7 @@ LINK_DIRECTORIES (
 
 add_executable(
     bomberman
-    ../test.cpp
+    ./src/test.cpp
 )
 set(CMAKE_CXX_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor")
 set(CMAKE_EXE_LINKER_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor")
