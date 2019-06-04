@@ -19,7 +19,7 @@ class Room
 public:
     void join(boost::shared_ptr<Participant>);
     void updatePosition(const std::string, std::string);
-    void stratPosi(boost::shared_ptr<Participant>);
+    void startPosi(boost::shared_ptr<Participant>);
 
 private:
     void update_participants();
