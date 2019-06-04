@@ -29,7 +29,7 @@ int EngineGraphic::runGraph()
 {
     static boost::timer::cpu_timer clock;
     static auto start = clock.elapsed();
-    static boost::timer::nanosecond_type second(50000000LL);
+    static boost::timer::nanosecond_type second(70000000LL);
     boost::timer::cpu_times elapsed_times(clock.elapsed());
     boost::timer::nanosecond_type elapsed(elapsed_times.system + elapsed_times.user);
 
