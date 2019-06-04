@@ -91,11 +91,12 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         float x = root.get<float>("x");
         float y = root.get<float>("y");
         float z = root.get<float>("z");
+        int skin = root.get<int>("skin");
         Character player;
 
         player.setId(id);
         player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(1);
+        player.setSkin(skin);
         addEntity(&player);
         _charList.push_back(player);
         create_map(root.get<std::string>("diagram"));
@@ -106,6 +107,7 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         float x = root.get<float>("x");
         float y = root.get<float>("y");
         float z = root.get<float>("z");
+        int skin = root.get<int>("skin");
 
 
         player.setId(id);
@@ -118,9 +120,27 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 
 void EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);;
+    scene::IAnimatedMesh* mesh;// = _smgr->getMesh("client/ninja.b3d");
+    scene::IAnimatedMeshSceneNode *node;// = _smgr->addAnimatedMeshSceneNode(mesh);
 
+    switch (player->getSkin()) {
+        case 0:
+            mesh = _smgr->getMesh("client/ninja.b3d");
+            break;
+        case 1:
+            mesh = _smgr->getMesh("client/ninja.b3d");
+            break;
+        case 2:
+            mesh = _smgr->getMesh("client/ninja.b3d");
+            break;
+        case 3:
+            mesh = _smgr->getMesh("client/ninja.b3d");
+            break;
+        default:
+            mesh = _smgr->getMesh("client/ninja.b3d");
+            break;
+    }
+    node = _smgr->addAnimatedMeshSceneNode(mesh);
     node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(player->getPosition());
