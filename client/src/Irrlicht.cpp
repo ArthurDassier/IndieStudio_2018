@@ -27,9 +27,19 @@ EngineGraphic::~EngineGraphic()
 
 int EngineGraphic::runGraph()
 {
+    static boost::timer::cpu_timer clock;
+    static auto start = clock.elapsed();
+    static boost::timer::nanosecond_type second(50000000LL);
+    boost::timer::cpu_times elapsed_times(clock.elapsed());
+    boost::timer::nanosecond_type elapsed(elapsed_times.system + elapsed_times.user);
+
     if (_device->run() == 0)
         return (84);
-    input();
+    if (elapsed >= second) {
+        input();
+        clock.stop();
+        clock.start();
+    }
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     _smgr->drawAll();
     _guienv->drawAll();
