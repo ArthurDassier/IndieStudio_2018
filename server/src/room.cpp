@@ -126,7 +126,7 @@ void Room::startPosi(boost::shared_ptr<Participant> participant)
             participant->get_playerdata().pos.x = 0;
             participant->get_playerdata().pos.y = 0;
             participant->get_playerdata().pos.z = 0;
-            participant->get_playerdata().skin = 0;
+            participant->get_playerdata().skin = 42;
             break;
     }
     nb_player++;

@@ -26,7 +26,7 @@ void Core::startCore()
         if (_graph.runGraph() == 84)
             break;
         if (_graph.getData().empty() == false) {
-            std::cout << _graph.getData() << std::endl;
+            // std::cout << _graph.getData() << std::endl;
             _client.sendToServer(_graph.getData());
             _graph.clearData();
         }

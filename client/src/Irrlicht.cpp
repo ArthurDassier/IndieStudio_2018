@@ -112,7 +112,7 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 
         player.setId(id);
         player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(1);
+        player.setSkin(skin);
         addEntity(&player);
         _charList.push_back(player);
     }
@@ -120,28 +120,27 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 
 void EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh;// = _smgr->getMesh("client/ninja.b3d");
-    scene::IAnimatedMeshSceneNode *node;// = _smgr->addAnimatedMeshSceneNode(mesh);
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
+    // node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
     switch (player->getSkin()) {
         case 0:
-            mesh = _smgr->getMesh("client/ninja.b3d");
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
             break;
         case 1:
-            mesh = _smgr->getMesh("client/ninja.b3d");
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinbl.jpg"));
             break;
         case 2:
-            mesh = _smgr->getMesh("client/ninja.b3d");
+            node->setMaterialTexture(0, _driver->getTexture("client/nskingr.jpg"));
             break;
         case 3:
-            mesh = _smgr->getMesh("client/ninja.b3d");
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinpu.jpg"));
             break;
         default:
-            mesh = _smgr->getMesh("client/ninja.b3d");
+            node->setMaterialTexture(0, _driver->getTexture("client/nskingrey.jpg"));
             break;
     }
-    node = _smgr->addAnimatedMeshSceneNode(mesh);
-    node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(player->getPosition());
     node->setFrameLoop(0, 0);
@@ -153,8 +152,6 @@ void EngineGraphic::addEntity(Character *player)
 scene::ICameraSceneNode *EngineGraphic::addCamera()
 {
     return ( _smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
-    
-    // _device->getCursorControl()->setVisible(false);
 }
 
 void EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -169,7 +166,6 @@ void EngineGraphic::moveEntity(std::string sens, std::string id)
     posi = it->getNode()->getPosition();
     if (sens.compare("up") == 0) {
         posi.Z += 2;
-        std::cout << posi.Z << std::endl;
         it->getNode()->setPosition(posi);
         it->getNode()->setRotation(core::vector3df(0, 0, 0));
         if (it->getNode()->getEndFrame() != 13) {
