@@ -1,0 +1,25 @@
+LINK_DIRECTORIES (
+    ./lib
+)
+
+add_executable(
+    bomberman
+    src/main.cpp
+)
+
+set_target_properties(bomberman PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+
+target_link_libraries(
+    bomberman
+    boost_system
+    pthread
+    module_tmp
+    client
+    Irrlicht
+    server
+    GL
+    Xxf86vm
+    Xext
+    X11
+    Xcursor
+)

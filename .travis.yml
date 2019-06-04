@@ -1,0 +1,27 @@
+langage: cpp
+
+addons:
+ sonarcloud: true
+ apt:
+  sources:
+    - ubuntu-toolchain-r-test
+  packages:
+    - g++-7
+
+jobs:
+  include:
+  - stage: Unit Tests
+    script:
+      - make tests_run
+  - stage: Unit Tests & Sonar
+    if: (NOT type IN (pull_request)) AND (branch = master)
+    script:
+      - make tests_run
+      - gcovr -r . -x --object-directory=. > report.xml
+      - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
+
+env:
+ global:
+ - secure: b4cdbad4a6e72c26069bba3362c5bcce31105f82
+
+ - SONAR_HOST_URL=http://91.121.150.220:9000
