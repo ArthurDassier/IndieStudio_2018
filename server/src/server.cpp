@@ -13,7 +13,8 @@ Server::Server() :
         _io_service,
         udp::endpoint(udp::v4(), 7777)
         )
-    )
+    ),
+    _pause(false)
 {
     start_receive();
 }
@@ -50,14 +51,18 @@ std::size_t bytes_transferred)
             std::cout << "Error: " << e.what() << std::endl;
         }
         std::string type = root.get<std::string>("type");
+
         if (type == "connection") {
+            _pause = false;
             new_session.reset(new Session(_socket, _remote_endpoint, _room));
             new_session->start();
-        } else if (type == "move") {
+        } else if (type == "move" && !_pause) {
             std::string sens = root.get<std::string>("sens");
+
             _room.updatePosition(boost::lexical_cast<std::string>(_remote_endpoint.port()), sens);
-        } else {
-            // Eventuellement d'autres messages
+        } else if (type == "pause") {
+            if (_room.nbParticipants() == 1)
+                _pause = -_pause;
         }
         start_receive();
     }
@@ -70,4 +75,9 @@ const boost::system::error_code &error, __attribute__((unused)) std::size_t byte
         std::cout << *message << " was sent" << std::endl;
     else
         std::cout << error.message() << std::endl;
+}
+
+bool Server::pause()
+{
+    return (_pause);
 }
