@@ -5,20 +5,34 @@ addons:
  apt:
   sources:
     - ubuntu-toolchain-r-test
+    - sourceline: 'ppa:mhier/libboost-latest'
   packages:
     - g++-7
+    - cmake
 
 jobs:
   include:
   - stage: Unit Tests
     script:
-      - make tests_run
+      - mkdir build
+      - cd build
+      - cmake ..
+      - make
+      - cd ..
+      - ./client_tests
+      - ./server_tests
   - stage: Unit Tests & Sonar
     if: (NOT type IN (pull_request)) AND (branch = master)
     script:
-      - make tests_run
-      - gcovr -r . -x --object-directory=. > report.xml
-      - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
+      - mkdir build
+      - cd build
+      - cmake ..
+      - make
+      - cd ..
+      - ./client_tests
+      - ./server_tests
+      # - gcovr -r . -x --object-directory=. > report.xml
+      # - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
 
 env:
  global:

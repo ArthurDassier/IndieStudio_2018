@@ -18,4 +18,4 @@ SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 # target_include_directories(module_tmp STATIC ./include)
 # target_link_libraries(module_tmp STATIC)
 
-# add_subdirectory(tests)
+add_subdirectory(tests)

@@ -10,4 +10,4 @@ add_library(server
 target_include_directories(server INTERFACE ./include)
 SET_TARGET_PROPERTIES(server PROPERTIES LINKER_LANGUAGE CXX)
 
-# add_subdirectory(tests)
+add_subdirectory(tests)
