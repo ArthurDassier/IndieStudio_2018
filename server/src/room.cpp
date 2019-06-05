@@ -9,16 +9,19 @@
 
 void Room::join(boost::shared_ptr<Participant> participant)
 {
-    // To connected players
+    // To connected players ->send the participant to all
+
+    startPosi(participant);
     for (boost::shared_ptr<Participant> p : _participants) {
         boost::property_tree::ptree root;
         std::stringstream ss;
 
         root.put("id", participant->get_id());
         root.put("type", "newplayer");
-        root.put("x", std::to_string(10 * _participants.size()));
-        root.put("y", 0);
-        root.put("z", std::to_string(10 * _participants.size()));
+        root.put("x", participant->get_playerdata().pos.x);
+        root.put("y", participant->get_playerdata().pos.y);
+        root.put("z", participant->get_playerdata().pos.z);
+        root.put("skin", participant->get_playerdata().skin);
         boost::property_tree::write_json(ss, root);
         p->deliver(ss.str());
     }
@@ -30,8 +33,9 @@ void Room::join(boost::shared_ptr<Participant> participant)
         root.put("id", p->get_id());
         root.put("type", "newplayer");
         root.put("x", p->get_playerdata().pos.x);
-        root.put("y", 0);
+        root.put("y", p->get_playerdata().pos.y);
         root.put("z", p->get_playerdata().pos.z);
+        root.put("skin", p->get_playerdata().skin);
         boost::property_tree::write_json(ss, root);
         participant->deliver(ss.str());
     }
@@ -41,9 +45,10 @@ void Room::join(boost::shared_ptr<Participant> participant)
     root.put("type", "you");
     root.put("id", participant->get_id());
     root.put("diagram", "111111111\n100000001\n100000001\n100000001\n100000001\n111111111");
-    root.put("x", std::to_string(10 * _participants.size()));
-    root.put("y", 0);
-    root.put("z", std::to_string(10 * _participants.size()));
+    root.put("x", participant->get_playerdata().pos.x);
+    root.put("y", participant->get_playerdata().pos.y);
+    root.put("z", participant->get_playerdata().pos.z);
+    root.put("skin", participant->get_playerdata().skin);
     boost::property_tree::write_json(ss, root);
     participant->deliver(ss.str());
     _participants.push_back(participant);
@@ -88,7 +93,7 @@ void Room::updatePosition(std::string id, std::string new_sens)
     }
 }
 
-void Room::stratPosi(boost::shared_ptr<Participant> participant)
+void Room::startPosi(boost::shared_ptr<Participant> participant)
 {
     static int nb_player = 1;
 
@@ -97,26 +102,31 @@ void Room::stratPosi(boost::shared_ptr<Participant> participant)
             participant->get_playerdata().pos.x = 40;
             participant->get_playerdata().pos.y = 10;
             participant->get_playerdata().pos.z = 40;
+            participant->get_playerdata().skin = 0;
             break;
         case 2:
             participant->get_playerdata().pos.x = 20;
             participant->get_playerdata().pos.y = 10;
             participant->get_playerdata().pos.z = 20;
+            participant->get_playerdata().skin = 1;
             break;
         case 3:
             participant->get_playerdata().pos.x = 10;
             participant->get_playerdata().pos.y = 10;
             participant->get_playerdata().pos.z = 10;
+            participant->get_playerdata().skin = 2;
             break;
         case 4:
             participant->get_playerdata().pos.x = 30;
             participant->get_playerdata().pos.y = 10;
             participant->get_playerdata().pos.z = 30;
+            participant->get_playerdata().skin = 3;
             break;
         default:
             participant->get_playerdata().pos.x = 0;
             participant->get_playerdata().pos.y = 0;
             participant->get_playerdata().pos.z = 0;
+            participant->get_playerdata().skin = 42;
             break;
     }
     nb_player++;

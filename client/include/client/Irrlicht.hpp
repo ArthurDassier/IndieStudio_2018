@@ -7,13 +7,14 @@
 
 #pragma once
 
-#include "client.hpp"
-#include "entity.hpp"
 #include "../../../lib/includes/irrlicht.h"
 #include "../../../lib/includes/driverChoice.h"
 #include <list>
 #include <vector>
 #include <fstream>
+#include "client.hpp"
+#include "entity.hpp"
+#include "clock.hpp"
 using namespace irr;
 
 class MyEventReceiver : public IEventReceiver
@@ -89,6 +90,7 @@ class EngineGraphic
         std::vector<Character> _charList;
         std::vector<Object> _objList;
         std::list<scene::ISceneNode*> _map;
+        Clock _clock;
 
         // std::list<scene::ISceneNode*> _map;
         // scene::IAnimatedMeshSceneNode *_node;

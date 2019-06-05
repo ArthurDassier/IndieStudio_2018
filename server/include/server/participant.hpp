@@ -22,6 +22,7 @@ struct player
     std::string name;
 
     position pos;
+    int skin;
 
     player(std::string name) :
         name(name)
