@@ -5,7 +5,6 @@
 ** Irrlicht
 */
 
-#include "boost/timer/timer.hpp"
 #include "../include/client/Irrlicht.hpp"
 
 EngineGraphic::EngineGraphic():
@@ -15,7 +14,8 @@ EngineGraphic::EngineGraphic():
     _driver(_device->getVideoDriver()),
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
-    _driverType (video::EDT_OPENGL)
+    _driverType (video::EDT_OPENGL),
+    _clock()
 {
     // _client.start_receive();
 }
@@ -27,18 +27,14 @@ EngineGraphic::~EngineGraphic()
 
 int EngineGraphic::runGraph()
 {
-    static boost::timer::cpu_timer clock;
-    static auto start = clock.elapsed();
-    static boost::timer::nanosecond_type second(70000000LL);
-    boost::timer::cpu_times elapsed_times(clock.elapsed());
-    boost::timer::nanosecond_type elapsed(elapsed_times.system + elapsed_times.user);
-
+    _clock.setElapsedTime();
+    _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
-    if (elapsed >= second) {
+    if (_clock.getElapsed() >= _clock.getSecond()) {
         input();
-        clock.stop();
-        clock.start();
+        _clock.getClock().stop();
+        _clock.getClock().start();
     }
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     _smgr->drawAll();
@@ -123,7 +119,6 @@ void EngineGraphic::addEntity(Character *player)
     scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
-    // node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
     switch (player->getSkin()) {
         case 0:
             node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));

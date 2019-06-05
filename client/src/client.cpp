@@ -63,7 +63,6 @@ void Client::handle_receive(const boost::system::error_code& error,
         boost::property_tree::ptree root;
         std::stringstream ss;
 
-        // std::cout << receive_json << std::endl;
         ss << receive_json;
         try {
             boost::property_tree::read_json(ss, root);
