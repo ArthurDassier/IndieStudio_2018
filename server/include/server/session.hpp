@@ -31,7 +31,7 @@ public:
 
     // Members
     void start();
-    boost::asio::ip::udp::socket& socket(); 
+    boost::asio::ip::udp::socket &socket(); 
 
 private:
     void deliver(std::string message);

@@ -61,6 +61,7 @@ class EngineGraphic
         scene::ICameraSceneNode *addCamera();
         void moveEntity(std::string sens, std::string id);
         void create_map(std::string map);
+        void sendEscape();
 
         // void create_map(std::ifstream &fd);
         // void settings();
