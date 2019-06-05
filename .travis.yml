@@ -9,6 +9,7 @@ addons:
   packages:
     - g++-7
     - cmake
+    - boost1.67
 
 jobs:
   include:
