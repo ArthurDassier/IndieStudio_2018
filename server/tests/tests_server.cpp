@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2019
-** tests_pause.cpp
+** tests_server.cpp
 ** File description:
-** tests_pause
+** tests_server
 */
 
 #include "gtest/gtest.h"

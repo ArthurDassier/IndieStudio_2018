@@ -2,7 +2,9 @@ project(server_tests)
 
 add_executable(
     server_tests
-    tests_pause.cpp
+    tests_server.cpp
+    tests_room.cpp
+    tests_participant.cpp
 )
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
