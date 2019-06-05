@@ -21,7 +21,7 @@ void Session::start()
     _room.join(shared_from_this());
 }
 
-boost::asio::ip::udp::socket& Session::socket()
+boost::asio::ip::udp::socket &Session::socket()
 {
     return *_socket;
 }

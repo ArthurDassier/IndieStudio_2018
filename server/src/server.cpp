@@ -62,7 +62,7 @@ std::size_t bytes_transferred)
             _room.updatePosition(boost::lexical_cast<std::string>(_remote_endpoint.port()), sens);
         } else if (type == "pause") {
             if (_room.nbParticipants() == 1)
-                _pause = -_pause;
+                _pause = !_pause;
         }
         start_receive();
     }
