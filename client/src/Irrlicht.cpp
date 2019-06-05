@@ -5,7 +5,6 @@
 ** Irrlicht
 */
 
-#include "boost/timer/timer.hpp"
 #include "../include/client/Irrlicht.hpp"
 
 EngineGraphic::EngineGraphic():
@@ -15,7 +14,8 @@ EngineGraphic::EngineGraphic():
     _driver(_device->getVideoDriver()),
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
-    _driverType (video::EDT_OPENGL)
+    _driverType (video::EDT_OPENGL),
+    _clock()
 {
     // _client.start_receive();
 }
@@ -27,9 +27,15 @@ EngineGraphic::~EngineGraphic()
 
 int EngineGraphic::runGraph()
 {
+    _clock.setElapsedTime();
+    _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
-    input();
+    if (_clock.getElapsed() >= _clock.getSecond()) {
+        input();
+        _clock.getClock().stop();
+        _clock.getClock().start();
+    }
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     _smgr->drawAll();
     _guienv->drawAll();
@@ -81,11 +87,12 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         float x = root.get<float>("x");
         float y = root.get<float>("y");
         float z = root.get<float>("z");
+        int skin = root.get<int>("skin");
         Character player;
 
         player.setId(id);
         player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(1);
+        player.setSkin(skin);
         addEntity(&player);
         _charList.push_back(player);
         create_map(root.get<std::string>("diagram"));
@@ -96,11 +103,12 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         float x = root.get<float>("x");
         float y = root.get<float>("y");
         float z = root.get<float>("z");
+        int skin = root.get<int>("skin");
 
 
         player.setId(id);
         player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(1);
+        player.setSkin(skin);
         addEntity(&player);
         _charList.push_back(player);
     }
@@ -109,9 +117,25 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 void EngineGraphic::addEntity(Character *player)
 {
     scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);;
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
-    node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
+    switch (player->getSkin()) {
+        case 0:
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
+            break;
+        case 1:
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinbl.jpg"));
+            break;
+        case 2:
+            node->setMaterialTexture(0, _driver->getTexture("client/nskingr.jpg"));
+            break;
+        case 3:
+            node->setMaterialTexture(0, _driver->getTexture("client/nskinpu.jpg"));
+            break;
+        default:
+            node->setMaterialTexture(0, _driver->getTexture("client/nskingrey.jpg"));
+            break;
+    }
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(player->getPosition());
     node->setFrameLoop(0, 0);
@@ -123,8 +147,6 @@ void EngineGraphic::addEntity(Character *player)
 scene::ICameraSceneNode *EngineGraphic::addCamera()
 {
     return ( _smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
-    
-    // _device->getCursorControl()->setVisible(false);
 }
 
 void EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -139,7 +161,6 @@ void EngineGraphic::moveEntity(std::string sens, std::string id)
     posi = it->getNode()->getPosition();
     if (sens.compare("up") == 0) {
         posi.Z += 2;
-        std::cout << posi.Z << std::endl;
         it->getNode()->setPosition(posi);
         it->getNode()->setRotation(core::vector3df(0, 0, 0));
         if (it->getNode()->getEndFrame() != 13) {

@@ -14,6 +14,7 @@ set_target_properties(bomberman PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOU
 target_link_libraries(
     bomberman
     boost_system
+    boost_timer
     pthread
     module_tmp
     client
