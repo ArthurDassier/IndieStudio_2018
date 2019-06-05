@@ -121,3 +121,8 @@ void Room::stratPosi(boost::shared_ptr<Participant> participant)
     }
     nb_player++;
 }
+
+int Room::nbParticipants()
+{
+    return (_participants.size());
+}
