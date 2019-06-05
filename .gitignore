@@ -13,8 +13,7 @@ a.out
 # Miscellaneous
 
 # Unit tests
-module_tmp_tests
-client_tests
+*_tests
 
 # Emacs
 *~

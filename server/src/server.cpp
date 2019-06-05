@@ -77,7 +77,7 @@ const boost::system::error_code &error, __attribute__((unused)) std::size_t byte
         std::cout << error.message() << std::endl;
 }
 
-bool Server::pause()
+bool Server::getPause()
 {
     return (_pause);
 }

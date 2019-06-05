@@ -1,8 +1,8 @@
-project(client_tests)
+project(server_tests)
 
 add_executable(
-    client_tests
-    tests_clock.cpp
+    server_tests
+    tests_pause.cpp
 )
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
@@ -13,13 +13,13 @@ set(CMAKE_EXE_LINKER_FLAGS "-lgcov")
 # set(CMAKE_CXX_OUTPUT_ENTENSION_REPLACE ON)
 # set(CMAKE_EXE_LINKER "-fprofile-arcs -ftest-coverage")
 
-set_target_properties(client_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_target_properties(server_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 target_link_libraries(
-    client_tests
+    server_tests
     gtest
     gtest_main
-    client
+    server
     boost_system
     boost_timer
     pthread

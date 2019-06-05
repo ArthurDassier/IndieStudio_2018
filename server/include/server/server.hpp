@@ -30,7 +30,7 @@ public:
 
     // Members
     void run();
-    bool pause();
+    bool getPause();
 
 private:
     void start_receive();
