@@ -1,3 +1,7 @@
+LINK_DIRECTORIES (
+    ../../Bomberman/lib
+)
+
 project(client_tests)
 
 add_executable(
@@ -23,4 +27,10 @@ target_link_libraries(
     boost_system
     boost_timer
     pthread
+    Irrlicht
+    GL
+    Xxf86vm
+    Xext
+    X11
+    Xcursor
 )

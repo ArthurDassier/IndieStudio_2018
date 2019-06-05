@@ -11,6 +11,7 @@ bomberman
 a.out
 
 # Miscellaneous
+vgcore.*
 
 # Unit tests
 *_tests

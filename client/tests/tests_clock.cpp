@@ -6,22 +6,38 @@
 */
 
 #include "gtest/gtest.h"
-#include "../include/client/clock.hpp"
+#include "../include/client/Irrlicht.hpp"
 
-TEST(TestClock, TestGetElapsedTime)
+TEST(TestIrrlicht, getDataNULL)
 {
-    Clock clock;
+    EngineGraphic graph;
 
-    clock.setElapsedTime();
-    ASSERT_TRUE(true);
+    ASSERT_EQ(graph.getData(), "");
 }
 
-// TEST(TestClock, TestGetSecond)
+TEST(TestIrrlicht, getData)
+{
+    EngineGraphic graph;
+
+    graph.dataMove("up");
+    ASSERT_NE(graph.getData(), "");
+}
+
+TEST(TestIrrlicht, clearData)
+{
+    EngineGraphic graph;
+
+    graph.dataMove("up");
+    graph.clearData();
+    ASSERT_EQ(graph.getData(), "");
+}
+
+// TEST(TestClock, getSecond)
 // {
 //     Clock clock;
+//     boost::timer::nanosecond_type second(70000000LL);
 
-//     clock.setElapsedTime();
-//     ASSERT_TRUE(clock.getSecond());
+//     ASSERT_EQ(clock.getSecond(), second);
 // }
 
 // TEST(TestClock, TestGetElapsed)
