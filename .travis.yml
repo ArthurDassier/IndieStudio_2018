@@ -5,6 +5,7 @@ addons:
  apt:
   sources:
     - ubuntu-toolchain-r-test
+    - sourceline: 'ppa:mhier/libboost-latest'
   packages:
     - g++-7
 
@@ -12,6 +13,7 @@ jobs:
   include:
   - stage: Unit Tests
     script:
+      - mkdir build
       - cd build
       - cmake ..
       - make
@@ -21,6 +23,7 @@ jobs:
   - stage: Unit Tests & Sonar
     if: (NOT type IN (pull_request)) AND (branch = master)
     script:
+      - mkdir build
       - cd build
       - cmake ..
       - make
