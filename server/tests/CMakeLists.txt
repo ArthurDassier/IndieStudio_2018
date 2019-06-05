@@ -1,3 +1,7 @@
+LINK_DIRECTORIES (
+    ../../Bomberman/lib
+)
+
 project(server_tests)
 
 add_executable(
