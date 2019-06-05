@@ -14,21 +14,21 @@ jobs:
   include:
   - stage: Unit Tests
     script:
-      - mkdir build
-      - cd build
-      - cmake ..
-      - make
-      - cd ..
+      # - mkdir build
+      # - cd build
+      # - cmake ..
+      # - make
+      # - cd ..
       - ./client_tests
       - ./server_tests
   - stage: Unit Tests & Sonar
     if: (NOT type IN (pull_request)) AND (branch = master)
     script:
-      - mkdir build
-      - cd build
-      - cmake ..
-      - make
-      - cd ..
+      # - mkdir build
+      # - cd build
+      # - cmake ..
+      # - make
+      # - cd ..
       - ./client_tests
       - ./server_tests
       # - gcovr -r . -x --object-directory=. > report.xml
