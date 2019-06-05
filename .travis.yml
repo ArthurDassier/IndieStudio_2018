@@ -1,5 +1,7 @@
 langage: cpp
 
+warnings_are_errors: false
+
 addons:
  sonarcloud: true
  apt:
