@@ -14,6 +14,7 @@
 #include <fstream>
 #include "client.hpp"
 #include "entity.hpp"
+// #include "../../../game/include/Character.hpp"
 #include "clock.hpp"
 using namespace irr;
 
@@ -60,25 +61,11 @@ class EngineGraphic
         void addEntity(Character *);
         scene::ICameraSceneNode *addCamera();
         void moveEntity(std::string sens, std::string id);
+        
+        void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
         void create_map(std::string map);
         void sendEscape();
-
-        // void create_map(std::ifstream &fd);
-        // void settings();
-        // void addEntity();
-        // void Input();
-        // void Move();
-        // void Event();
-        // void setCamera();
-        // IrrlichtDevice *getDevice() const;
-        // video::IVideoDriver *getDriver() const;
-        // scene::ISceneManager *getSmgr() const;
-        // gui::IGUIEnvironment *getGuienv() const;
-        // std::list<scene::ISceneNode*> getMap() const;
-        // MyEventReceiver getReceiver() const;
-        // scene::IAnimatedMeshSceneNode *getNode() const;
-        // void setNodePosition(core::vector3df);
-        // core::vector3df getNodePosition() const;
+        scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
 
     private:
         MyEventReceiver _receiver;
@@ -89,17 +76,7 @@ class EngineGraphic
         video::E_DRIVER_TYPE _driverType;
         std::string _data;
         std::vector<Character> _charList;
-        std::vector<Object> _objList;
+        // std::vector<Object> _objList;
         std::list<scene::ISceneNode*> _map;
         Clock _clock;
-
-        // std::list<scene::ISceneNode*> _map;
-        // scene::IAnimatedMeshSceneNode *_node;
-        // u32 then;
-        // std::string _message;
-        // std::string _idMove;
-        // Client _client;
-        // std::string _name;
-        // core::vector3df _nodePosition;
-        // std::string _id;
 };

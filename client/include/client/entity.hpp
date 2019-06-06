@@ -30,17 +30,17 @@ class Character : public Entity
     public:
         Character();
         ~Character();
-        void setId(std::string);
+        void setId(const std::size_t); //std::string);
         void setSkin(int);
         void setPosition(irr::core::vector3df);
         void setNode(irr::scene::IAnimatedMeshSceneNode *);
-        std::string getId() const;
+        std::size_t getId() const noexcept;
         int getSkin() const;
         irr::core::vector3df getPosition() const;
         irr::scene::IAnimatedMeshSceneNode *getNode() const;
 
     private:
-        std::string _id;
+        std::size_t _id;
         int _skin;
         irr::core::vector3df _position;
         irr::scene::IAnimatedMeshSceneNode *_node;

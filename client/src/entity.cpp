@@ -23,7 +23,7 @@ Character::~Character()
 {
 }
 
-void Character::setId(std::string id)
+void Character::setId(const std::size_t id)
 {
     _id = id;
 }
@@ -43,7 +43,7 @@ void Character::setNode(irr::scene::IAnimatedMeshSceneNode * node)
     _node = node;
 }
 
-std::string Character::getId() const
+std::size_t Character::getId() const noexcept
 {
     return _id;
 }

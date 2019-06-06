@@ -9,6 +9,11 @@
 
 #include "Lib.hpp"
 
+struct player
+{
+    int skin;
+};
+
 namespace game
 {
     class IEntity
@@ -18,6 +23,9 @@ namespace game
 
             virtual void setPosition(const s_pos &) = 0;
             virtual s_pos getPosition() const noexcept = 0;
+
+            // virtual void deliver(std::string) = 0;
+            // virtual player &get_playerdata() = 0;
     };
 
     enum EntityType
