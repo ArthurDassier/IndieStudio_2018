@@ -5,14 +5,9 @@
 ** Bomb.cpp
 */
 
-#include "Bomb.hpp"
+#include "../include/Bomb.hpp"
 
 game::Bomb::Bomb():
-    Entity()
-{
-}
-
-game::Bomb::Bomb(const s_pos &pos):
-    Entity(pos)
+    Entity(game::bomb)
 {
 }

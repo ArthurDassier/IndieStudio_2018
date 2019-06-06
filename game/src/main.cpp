@@ -15,13 +15,19 @@
 int main()
 {
     std::vector<std::shared_ptr<game::Entity>> entities;
-    game::Bomb bomb({32, 3, 0});
+    // game::Bomb bomb({32, 3, 0});
+    game::Bomb bomb;
+    bomb.setPosition({32, 3, 0});
     game::EntityManager EM;
 
-    EM.addEntity(game::Character({10, 3, 0}));
-    EM.addEntity(game::Character({12, 4, 0}));
+    EM.addEntity(game::Character());
+    EM.addEntity(game::Character());
     EM.addEntity(bomb);
-    EM.addEntity(game::Character({27, 2, 0}));
+    EM.addEntity(game::Character());
+    // EM.addEntity(game::Character({10, 3, 0}));
+    // EM.addEntity(game::Character({12, 4, 0}));
+    // EM.addEntity(bomb);
+    // EM.addEntity(game::Character({27, 2, 0}));
 
     auto r = EM.getEntity({32, 3, 0});
     std::cout << "r(" << r->id << ")-> r.x = " << r->getPosition().x << std::endl;

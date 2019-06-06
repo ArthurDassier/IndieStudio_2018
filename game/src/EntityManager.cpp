@@ -5,7 +5,7 @@
 ** EntityManager.cpp
 */
 
-#include "EntityManager.hpp"
+#include "../include/EntityManager.hpp"
 
 game::p_entity::pointer game::EntityManager::getEntity(s_pos pos)
 {

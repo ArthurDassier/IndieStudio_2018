@@ -15,6 +15,5 @@ namespace game
     {
         public:
             Bomb();
-            Bomb(const s_pos &);
     };
 }; // namespace game

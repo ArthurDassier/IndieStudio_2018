@@ -5,14 +5,9 @@
 ** Character.cpp
 */
 
-#include "Character.hpp"
+#include "../include/Character.hpp"
 
 game::Character::Character():
-    Entity()
-{
-}
-
-game::Character::Character(const s_pos &pos):
-    Entity(pos)
+    Entity(game::character)
 {
 }

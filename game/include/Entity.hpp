@@ -18,17 +18,19 @@ namespace game
     class Entity : public IEntity
     {
         public:
-            Entity();
-            Entity(const s_pos &);
+            Entity(const EntityType &);
 
             void setPosition(const s_pos &);
             s_pos getPosition() const noexcept;
+
+            EntityType getType() const noexcept;
 
             const t_id id;
 
         private:
             s_pos _pos;
-            
+            EntityType _type;
+
             t_id generateID() const noexcept;
     };
 }; // namespace game

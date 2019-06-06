@@ -19,4 +19,10 @@ namespace game
             virtual void setPosition(const s_pos &) = 0;
             virtual s_pos getPosition() const noexcept = 0;
     };
+
+    enum EntityType
+    {
+        bomb,
+        character
+    };
 }; // namespace game

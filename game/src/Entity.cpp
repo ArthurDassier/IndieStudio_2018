@@ -5,16 +5,11 @@
 ** Entity.cpp
 */
 
-#include "Entity.hpp"
+#include "../include/Entity.hpp"
 
-game::Entity::Entity():
-    id(generateID())
-{
-}
-
-game::Entity::Entity(const s_pos &pos):
+game::Entity::Entity(const game::EntityType &type):
     id(generateID()),
-    _pos(pos)
+    _type(type)
 {
 }
 
@@ -26,6 +21,11 @@ void game::Entity::setPosition(const s_pos &pos)
 game::s_pos game::Entity::getPosition() const noexcept
 {
     return _pos;
+}
+
+game::EntityType game::Entity::getType() const noexcept
+{
+    return _type;
 }
 
 t_id game::Entity::generateID() const noexcept

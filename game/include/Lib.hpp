@@ -11,9 +11,9 @@ namespace game
 {
     struct s_pos
     {
-        float x;
-        float y;
-        float z;
+        float x = 0;
+        float y = 0;
+        float z = 0;
 
         inline s_pos operator=(s_pos p)
         {
@@ -26,6 +26,11 @@ namespace game
         inline s_pos operator+(s_pos p)
         {
             return {p.x + x, p.y + y, p.z + z};
+        }
+
+        inline s_pos operator-(s_pos p)
+        {
+            return {p.x - x, p.y - y, p.z - z};
         }
 
         inline bool operator==(s_pos p)

@@ -15,6 +15,5 @@ namespace game
     {
         public:
             Character();
-            Character(const s_pos &);
     };
 }; // namespace game

@@ -105,7 +105,6 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         float z = root.get<float>("z");
         int skin = root.get<int>("skin");
 
-
         player.setId(id);
         player.setPosition(core::vector3df(x, y, z));
         player.setSkin(skin);
@@ -121,19 +120,19 @@ void EngineGraphic::addEntity(Character *player)
 
     switch (player->getSkin()) {
         case 0:
-            node->setMaterialTexture(0, _driver->getTexture("client/nskinrd.jpg"));
+            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinrd.jpg"));
             break;
         case 1:
-            node->setMaterialTexture(0, _driver->getTexture("client/nskinbl.jpg"));
+            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinbl.jpg"));
             break;
         case 2:
-            node->setMaterialTexture(0, _driver->getTexture("client/nskingr.jpg"));
+            node->setMaterialTexture(0, _driver->getTexture("client/res/nskingr.jpg"));
             break;
         case 3:
-            node->setMaterialTexture(0, _driver->getTexture("client/nskinpu.jpg"));
+            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinpu.jpg"));
             break;
         default:
-            node->setMaterialTexture(0, _driver->getTexture("client/nskingrey.jpg"));
+            node->setMaterialTexture(0, _driver->getTexture("client/res/nskingrey.jpg"));
             break;
     }
     node->setRotation(core::vector3df(0, 80, 0));
