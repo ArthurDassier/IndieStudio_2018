@@ -30,6 +30,7 @@ public:
 
     // Members
     void run();
+    bool getPause();
 
 private:
     void start_receive();
@@ -42,4 +43,5 @@ private:
     boost::array<char, 128> _recv_buffer;
     boost::shared_ptr<Session> new_session;
     Room _room;
+    bool _pause;
 };

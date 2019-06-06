@@ -22,6 +22,7 @@ public:
     void updateJson(boost::property_tree::ptree &, boost::shared_ptr<game::Character>);
     void updatePosition(const t_id, std::string);
     void startPosi(boost::shared_ptr<game::Character>);
+    int nbParticipants();
 
 private:
     void update_participants();

@@ -4,16 +4,16 @@
 # Object files
 *.py
 *.o
-*.a
 
 # Executables
 bomberman
 a.out
 
 # Miscellaneous
+vgcore.*
 
 # Unit tests
-module_tmp_tests
+*_tests
 
 # Emacs
 *~

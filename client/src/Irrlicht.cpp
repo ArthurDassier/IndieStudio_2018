@@ -51,7 +51,15 @@ void EngineGraphic::dataMove(std::string move)
     std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
+}
 
+void EngineGraphic::sendEscape()
+{
+    boost::property_tree::ptree root;
+    root.put("type", "pause");
+    std::ostringstream buff;
+    boost::property_tree::write_json(buff, root, false);
+    _data = buff.str();
 }
 
 void EngineGraphic::input()
@@ -64,6 +72,8 @@ void EngineGraphic::input()
         dataMove("left");
     else if (_receiver.IsKeyDown(irr::KEY_KEY_D))
         dataMove("right");
+    else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
+        sendEscape();
 }
 
 std::string EngineGraphic::getData() const

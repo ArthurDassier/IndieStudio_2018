@@ -16,6 +16,7 @@ int server()
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
+    return (0);
 }
 
 int main(int ac, char **av)
