@@ -55,7 +55,7 @@ std::size_t bytes_transferred)
             new_session->start();
         } else if (type == "move") {
             std::string sens = root.get<std::string>("sens");
-            _room.updatePosition(boost::lexical_cast<std::string>(_remote_endpoint.port()), sens);
+            _room.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
         } else {
             // Eventuellement d'autres messages
         }

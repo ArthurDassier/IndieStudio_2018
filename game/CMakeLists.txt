@@ -1,6 +1,7 @@
 project(game)
 
-add_library(game STATIC
+add_library(game
+    STATIC
     ./src/Bomb.cpp
     ./src/Character.cpp
     ./src/Entity.cpp

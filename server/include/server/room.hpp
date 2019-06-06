@@ -13,15 +13,17 @@
 #include <boost/property_tree/json_parser.hpp>
 
 #include "participant.hpp"
+#include "../../../game/include/Character.hpp"
 
 class Room
 {
 public:
-    void join(boost::shared_ptr<Participant>);
-    void updatePosition(const std::string, std::string);
-    void startPosi(boost::shared_ptr<Participant>);
+    void join(boost::shared_ptr<game::Character>);
+    void updateJson(boost::property_tree::ptree &, boost::shared_ptr<game::Character>);
+    void updatePosition(const t_id, std::string);
+    void startPosi(boost::shared_ptr<game::Character>);
 
 private:
     void update_participants();
-    std::vector<boost::shared_ptr<Participant>> _participants;
+    std::vector<boost::shared_ptr<game::Character>> _participants;
 };

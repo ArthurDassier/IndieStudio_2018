@@ -18,6 +18,7 @@ target_link_libraries(
     client
     Irrlicht
     server
+    game
     GL
     Xxf86vm
     Xext

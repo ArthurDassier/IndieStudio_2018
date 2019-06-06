@@ -20,9 +20,10 @@
 
 #include "room.hpp"
 #include "participant.hpp"
+#include "../../../game/include/Character.hpp"
 
 class Session :
-    public Participant,
+    public game::Character,
     public boost::enable_shared_from_this<Session>
 {
 public: 
@@ -36,7 +37,7 @@ public:
 private:
     void deliver(std::string message);
     void handle_send(std::string, const boost::system::error_code &, std::size_t);
-    std::string get_id();
+    t_id getId();
     player &get_playerdata();
 
     boost::shared_ptr<boost::asio::ip::udp::socket> _socket;
@@ -44,4 +45,5 @@ private:
     boost::asio::ip::udp::endpoint _remote_endpoint;
     std::deque<std::string> _message_queue;
     player _player;
+    int _skin;
 };
