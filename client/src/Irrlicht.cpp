@@ -46,7 +46,7 @@ int EngineGraphic::runGraph()
 void EngineGraphic::dataMove(std::string move)
 {
     boost::property_tree::ptree root;
-    root.put("type", "move");
+    root.put("type", "movement");
     root.put("sens", move);
     std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
@@ -90,9 +90,9 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 {
     std::string type = root.get<std::string>("type");
 
-    if (type.compare("moveother") == 0)
+    if (type.compare("move_other") == 0)
         moveEntity(root.get<std::string>("sens"), root.get<std::string>("id"));
-    else if (type.compare("you") == 0) {
+    else if (type.compare("local_player") == 0) {
         std::size_t id = root.get<std::size_t>("id");
         float x = root.get<float>("x");
         float y = root.get<float>("y");
@@ -107,7 +107,7 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
         _charList.push_back(player);
         create_map(root.get<std::string>("diagram"));
     }
-    else if (type.compare("newplayer") == 0) {
+    else if (type.compare("new_player") == 0) {
         std::size_t id = root.get<std::size_t>("id");
         Character player;
         float x = root.get<float>("x");

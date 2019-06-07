@@ -18,7 +18,7 @@ void Room::join(boost::shared_ptr<game::Character> participant)
         boost::property_tree::ptree root;
         std::stringstream ss;
 
-        root.put("type", "newplayer");
+        root.put("type", "new_player");
         updateJson(root, participant);
         boost::property_tree::write_json(ss, root);
         p->deliver(ss.str());
@@ -28,7 +28,7 @@ void Room::join(boost::shared_ptr<game::Character> participant)
         boost::property_tree::ptree root;
         std::stringstream ss;
 
-        root.put("type", "newplayer");
+        root.put("type", "new_player");
         updateJson(root, p);
         boost::property_tree::write_json(ss, root);
         participant->deliver(ss.str());
@@ -36,7 +36,7 @@ void Room::join(boost::shared_ptr<game::Character> participant)
     boost::property_tree::ptree root;
     std::stringstream ss;
 
-    root.put("type", "you");
+    root.put("type", "local_player");
     root.put("diagram", "111111111\n100000001\n100000001\n100000001\n100000001\n111111111");
     updateJson(root, participant);
     boost::property_tree::write_json(ss, root);
@@ -84,7 +84,7 @@ void Room::updatePosition(const t_id id, std::string new_sens)
         }
     root.put("sens", new_sens);
     for (auto &it : _participants) {
-        root.put("type", "moveother");
+        root.put("type", "move_other");
         std::stringstream ss;
         boost::property_tree::write_json(ss, root);
         it->deliver(ss.str());

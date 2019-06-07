@@ -56,7 +56,7 @@ std::size_t bytes_transferred)
             _pause = false;
             new_session.reset(new Session(_socket, _remote_endpoint, _room));
             new_session->start();
-        } else if (type == "move" && !_pause) {
+        } else if (type == "movement" && !_pause) {
             std::string sens = root.get<std::string>("sens");
             _room.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
         } else if (type == "pause") {
