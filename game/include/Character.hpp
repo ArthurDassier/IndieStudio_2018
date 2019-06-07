@@ -16,20 +16,13 @@ namespace game
     {
         public:
             Character();
-            // Character(const std::string);
             ~Character() = default;
 
-            virtual void deliver(std::string message) = 0;
-
-            virtual t_id getId() = 0;
-
             void setId(const t_id);
-            // t_id getId() const noexcept
-            // {
-            //     return _id;
-            // }
+            t_id getId() {}
 
-            virtual player &get_playerdata() = 0;
+            void deliver(std::string) {}
+            player &get_playerdata() {}
 
             void setPosition(const s_pos);
             s_pos &getPosition() noexcept;

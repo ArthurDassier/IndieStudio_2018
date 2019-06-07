@@ -15,7 +15,6 @@
 #include <fstream>
 #include "client.hpp"
 #include "entity.hpp"
-// #include "../../../game/include/Character.hpp"
 #include "clock.hpp"
 using namespace irr;
 
@@ -77,7 +76,6 @@ class EngineGraphic
         video::E_DRIVER_TYPE _driverType;
         std::string _data;
         std::vector<Character> _charList;
-        // std::vector<Object> _objList;
         std::list<scene::ISceneNode*> _map;
         Clock _clock;
 

@@ -12,7 +12,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "participant.hpp"
 #include "../../../game/include/Character.hpp"
 
 class Room

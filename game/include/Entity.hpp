@@ -25,8 +25,9 @@ namespace game
 
             EntityType getType() const noexcept;
 
-            // virtual void deliver(std::string message) = 0;
-            // virtual player &get_playerdata() = 0;
+            virtual void deliver(std::string message) = 0;
+            virtual player &get_playerdata() = 0;
+            virtual t_id getId() = 0;
 
             const t_id id;
 

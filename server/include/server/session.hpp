@@ -18,9 +18,8 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "room.hpp"
-#include "participant.hpp"
 #include "../../../game/include/Character.hpp"
+#include "room.hpp"
 
 class Session :
     public game::Character,

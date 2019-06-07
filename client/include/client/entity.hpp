@@ -30,7 +30,7 @@ class Character : public Entity
     public:
         Character();
         ~Character();
-        void setId(const std::size_t); //std::string);
+        void setId(const std::size_t);
         void setSkin(int);
         void setPosition(irr::core::vector3df);
         void setNode(irr::scene::IAnimatedMeshSceneNode *);

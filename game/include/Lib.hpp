@@ -38,16 +38,6 @@ namespace game
             return {x, y, z + new_z};
         }
 
-        // inline s_pos operator+(s_pos p)
-        // {
-        //     return {p.x + x, p.y + y, p.z + z};
-        // }
-
-        // inline s_pos operator-(s_pos p)
-        // {
-        //     return {p.x - x, p.y - y, p.z - z};
-        // }
-
         inline bool operator==(s_pos p)
         {
             return (p.x == x && p.y == y && p.z == z);
