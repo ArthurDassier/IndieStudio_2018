@@ -11,8 +11,7 @@ Session::Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket,
 boost::asio::ip::udp::endpoint endpoint, Room &room) :
     _socket(socket),
     _room(room),
-    _remote_endpoint(endpoint),
-    _player(get_id())
+    _remote_endpoint(endpoint)
 {
 }
 
@@ -65,9 +64,9 @@ const boost::system::error_code &error, __attribute__((unused)) std::size_t byte
     }
 }
 
-std::string Session::get_id()
+t_id Session::getId()
 {
-    return boost::lexical_cast<std::string>(_remote_endpoint.port());
+    return boost::lexical_cast<t_id>(_remote_endpoint.port());
 }
 
 player &Session::get_playerdata()

@@ -6,6 +6,7 @@ add_subdirectory(module_tmp)
 add_subdirectory(Bomberman)
 add_subdirectory(client)
 add_subdirectory(server)
+add_subdirectory(game)
 
 #
 # file(

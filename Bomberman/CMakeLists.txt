@@ -20,6 +20,7 @@ target_link_libraries(
     boost_timer
     Irrlicht
     server
+    game
     GL
     Xxf86vm
     Xext

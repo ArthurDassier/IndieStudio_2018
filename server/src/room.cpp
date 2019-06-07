@@ -5,37 +5,31 @@
 ** room
 */
 
+#include <iostream>
+
 #include "../include/server/room.hpp"
 
-void Room::join(boost::shared_ptr<Participant> participant)
+void Room::join(boost::shared_ptr<game::Character> participant)
 {
     // To connected players ->send the participant to all
 
     startPosi(participant);
-    for (boost::shared_ptr<Participant> p : _participants) {
+    for (boost::shared_ptr<game::Character> p : _participants) {
         boost::property_tree::ptree root;
         std::stringstream ss;
 
-        root.put("id", participant->get_id());
         root.put("type", "new_player");
-        root.put("x", participant->get_playerdata().pos.x);
-        root.put("y", participant->get_playerdata().pos.y);
-        root.put("z", participant->get_playerdata().pos.z);
-        root.put("skin", participant->get_playerdata().skin);
+        updateJson(root, participant);
         boost::property_tree::write_json(ss, root);
         p->deliver(ss.str());
     }
     // To the new player
-    for (boost::shared_ptr<Participant> p : _participants) {
+    for (boost::shared_ptr<game::Character> p : _participants) {
         boost::property_tree::ptree root;
         std::stringstream ss;
 
-        root.put("id", p->get_id());
         root.put("type", "new_player");
-        root.put("x", p->get_playerdata().pos.x);
-        root.put("y", p->get_playerdata().pos.y);
-        root.put("z", p->get_playerdata().pos.z);
-        root.put("skin", p->get_playerdata().skin);
+        updateJson(root, p);
         boost::property_tree::write_json(ss, root);
         participant->deliver(ss.str());
     }
@@ -43,15 +37,20 @@ void Room::join(boost::shared_ptr<Participant> participant)
     std::stringstream ss;
 
     root.put("type", "local_player");
-    root.put("id", participant->get_id());
     root.put("diagram", "111111111\n100000001\n100000001\n100000001\n100000001\n111111111");
-    root.put("x", participant->get_playerdata().pos.x);
-    root.put("y", participant->get_playerdata().pos.y);
-    root.put("z", participant->get_playerdata().pos.z);
-    root.put("skin", participant->get_playerdata().skin);
+    updateJson(root, participant);
     boost::property_tree::write_json(ss, root);
     participant->deliver(ss.str());
     _participants.push_back(participant);
+}
+
+void Room::updateJson(boost::property_tree::ptree &root, boost::shared_ptr<game::Character> p)
+{
+    root.put("id", p->getId());
+    root.put("x", p->getPosition().x);
+    root.put("y", p->getPosition().y);
+    root.put("z", p->getPosition().z);
+    root.put("skin", p->get_playerdata().skin);
 }
 
 void Room::update_participants()
@@ -60,73 +59,67 @@ void Room::update_participants()
     std::string clientmessage = boost::lexical_cast<std::string>(_participants.size());
 
     std::for_each(_participants.begin(), _participants.end(),
-        boost::bind(&Participant::deliver, _1, clientmessage));
+        boost::bind(&game::Character::deliver, _1, clientmessage));
 }
 
-void Room::updatePosition(std::string id, std::string new_sens)
+void Room::updatePosition(const t_id id, std::string new_sens)
 {
     boost::property_tree::ptree root;
     size_t i = 0;
 
     root.put("id", id);
-    for (; i < _participants.size(); ++i) {
-        if (id == _participants[i]->get_id()) {
-            player &data = _participants[i]->get_playerdata();
-            data.sens = new_sens;
+    for (auto &it : _participants)
+        if (it->getId() == id) {
+            player &data = it->get_playerdata();
+            it->setDirection(new_sens);
             if (new_sens.compare("up") == 0)
-                data.pos.z += 2;
+                it->getPosition().z += 2;
             else if (new_sens.compare("down") == 0)
-                data.pos.z -= 2;
+                it->getPosition().z -= 2;
             else if (new_sens.compare("left") == 0)
-                data.pos.x -= 2;
+                it->getPosition().x -= 2;
             else if (new_sens.compare("right") == 0)
-                data.pos.x += 2;
+                it->getPosition().x += 2;
             break;
         }
-    }
     root.put("sens", new_sens);
-    for (i = 0; i < _participants.size(); ++i) {
+    for (auto &it : _participants) {
         root.put("type", "move_other");
         std::stringstream ss;
         boost::property_tree::write_json(ss, root);
-        _participants[i]->deliver(ss.str());
+        it->deliver(ss.str());
     }
 }
 
-void Room::startPosi(boost::shared_ptr<Participant> participant)
+void Room::startPosi(boost::shared_ptr<game::Character> participant)
 {
     static int nb_player = 1;
 
     switch (nb_player) {
         case 1:
-            participant->get_playerdata().pos.x = 40;
-            participant->get_playerdata().pos.y = 10;
-            participant->get_playerdata().pos.z = 40;
+            participant->setPosition({40, 10, 40});
             participant->get_playerdata().skin = 0;
+            // participant->setSkin(0);
             break;
         case 2:
-            participant->get_playerdata().pos.x = 20;
-            participant->get_playerdata().pos.y = 10;
-            participant->get_playerdata().pos.z = 20;
+            participant->setPosition({20, 10, 20});
             participant->get_playerdata().skin = 1;
+            // participant->setSkin(1);
             break;
         case 3:
-            participant->get_playerdata().pos.x = 10;
-            participant->get_playerdata().pos.y = 10;
-            participant->get_playerdata().pos.z = 10;
+            participant->setPosition({10, 10, 10});
             participant->get_playerdata().skin = 2;
+            // participant->setSkin(2);
             break;
         case 4:
-            participant->get_playerdata().pos.x = 30;
-            participant->get_playerdata().pos.y = 10;
-            participant->get_playerdata().pos.z = 30;
+            participant->setPosition({30, 10, 30});
             participant->get_playerdata().skin = 3;
+            // participant->setSkin(3);
             break;
         default:
-            participant->get_playerdata().pos.x = 0;
-            participant->get_playerdata().pos.y = 0;
-            participant->get_playerdata().pos.z = 0;
+            participant->setPosition({0, 0, 0});
             participant->get_playerdata().skin = 42;
+            // participant->setSkin(42);
             break;
     }
     nb_player++;
