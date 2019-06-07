@@ -10,6 +10,7 @@
 #include "../../../lib/includes/irrlicht.h"
 #include "../../../lib/includes/driverChoice.h"
 #include <list>
+#include <unordered_map>
 #include <vector>
 #include <fstream>
 #include "client.hpp"
@@ -79,4 +80,11 @@ class EngineGraphic
         // std::vector<Object> _objList;
         std::list<scene::ISceneNode*> _map;
         Clock _clock;
+
+        std::unordered_map<int, const irr::io::path> _skins = {
+            {0, "client/res/nskinrd.jpg"},
+            {1, "client/res/nskinbl.jpg"},
+            {2, "client/res/nskingr.jpg"},
+            {3, "client/res/nskinpu.jpg"}
+        };
 };

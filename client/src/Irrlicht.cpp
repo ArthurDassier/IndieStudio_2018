@@ -128,23 +128,7 @@ void EngineGraphic::addEntity(Character *player)
     scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
-    switch (player->getSkin()) {
-        case 0:
-            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinrd.jpg"));
-            break;
-        case 1:
-            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinbl.jpg"));
-            break;
-        case 2:
-            node->setMaterialTexture(0, _driver->getTexture("client/res/nskingr.jpg"));
-            break;
-        case 3:
-            node->setMaterialTexture(0, _driver->getTexture("client/res/nskinpu.jpg"));
-            break;
-        default:
-            node->setMaterialTexture(0, _driver->getTexture("client/res/nskingrey.jpg"));
-            break;
-    }
+    node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(player->getPosition());
     node->setFrameLoop(0, 0);
