@@ -23,6 +23,8 @@ public:
     void startPosi(boost::shared_ptr<game::Character>);
     int nbParticipants();
 
+    std::vector<boost::shared_ptr<game::Character>> getParticipants() const noexcept;
+
 private:
     void update_participants();
     std::vector<boost::shared_ptr<game::Character>> _participants;

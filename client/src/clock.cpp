@@ -9,7 +9,7 @@
 
 Clock::Clock():
     _clock(),
-    _second(70000000LL)
+    _second(50000000LL)
 {
 }
 

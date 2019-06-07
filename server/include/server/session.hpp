@@ -31,18 +31,20 @@ class Session :
 
         // Members
         void start();
-        boost::asio::ip::udp::socket &socket(); 
+
+        Room getRoom() noexcept;
 
     private:
+        void sendTo();
         void deliver(std::string message);
         void handle_send(std::string, const boost::system::error_code &, std::size_t);
         t_id getId();
         player &get_playerdata();
 
         boost::shared_ptr<boost::asio::ip::udp::socket> _socket;
-        Room &_room;
         boost::asio::ip::udp::endpoint _remote_endpoint;
         std::deque<std::string> _message_queue;
         player _player;
+        Room &_room;
         int _skin;
 };

@@ -129,3 +129,8 @@ int Room::nbParticipants()
 {
     return (_participants.size());
 }
+
+std::vector<boost::shared_ptr<game::Character>> Room::getParticipants() const noexcept
+{
+    return _participants;
+}
