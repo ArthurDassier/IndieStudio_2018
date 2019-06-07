@@ -4,6 +4,7 @@
 # Object files
 *.py
 *.o
+*.a
 
 # Executables
 bomberman
