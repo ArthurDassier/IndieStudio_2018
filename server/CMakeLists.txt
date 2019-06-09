@@ -7,6 +7,7 @@ add_library(server
     ./src/session.cpp
     ../game/src/Character.cpp
     ../game/src/Entity.cpp
+    ../game/src/Generation.cpp
     )
 
 target_include_directories(server INTERFACE ./include)

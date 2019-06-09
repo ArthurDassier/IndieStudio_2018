@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "../include/server/room.hpp"
+std::string genMap(size_t len);
 
 void Room::join(boost::shared_ptr<game::Character> participant)
 {
@@ -37,7 +38,7 @@ void Room::join(boost::shared_ptr<game::Character> participant)
     std::stringstream ss;
 
     root.put("type", "local_player");
-    root.put("diagram", "111111111\n100000001\n100000001\n100000001\n100000001\n111111111");
+    root.put("diagram", genMap(10));
     updateJson(root, participant);
     boost::property_tree::write_json(ss, root);
     participant->deliver(ss.str());
