@@ -5,7 +5,7 @@
 ** clock
 */
 
-#include "client/clock.hpp"
+#include "client/Clock.hpp"
 
 Clock::Clock():
     _clock(),

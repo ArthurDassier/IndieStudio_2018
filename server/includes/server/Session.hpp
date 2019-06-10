@@ -19,7 +19,7 @@
 #include <boost/property_tree/json_parser.hpp>
 
 #include "game/Character.hpp"
-#include "server/room.hpp"
+#include "server/Room.hpp"
 
 class Session :
     public game::Character,

@@ -13,9 +13,9 @@
 #include <fstream>
 #include "irrlicht/irrlicht.h"
 #include "irrlicht/driverChoice.h"
-#include "client/client.hpp"
-#include "client/entity.hpp"
-#include "client/clock.hpp"
+#include "client/Client.hpp"
+#include "client/Entity.hpp"
+#include "client/Clock.hpp"
 using namespace irr;
 
 class MyEventReceiver : public IEventReceiver

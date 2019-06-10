@@ -1,22 +1,22 @@
 project(server)
 
 include_directories(
-    ./include
-    ../game/include
-    ../lib/include
+    ./includes
+    ../game/includes
+    ../lib/includes
 )
 
 add_library(server
     STATIC
-    ./src/room.cpp
-    ./src/server.cpp
-    ./src/session.cpp
+    ./srcs/Room.cpp
+    ./srcs/Server.cpp
+    ./srcs/Session.cpp
 )
 
 target_include_directories(server INTERFACE
-    ./include
-    ../game/include
-    ../lib/include
+    ./includes
+    ../game/includes
+    ../lib/includes
 )
 
 target_link_libraries(

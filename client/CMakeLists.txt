@@ -1,19 +1,19 @@
 project(client)
 
 include_directories(
-    ../lib/include
-    ./include
+    ../lib/includes
+    ./includes
 )
 
 add_library(client STATIC
-    ./src/client.cpp
-    ./src/core.cpp
-    ./src/entity.cpp
-    ./src/Irrlicht.cpp
-    ./src/clock.cpp
+    ./srcs/Client.cpp
+    ./srcs/Core.cpp
+    ./srcs/Entity.cpp
+    ./srcs/Graphic.cpp
+    ./srcs/Clock.cpp
     )
 
-target_include_directories(client INTERFACE ./include ../lib/include)
+target_include_directories(client INTERFACE ./includes ../lib/includes)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 

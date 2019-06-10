@@ -2,8 +2,8 @@
 #include <ctime>
 #include <string>
 #include <thread>
-#include "client/core.hpp"
-#include "server/server.hpp"
+#include "client/Core.hpp"
+#include "server/Server.hpp"
 
 int server()
 {

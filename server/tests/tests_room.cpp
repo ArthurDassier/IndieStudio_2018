@@ -6,7 +6,7 @@
 */
 
 #include "gtest/gtest.h"
-#include "../include/server/server.hpp"
+#include "server/Server.hpp"
 
 TEST(TestRoom, TestNbParticipants)
 {

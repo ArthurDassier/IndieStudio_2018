@@ -5,7 +5,7 @@
 ** Irrlicht
 */
 
-#include "client/Irrlicht.hpp"
+#include "client/Graphic.hpp"
 
 EngineGraphic::EngineGraphic():
     _receiver(),
