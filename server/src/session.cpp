@@ -5,7 +5,7 @@
 ** session
 */
 
-#include "../include/server/session.hpp"
+#include "server/session.hpp"
 
 Session::Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket,
 boost::asio::ip::udp::endpoint endpoint, Room &room) :

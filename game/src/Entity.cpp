@@ -5,7 +5,7 @@
 ** Entity.cpp
 */
 
-#include "../include/Entity.hpp"
+#include "game/Entity.hpp"
 
 game::Entity::Entity(const game::EntityType &type):
     id(generateID()),

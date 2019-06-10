@@ -6,8 +6,7 @@
 */
 
 #include <iostream>
-
-#include "../include/server/room.hpp"
+#include "server/room.hpp"
 
 void Room::join(boost::shared_ptr<game::Character> participant)
 {

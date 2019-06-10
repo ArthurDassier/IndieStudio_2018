@@ -5,7 +5,7 @@
 ** main.cpp
 */
 
-#include "../include/client/core.hpp"
+#include "client/core.hpp"
 
 Core::Core():
     _io_service(),

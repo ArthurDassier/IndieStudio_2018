@@ -1,5 +1,10 @@
 project(client)
 
+include_directories(
+    ../lib/include
+    ./include
+)
+
 add_library(client STATIC
     ./src/client.cpp
     ./src/core.cpp
@@ -8,14 +13,18 @@ add_library(client STATIC
     ./src/clock.cpp
     )
 
-target_include_directories(client INTERFACE ./include)
-
-set(CMAKE_CXX_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor -lboost_timer -lpthread -lboost_system")
-set(CMAKE_EXE_LINKER_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor -lboost_timer -lpthread -lboost_system")
+target_include_directories(client INTERFACE ./include ../lib/include)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 
-# target_include_directories(module_tmp STATIC ./include)
-# target_link_libraries(module_tmp STATIC)
+target_link_libraries(
+    client
+    boost_system
+    pthread
+    boost_timer
+    GL
+    Xxf86vm
+    X11
+)
 
 add_subdirectory(tests)

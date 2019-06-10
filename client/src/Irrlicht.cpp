@@ -5,7 +5,7 @@
 ** Irrlicht
 */
 
-#include "../include/client/Irrlicht.hpp"
+#include "client/Irrlicht.hpp"
 
 EngineGraphic::EngineGraphic():
     _receiver(),
@@ -167,7 +167,7 @@ void EngineGraphic::moveEntity(std::string sens, std::string id)
     }
 }
 
-void EngineGraphic::updateEntity(std::vector<Character>::iterator &it, 
+void EngineGraphic::updateEntity(std::vector<Character>::iterator &it,
 const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);

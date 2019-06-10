@@ -6,7 +6,7 @@
 */
 
 #include "gtest/gtest.h"
-#include "../include/Character.hpp"
+#include "game/Character.hpp"
 
 TEST(TestCharacter, TestClass)
 {

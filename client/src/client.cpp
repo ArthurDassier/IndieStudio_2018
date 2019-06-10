@@ -5,9 +5,9 @@
 ** client.cpp
 */
 
-#include "../include/client/client.hpp"
 #include <thread>
 #include <iostream>
+#include "client/client.hpp"
 
 Client::Client(boost::asio::io_service &io_service):
     sock_(io_service)

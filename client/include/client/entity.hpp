@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "../../../lib/includes/irrlicht.h"
+#include "irrlicht/irrlicht.h"
 
 enum e_type
 {
