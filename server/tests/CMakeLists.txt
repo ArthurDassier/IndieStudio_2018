@@ -1,5 +1,9 @@
 project(server_tests)
 
+LINK_DIRECTORIES (
+    ../../lib
+)
+
 add_executable(
     server_tests
     tests_server.cpp
