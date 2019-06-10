@@ -10,6 +10,7 @@ addons:
     - g++-7
     - cmake
     - cmake-data
+    - boost1.67
 
 before_install:
   # C++17
