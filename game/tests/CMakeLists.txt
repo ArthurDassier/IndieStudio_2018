@@ -1,7 +1,7 @@
 project(game_tests)
 
 LINK_DIRECTORIES (
-    ../../Bomberman/lib
+    ../../lib
 )
 
 include_directories(
@@ -22,6 +22,7 @@ target_link_libraries(
     gtest
     gtest_main
     game
+    pthread
 )
 
 set_target_properties(game_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

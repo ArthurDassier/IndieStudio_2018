@@ -2,9 +2,9 @@ LINK_DIRECTORIES (
     ./lib
 )
 
-# include_directories(
-#
-# )
+LINK_DIRECTORIES (
+    ../lib
+)
 
 add_executable(
     bomberman
