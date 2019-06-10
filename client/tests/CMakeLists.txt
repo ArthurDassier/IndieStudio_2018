@@ -14,6 +14,9 @@ add_executable(
     tests_clock.cpp
 )
 
+set_property(TARGET client_tests PROPERTY CXX_STANDARD 17)
+
+
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -no-pie")
 set(CMAKE_EXE_LINKER_FLAGS "-lgcov")
