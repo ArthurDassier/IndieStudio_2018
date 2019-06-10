@@ -5,7 +5,7 @@
 ** Character.cpp
 */
 
-#include "game/Character.hpp"
+#include "Game/Character.hpp"
 
 game::Character::Character():
     Entity(game::character)

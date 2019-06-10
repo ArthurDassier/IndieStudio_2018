@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "game/Entity.hpp"
+#include "Game/Entity.hpp"
 
 namespace game
 {

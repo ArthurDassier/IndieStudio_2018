@@ -11,8 +11,8 @@
 #include <memory>
 #include <vector>
 
-#include "game/Bomb.hpp"
-#include "game/Character.hpp"
+#include "Game/Bomb.hpp"
+#include "Game/Character.hpp"
 
 namespace game
 {

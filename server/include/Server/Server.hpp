@@ -17,8 +17,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "server/Room.hpp"
-#include "server/Session.hpp"
+#include "Server/Room.hpp"
+#include "Server/Session.hpp"
 
 using boost::asio::ip::udp;
 

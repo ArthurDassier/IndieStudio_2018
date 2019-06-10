@@ -6,7 +6,7 @@
 */
 
 #include "gtest/gtest.h"
-#include "client/Graphic.hpp"
+#include "Client/Graphic.hpp"
 
 TEST(TestIrrlicht, getDataNULL)
 {

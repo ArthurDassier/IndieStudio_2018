@@ -5,7 +5,7 @@
 ** entity
 */
 
-#include "client/Entity.hpp"
+#include "Client/Entity.hpp"
 
 Entity::Entity()
 {

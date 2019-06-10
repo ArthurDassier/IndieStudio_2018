@@ -5,7 +5,7 @@
 ** Irrlicht
 */
 
-#include "client/Graphic.hpp"
+#include "Client/Graphic.hpp"
 
 EngineGraphic::EngineGraphic():
     _receiver(),
@@ -125,7 +125,7 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 
 void EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("Client/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
     node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
@@ -186,17 +186,17 @@ void EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("Client/brick.png",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("Client/brick.png",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("Client/brick.png",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;

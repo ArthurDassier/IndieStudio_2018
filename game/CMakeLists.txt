@@ -1,8 +1,8 @@
 project(game)
 
 include_directories(
-    ../lib/includes
-    ./includes
+    ../lib/include
+    ./include
 )
 
 add_library(game STATIC

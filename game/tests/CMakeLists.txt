@@ -5,7 +5,7 @@ LINK_DIRECTORIES (
 )
 
 include_directories(
-    ../includes
+    ../include
 )
 
 add_executable(

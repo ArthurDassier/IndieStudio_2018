@@ -132,7 +132,7 @@ namespace irr
 		switched on. The resulting rendering quality also depends on
 		the hardware and driver you are using, your program might look
 		different on different hardware with this. So if you are
-		writing a game/application with AntiAlias switched on, it would
+		writing a Game/application with AntiAlias switched on, it would
 		be a good idea to make it possible to switch this option off
 		again by the user.
 		The value is the maximal antialiasing factor requested for

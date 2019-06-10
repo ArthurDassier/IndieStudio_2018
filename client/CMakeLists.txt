@@ -1,8 +1,8 @@
 project(client)
 
 include_directories(
-    ../lib/includes
-    ./includes
+    ../lib/include
+    ./include
 )
 
 add_library(client STATIC
@@ -13,7 +13,7 @@ add_library(client STATIC
     ./srcs/Clock.cpp
     )
 
-target_include_directories(client INTERFACE ./includes ../lib/includes)
+target_include_directories(client INTERFACE ./include ../lib/include)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 

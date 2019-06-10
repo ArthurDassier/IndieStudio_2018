@@ -1,9 +1,9 @@
 project(server)
 
 include_directories(
-    ./includes
-    ../game/includes
-    ../lib/includes
+    ./include
+    ../game/include
+    ../lib/include
 )
 
 add_library(server
@@ -14,9 +14,9 @@ add_library(server
 )
 
 target_include_directories(server INTERFACE
-    ./includes
-    ../game/includes
-    ../lib/includes
+    ./include
+    ../game/include
+    ../lib/include
 )
 
 target_link_libraries(

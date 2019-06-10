@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "client/Client.hpp"
-#include "client/Graphic.hpp"
+#include "Client/Client.hpp"
+#include "Client/Graphic.hpp"
 
 class Core
 {
