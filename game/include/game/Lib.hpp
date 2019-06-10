@@ -23,21 +23,6 @@ namespace game
             return p;
         }
 
-        inline s_pos operator<<(float new_x)
-        {
-            return {x + new_x, y, z};
-        }
-
-        inline s_pos operator<<=(float new_y)
-        {
-            return {x, y + new_y, z};
-        }
-
-        inline s_pos operator<=(float new_z)
-        {
-            return {x, y, z + new_z};
-        }
-
         inline bool operator==(s_pos p)
         {
             return (p.x == x && p.y == y && p.z == z);
