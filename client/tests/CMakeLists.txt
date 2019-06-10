@@ -1,7 +1,7 @@
 project(client_tests)
 
 LINK_DIRECTORIES (
-    ../../Bomberman/lib
+    ../../lib
 )
 
 add_executable(
