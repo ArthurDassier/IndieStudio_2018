@@ -14,7 +14,7 @@ add_executable(
     tests_character.cpp
 )
 
-set_property(TARGET game_tests PROPERTY CXX_STANDARD 17)
+set_property(TARGET game_tests PROPERTY CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -no-pie")

@@ -14,7 +14,7 @@ add_executable(
     tests_clock.cpp
 )
 
-set_property(TARGET client_tests PROPERTY CXX_STANDARD 17)
+set_property(TARGET client_tests PROPERTY CXX_STANDARD 11)
 
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")

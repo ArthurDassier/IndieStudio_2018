@@ -29,4 +29,4 @@ target_link_libraries(
     X11
 )
 
-add_subdirectory(tests)
+# add_subdirectory(tests)

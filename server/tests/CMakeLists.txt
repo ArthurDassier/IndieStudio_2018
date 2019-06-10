@@ -15,7 +15,7 @@ add_executable(
     tests_room.cpp
 )
 
-set_property(TARGET server_tests PROPERTY CXX_STANDARD 17)
+set_property(TARGET server_tests PROPERTY CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 set(CMAKE_EXE_LINKER_FLAGS "-lgcov")
