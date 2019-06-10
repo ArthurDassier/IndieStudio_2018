@@ -26,4 +26,6 @@ target_link_libraries(
 
 SET_TARGET_PROPERTIES(server PROPERTIES LINKER_LANGUAGE CXX)
 
+set_property(TARGET server PROPERTY CXX_STANDARD 17)
+
 add_subdirectory(tests)
