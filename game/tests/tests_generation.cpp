@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 #include "gtest/gtest.h"
-#include "game/Generation.hpp"
+#include "Game/Generation.hpp"
 
 TEST(TestGeneration, TestGeneration)
 {

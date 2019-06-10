@@ -186,23 +186,13 @@ void EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-<<<<<<< HEAD:client/srcs/Graphic.cpp
-                _map.push_back(createMapBlock("Client/brick.png",
-=======
                 _map.push_back(createMapBlock("client/res/brick.png",
->>>>>>> master:client/src/Irrlicht.cpp
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-<<<<<<< HEAD:client/srcs/Graphic.cpp
-                _map.push_back(createMapBlock("Client/brick.png",
-                    core::vector3df(posi_x, 0, posi_z))
-                );
-                _map.push_back(createMapBlock("Client/brick.png",
-=======
                 _map.push_back(createMapBlock("client/res/wall.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
@@ -217,7 +207,6 @@ void EngineGraphic::create_map(std::string map)
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 _map.push_back(createMapBlock("client/res/wood.jpg",
->>>>>>> master:client/src/Irrlicht.cpp
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
