@@ -11,7 +11,7 @@ add_library(game STATIC
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp
     ./srcs/Generation.cpp
-    )
+)
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 

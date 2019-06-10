@@ -13,9 +13,9 @@
 #include <fstream>
 #include "irrlicht/irrlicht.h"
 #include "irrlicht/driverChoice.h"
-#include "client/client.hpp"
-#include "client/entity.hpp"
-#include "client/clock.hpp"
+#include "Client/Client.hpp"
+#include "Client/Entity.hpp"
+#include "Client/Clock.hpp"
 using namespace irr;
 
 class MyEventReceiver : public IEventReceiver
@@ -80,9 +80,9 @@ class EngineGraphic
         Clock _clock;
 
         std::unordered_map<int, const irr::io::path> _skins = {
-            {0, "client/res/nskinrd.jpg"},
-            {1, "client/res/nskinbl.jpg"},
-            {2, "client/res/nskingr.jpg"},
-            {3, "client/res/nskinpu.jpg"}
+            {0, "Client/res/nskinrd.jpg"},
+            {1, "Client/res/nskinbl.jpg"},
+            {2, "Client/res/nskingr.jpg"},
+            {3, "Client/res/nskinpu.jpg"}
         };
 };

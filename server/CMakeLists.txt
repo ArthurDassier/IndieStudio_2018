@@ -8,9 +8,9 @@ include_directories(
 
 add_library(server
     STATIC
-    ./src/room.cpp
-    ./src/server.cpp
-    ./src/session.cpp
+    ./srcs/Room.cpp
+    ./srcs/Server.cpp
+    ./srcs/Session.cpp
 )
 
 target_include_directories(server INTERFACE

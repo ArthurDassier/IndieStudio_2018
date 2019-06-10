@@ -6,11 +6,11 @@ include_directories(
 )
 
 add_library(client STATIC
-    ./src/client.cpp
-    ./src/core.cpp
-    ./src/entity.cpp
-    ./src/Irrlicht.cpp
-    ./src/clock.cpp
+    ./srcs/Client.cpp
+    ./srcs/Core.cpp
+    ./srcs/Entity.cpp
+    ./srcs/Graphic.cpp
+    ./srcs/Clock.cpp
     )
 
 target_include_directories(client INTERFACE ./include ../lib/include)

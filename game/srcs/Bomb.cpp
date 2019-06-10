@@ -5,7 +5,7 @@
 ** Bomb.cpp
 */
 
-#include "game/Bomb.hpp"
+#include "Game/Bomb.hpp"
 
 game::Bomb::Bomb():
     Entity(game::bomb)

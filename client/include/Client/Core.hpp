@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "client/client.hpp"
-#include "client/Irrlicht.hpp"
+#include "Client/Client.hpp"
+#include "Client/Graphic.hpp"
 
 class Core
 {
