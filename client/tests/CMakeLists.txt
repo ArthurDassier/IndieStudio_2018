@@ -6,6 +6,7 @@ LINK_DIRECTORIES (
 
 include_directories(
     ../../lib/include
+    ../include
 )
 
 add_executable(

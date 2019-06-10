@@ -1,9 +1,9 @@
 LINK_DIRECTORIES (
-    ./lib
+    ../lib
 )
 
-LINK_DIRECTORIES (
-    ../lib
+include_directories(
+    ../lib/include
 )
 
 add_executable(

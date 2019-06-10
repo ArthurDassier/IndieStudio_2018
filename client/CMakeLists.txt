@@ -11,7 +11,7 @@ add_library(client STATIC
     ./src/entity.cpp
     ./src/Irrlicht.cpp
     ./src/clock.cpp
-    )
+)
 
 target_include_directories(client INTERFACE ./include ../lib/include)
 

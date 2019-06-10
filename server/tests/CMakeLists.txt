@@ -4,6 +4,11 @@ LINK_DIRECTORIES (
     ../../lib
 )
 
+include_directories(
+    ../include
+    ../../lib/include
+)
+
 add_executable(
     server_tests
     tests_server.cpp

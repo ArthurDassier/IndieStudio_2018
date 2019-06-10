@@ -6,7 +6,7 @@
 */
 
 #include "gtest/gtest.h"
-#include "../include/server/server.hpp"
+#include "server/server.hpp"
 
 TEST(TestClock, TestGetElapsedTime)
 {
