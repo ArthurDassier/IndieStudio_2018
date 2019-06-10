@@ -1,10 +1,8 @@
 #include <iostream>
-#include "module_tmp/toto.hpp"
-#include "client/core.hpp"
-
 #include <ctime>
 #include <string>
 #include <thread>
+#include "client/core.hpp"
 #include "server/server.hpp"
 
 int server()

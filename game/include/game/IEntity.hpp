@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Lib.hpp"
+#include "game/Lib.hpp"
 
 struct player
 {

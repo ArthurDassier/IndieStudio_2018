@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "Entity.hpp"
-#include "../../lib/includes/irrlicht.h"
+#include "game/Entity.hpp"
+#include "irrlicht/irrlicht.h"
 
 namespace game
 {

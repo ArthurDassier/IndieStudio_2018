@@ -7,15 +7,15 @@
 
 #pragma once
 
-#include "../../../lib/includes/irrlicht.h"
-#include "../../../lib/includes/driverChoice.h"
 #include <list>
 #include <unordered_map>
 #include <vector>
 #include <fstream>
-#include "client.hpp"
-#include "entity.hpp"
-#include "clock.hpp"
+#include "irrlicht/irrlicht.h"
+#include "irrlicht/driverChoice.h"
+#include "client/client.hpp"
+#include "client/entity.hpp"
+#include "client/clock.hpp"
 using namespace irr;
 
 class MyEventReceiver : public IEventReceiver
@@ -61,7 +61,7 @@ class EngineGraphic
         void addEntity(Character *);
         scene::ICameraSceneNode *addCamera();
         void moveEntity(std::string sens, std::string id);
-        
+
         void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
         void create_map(std::string map);
         void sendEscape();

@@ -5,7 +5,7 @@
 ** server
 */
 
-#include "../include/server/server.hpp"
+#include "server/server.hpp"
 
 Server::Server() :
     _io_service(),
