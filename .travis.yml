@@ -9,6 +9,7 @@ addons:
   packages:
     - g++-7
     - cmake
+    - cmake-data
 
 jobs:
   include:
