@@ -6,10 +6,11 @@ include_directories(
 )
 
 add_library(game STATIC
-    ./src/Bomb.cpp
-    ./src/Character.cpp
-    ./src/Entity.cpp
-    ./src/EntityManager.cpp
+    ./srcs/Bomb.cpp
+    ./srcs/Character.cpp
+    ./srcs/Entity.cpp
+    ./srcs/EntityManager.cpp
+    ./srcs/Generation.cpp
     )
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
