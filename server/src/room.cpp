@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "../include/server/room.hpp"
-std::string genMap(size_t len);
+#include "game/Generation.hpp"
 
 void Room::join(boost::shared_ptr<game::Character> participant)
 {
