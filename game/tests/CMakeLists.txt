@@ -11,6 +11,7 @@ include_directories(
 add_executable(
     game_tests
     tests_character.cpp
+    tests_generation.cpp
 )
 
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
