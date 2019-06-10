@@ -7,18 +7,14 @@
 
 #include "../include/client/core.hpp"
 
-Core::Core():
+client::Core::Core():
     _io_service(),
     _client(_io_service),
     _graph()
 {
 }
 
-Core::~Core()
-{
-}
-
-void Core::startCore()
+void client::Core::startCore()
 {
     _client.start_receive();
     _graph.addCamera();
@@ -30,7 +26,8 @@ void Core::startCore()
             _graph.clearData();
         }
         if (_client.getRoot().empty() == false) {
-            _graph.manageRoot(_client.getRoot());
+            _graph.setRoot(_client.getRoot());
+            _graph.matchQuery();
             _client.clearRoot();
         }
         _io_service.poll_one();

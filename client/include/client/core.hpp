@@ -10,14 +10,19 @@
 #include "client.hpp"
 #include "Irrlicht.hpp"
 
-class Core
+namespace client
 {
-    public:
-        Core();
-        ~Core();
-        void startCore();
-    private:
-        boost::asio::io_service _io_service;
-        Client _client;
-        EngineGraphic _graph;
-};
+    class Core
+    {
+        public:
+            Core();
+            ~Core() = default;
+
+            void startCore();
+
+        private:
+            boost::asio::io_service _io_service;
+            Client _client;
+            EngineGraphic _graph;
+    };
+}; // namespace client

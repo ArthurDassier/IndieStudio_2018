@@ -7,7 +7,7 @@
 
 #include "../include/server/session.hpp"
 
-Session::Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket,
+server::Session::Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket,
 boost::asio::ip::udp::endpoint endpoint, Room &room) :
     _socket(socket),
     _remote_endpoint(endpoint),
@@ -15,12 +15,12 @@ boost::asio::ip::udp::endpoint endpoint, Room &room) :
 {
 }
 
-void Session::start()
+void server::Session::start()
 {
     _room.join(shared_from_this());
 }
 
-void Session::sendTo()
+void server::Session::sendTo()
 {
     _socket->async_send_to(
         boost::asio::buffer(_message_queue.front()),
@@ -33,7 +33,7 @@ void Session::sendTo()
             boost::asio::placeholders::bytes_transferred));
 }
 
-void Session::deliver(std::string message)
+void server::Session::deliver(std::string message)
 {
     bool write_in_progress = !_message_queue.empty();
 
@@ -42,7 +42,7 @@ void Session::deliver(std::string message)
         sendTo();
 }
 
-void Session::handle_send(__attribute__((unused)) std::string message,
+void server::Session::handle_send(__attribute__((unused)) std::string message,
 const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferre)
 {
     if (!error && !_message_queue.empty()) {
@@ -52,17 +52,17 @@ const boost::system::error_code &error, __attribute__((unused)) std::size_t byte
     }
 }
 
-t_id Session::getId()
+t_id server::Session::getId()
 {
     return boost::lexical_cast<t_id>(_remote_endpoint.port());
 }
 
-player &Session::get_playerdata()
+player &server::Session::get_playerdata()
 {
     return _player;
 }
 
-Room Session::getRoom() noexcept
+server::Room server::Session::getRoom() noexcept
 {
     return _room;
 }

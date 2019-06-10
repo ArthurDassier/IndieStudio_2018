@@ -1,10 +1,13 @@
 project(game)
 
-add_library(game STATIC
+add_library(game
+    STATIC
     ./src/Bomb.cpp
     ./src/Character.cpp
     ./src/Entity.cpp
     ./src/EntityManager.cpp
+    ./src/Game.cpp
+    ../utils/src/Packet.cpp
     )
 
 target_include_directories(game INTERFACE ./include)

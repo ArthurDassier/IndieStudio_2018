@@ -6,6 +6,8 @@ add_library(client STATIC
     ./src/entity.cpp
     ./src/Irrlicht.cpp
     ./src/clock.cpp
+    ../../game/src/Character.cpp
+    ../../game/src/Entity.cpp
     )
 
 target_include_directories(client INTERFACE ./include)

@@ -31,8 +31,9 @@ namespace game
 
             const t_id id;
 
-        private:
+        protected:
             s_pos _pos;
+            unsigned int _hp;
             EntityType _type;
 
             t_id generateID() const noexcept;

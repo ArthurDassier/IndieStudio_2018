@@ -7,43 +7,38 @@
 
 #include "../include/client/clock.hpp"
 
-Clock::Clock():
+client::Clock::Clock():
     _clock(),
     _second(50000000LL)
 {
 }
 
-Clock::~Clock()
-{
-
-}
-
-void Clock::setElapsedTime()
+void client::Clock::setElapsedTime()
 {
     _elapsed_times = _clock.elapsed();
 }
 
-void Clock::setElapsed()
+void client::Clock::setElapsed()
 {
     _elapsed = _elapsed_times.system + _elapsed_times.user;
 }
 
-boost::timer::cpu_timer &Clock::getClock()
+boost::timer::cpu_timer &client::Clock::getClock()
 {
     return _clock;
 }
 
-boost::timer::nanosecond_type Clock::getSecond() const
+boost::timer::nanosecond_type client::Clock::getSecond() const
 {
     return _second;
 }
 
-boost::timer::cpu_times Clock::getElapsedTime() const
+boost::timer::cpu_times client::Clock::getElapsedTime() const
 {
     return _elapsed_times;
 }
 
-boost::timer::nanosecond_type Clock::getElapsed() const
+boost::timer::nanosecond_type client::Clock::getElapsed() const
 {
     return _elapsed;
 }

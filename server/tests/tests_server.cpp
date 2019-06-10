@@ -10,7 +10,7 @@
 
 TEST(TestClock, TestGetElapsedTime)
 {
-    Server server;
+    server::Server server;
 
     ASSERT_FALSE(server.getPause());
 }

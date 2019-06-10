@@ -7,66 +7,42 @@
 
 #include "../include/client/entity.hpp"
 
-Entity::Entity()
-{
-}
-
-Entity::~Entity()
-{
-}
-
-Character::Character()
-{
-}
-
-Character::~Character()
-{
-}
-
-void Character::setId(const std::size_t id)
+void client::Character::setId(const t_id id)
 {
     _id = id;
 }
 
-void Character::setSkin(int skin)
-{
-    _skin = skin;
-}
-
-void Character::setPosition(irr::core::vector3df position)
-{
-    _position = position;
-}
-
-void Character::setNode(irr::scene::IAnimatedMeshSceneNode * node)
-{
-    _node = node;
-}
-
-std::size_t Character::getId() const noexcept
+t_id client::Character::getId() const noexcept
 {
     return _id;
 }
 
-int Character::getSkin() const
+void client::Character::setSkin(int skin)
+{
+    _skin = skin;
+}
+
+int client::Character::getSkin() const
 {
     return _skin;
 }
 
-irr::core::vector3df Character::getPosition() const
+void client::Character::setPosition(irr::core::vector3df position)
+{
+    _position = position;
+}
+
+irr::core::vector3df client::Character::getPosition() const
 {
     return _position;
 }
 
-irr::scene::IAnimatedMeshSceneNode *Character::getNode() const
+void client::Character::setNode(irr::scene::IAnimatedMeshSceneNode * node)
+{
+    _node = node;
+}
+
+irr::scene::IAnimatedMeshSceneNode *client::Character::getNode() const
 {
     return _node;
-}
-
-Object::Object()
-{
-}
-
-Object::~Object()
-{
 }

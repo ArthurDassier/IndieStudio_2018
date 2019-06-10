@@ -7,7 +7,7 @@
 
 #include "../include/server/server.hpp"
 
-Server::Server() :
+server::Server::Server() :
     _io_service(),
     _socket(boost::make_shared<boost::asio::ip::udp::socket>(
         _io_service,
@@ -23,18 +23,18 @@ Server::Server() :
     start_receive();
 }
 
-void Server::run()
+void server::Server::run()
 {
     while (true) {
         _io_service.poll();
         if (getHasReceived()) {
-            auto tmp = new_session->getRoom().getParticipants();
-        // game
+            _game.updateParticipants(_session->getRoom().getParticipants());
+            _game.gameLoop();
         }
     }
 }
 
-void Server::start_receive()
+void server::Server::start_receive()
 {
     _socket->async_receive_from(
         boost::asio::buffer(_recv_buffer),
@@ -46,12 +46,11 @@ void Server::start_receive()
             boost::asio::placeholders::bytes_transferred));
 }
 
-void Server::handle_receive(const boost::system::error_code &error,
+void server::Server::handle_receive(const boost::system::error_code &error,
 std::size_t bytes_transferred)
 {
     if (!error || error == boost::asio::error::message_size) {
         std::string receive_json = std::string(_recv_buffer.begin(), _recv_buffer.begin() + bytes_transferred);
-        boost::property_tree::ptree root;
         std::stringstream ss;
 
         ss << receive_json;
@@ -65,7 +64,7 @@ std::size_t bytes_transferred)
     }
 }
 
-void Server::handle_send(boost::shared_ptr<std::string> message,
+void server::Server::handle_send(boost::shared_ptr<std::string> message,
 const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferred)
 {
     if (!error)
@@ -74,15 +73,17 @@ const boost::system::error_code &error, __attribute__((unused)) std::size_t byte
         std::cout << error.message() << std::endl;
 }
 
-void Server::connection()
+void server::Server::connection()
 {
     _pause = false;
-    new_session.reset(new Session(_socket, _remote_endpoint, _room));
-    new_session->start();
+    _session.reset(new Session(_socket, _remote_endpoint, _room));
+    _session->start();
     setHasReceived(true);
+    if (_room.nbParticipants() == 1)
+        _game.setPlayer(_room.getParticipants()->front());
 }
 
-void Server::movement()
+void server::Server::movement()
 {
     if (!_pause) {
         std::string sens = _root.get<std::string>("sens");
@@ -90,33 +91,43 @@ void Server::movement()
     }
 }
 
-void Server::pause()
+void server::Server::pause()
 {
     if (_room.nbParticipants() == 1)
         _pause = !_pause;
 }
 
-bool Server::getPause() const noexcept
+bool server::Server::getPause() const noexcept
 {
     return (_pause);
 }
 
-void Server::setHasReceived(const bool hasReceived)
+void server::Server::setHasReceived(const bool hasReceived)
 {
     _hasReceived = hasReceived;
 }
 
-bool Server::getHasReceived() const noexcept
+bool server::Server::getHasReceived() const noexcept
 {
     return _hasReceived;
 }
 
-void Server::setRoot(const boost::property_tree::ptree root)
+// void server::Server::setNeedToUpdate(const bool needToUpdate)
+// {
+//     _needToUpdate = needToUpdate;
+// }
+
+// bool server::Server::getNeedToUpdate() const noexcept
+// {
+//     return _needToUpdate;
+// }
+
+void server::Server::setRoot(const boost::property_tree::ptree root)
 {
     _root = root;
 }
 
-boost::property_tree::ptree Server::getRoot() const noexcept
+boost::property_tree::ptree server::Server::getRoot() const noexcept
 {
     return _root;
 }

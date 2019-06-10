@@ -11,21 +11,35 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <memory>
 
 #include "../../../game/include/Character.hpp"
+#include "../../../utils/include/utils/Packet.hpp"
 
-class Room
+using t_vector = std::vector<boost::shared_ptr<game::Character>>;
+
+namespace server
 {
-public:
-    void join(boost::shared_ptr<game::Character>);
-    void updateJson(boost::property_tree::ptree &, boost::shared_ptr<game::Character>);
-    void updatePosition(const t_id, std::string);
-    void startPosi(boost::shared_ptr<game::Character>);
-    int nbParticipants();
+    class Room
+    {
+        public:
+            void join(boost::shared_ptr<game::Character>);
+            void updatePosition(const t_id, std::string);
 
-    std::vector<boost::shared_ptr<game::Character>> getParticipants() const noexcept;
+            void addParticipant(boost::shared_ptr<game::Character>, boost::shared_ptr<game::Character>);
+            void addMap(boost::shared_ptr<game::Character>);
 
-private:
-    void update_participants();
-    std::vector<boost::shared_ptr<game::Character>> _participants;
-};
+            void sendDeath(boost::shared_ptr<game::Character>);
+
+            void startPosi(boost::shared_ptr<game::Character>);
+            int nbParticipants();
+
+            void setParticipants();
+            std::shared_ptr<t_vector> getParticipants() const noexcept;
+            void update_participants();
+
+        private:
+            utils::Packet _packet;
+            t_vector _participants;
+    };
+}; // namespace server
