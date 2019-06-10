@@ -1,4 +1,4 @@
-#include "MenuEvent.hpp"
+#include "../include/client/MenuEvent.hpp"
 
 MenuEvent::MenuEvent(CustomMenu &menu): _menu(menu)
 {}
