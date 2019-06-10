@@ -36,9 +36,10 @@ std::string genMap(size_t len)
     std::vector<std::string> map;
     int k = 0;
     map.push_back("1111111111");
-    for (int i = 0; i != len - 2; i++)
-        map.push_back("1000000001");
-    map.push_back("1111111111");
+    map.push_back("1002222001");
+    map.push_back("1022222201");
+    for (int i = 0; i != len - 3; i++)
+        map.push_back("1222222221");
     for (size_t j = 1; j != map.size() - 1; j++) {
         k = std::rand() % (len - 2);
         for (; k != map[k].size() - 1; k++) {
@@ -48,5 +49,7 @@ std::string genMap(size_t len)
             }
         }
     }
+    map[len] = "1002222201";
+    map[len - 1] = "1022222001";
     return (getResult(map));
 }

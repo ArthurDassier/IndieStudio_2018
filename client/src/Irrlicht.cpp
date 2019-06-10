@@ -167,7 +167,7 @@ void EngineGraphic::moveEntity(std::string sens, std::string id)
     }
 }
 
-void EngineGraphic::updateEntity(std::vector<Character>::iterator &it, 
+void EngineGraphic::updateEntity(std::vector<Character>::iterator &it,
 const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
@@ -186,17 +186,27 @@ void EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/brick.png",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/wall.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/wall.jpg",
+                    core::vector3df(posi_x, 10, posi_z))
+                );
+                posi_z += 10;
+                break;
+            }
+            case '2': {
+                _map.push_back(createMapBlock("client/res/brick.png",
+                    core::vector3df(posi_x, 0, posi_z))
+                );
+                _map.push_back(createMapBlock("client/res/wood.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
