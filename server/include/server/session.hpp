@@ -18,20 +18,20 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "../../../game/include/Character.hpp"
-#include "room.hpp"
+#include "game/Character.hpp"
+#include "server/room.hpp"
 
 class Session :
     public game::Character,
     public boost::enable_shared_from_this<Session>
 {
-    public: 
-        Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket, 
+    public:
+        Session(boost::shared_ptr<boost::asio::ip::udp::socket> socket,
             boost::asio::ip::udp::endpoint endpoint, Room &room);
 
         // Members
         void start();
-        boost::asio::ip::udp::socket &socket(); 
+        boost::asio::ip::udp::socket &socket();
 
     private:
         void deliver(std::string message);
