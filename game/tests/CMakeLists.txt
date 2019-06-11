@@ -26,4 +26,5 @@ target_link_libraries(
     pthread
 )
 
+set_property(TARGET game_tests PROPERTY CXX_STANDARD 17)
 set_target_properties(game_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

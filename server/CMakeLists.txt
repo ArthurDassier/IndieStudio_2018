@@ -24,6 +24,7 @@ target_link_libraries(
     game
 )
 
+set_property(TARGET server PROPERTY CXX_STANDARD 17)
 SET_TARGET_PROPERTIES(server PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(tests)
