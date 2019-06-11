@@ -80,9 +80,9 @@ class EngineGraphic
         Clock _clock;
 
         std::unordered_map<int, const irr::io::path> _skins = {
-            {0, "Client/res/nskinrd.jpg"},
-            {1, "Client/res/nskinbl.jpg"},
-            {2, "Client/res/nskingr.jpg"},
-            {3, "Client/res/nskinpu.jpg"}
+            {0, "client/res/nskinrd.jpg"},
+            {1, "client/res/nskinbl.jpg"},
+            {2, "client/res/nskingr.jpg"},
+            {3, "client/res/nskinpu.jpg"}
         };
 };
