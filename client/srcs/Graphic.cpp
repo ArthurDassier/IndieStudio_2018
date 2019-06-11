@@ -9,15 +9,23 @@
 
 client::EngineGraphic::EngineGraphic():
     _receiver(),
-    _device(irr::createDevice(video::EDT_SOFTWARE,
-    core::dimension2d<u32>(640, 480), 16, false, false, false, &_receiver)),
+    _device(
+        irr::createDevice(
+            video::EDT_SOFTWARE,
+            core::dimension2d<u32>(640, 480),
+            16,
+            false,
+            false,
+            false,
+            &_receiver
+        )
+    ),
     _driver(_device->getVideoDriver()),
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
-    _driverType (video::EDT_OPENGL),
+    _driverType(video::EDT_OPENGL),
     _clock()
 {
-    // _client.start_receive();
     _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
     _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
     _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
@@ -28,7 +36,6 @@ client::EngineGraphic::EngineGraphic():
 
 client::EngineGraphic::~EngineGraphic()
 {
-    _device->drop();
 }
 
 int client::EngineGraphic::runGraph()
@@ -52,9 +59,10 @@ int client::EngineGraphic::runGraph()
 void client::EngineGraphic::dataMove(std::string move)
 {
     boost::property_tree::ptree root;
+    std::ostringstream buff;
+
     root.put("type", "movement");
     root.put("sens", move);
-    std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
 }
@@ -62,8 +70,19 @@ void client::EngineGraphic::dataMove(std::string move)
 void client::EngineGraphic::sendEscape()
 {
     boost::property_tree::ptree root;
-    root.put("type", "pause");
     std::ostringstream buff;
+
+    root.put("type", "pause");
+    boost::property_tree::write_json(buff, root, false);
+    _data = buff.str();
+}
+
+void client::EngineGraphic::sendSpace()
+{
+    boost::property_tree::ptree root;
+    std::ostringstream buff;
+
+    root.put("type", "space");
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
 }
@@ -80,6 +99,8 @@ void client::EngineGraphic::input()
         dataMove("right");
     else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
         sendEscape();
+    else if (_receiver.IsKeyDown(irr::KEY_SPACE))
+        sendSpace();
 }
 
 std::string client::EngineGraphic::getData() const
@@ -265,6 +286,7 @@ void client::EngineGraphic::death()
     float y = _root.get<float>("y");
     float z = _root.get<float>("z");
     core::vector3df pos = {x, y, z};
+
     std::cout << "position = {" << x << ", " << y << ", " << z << "}" << std::endl;
     for (auto &it : _charList) {
         if (it.getId() != id)
