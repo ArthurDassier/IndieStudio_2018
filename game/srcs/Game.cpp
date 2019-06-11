@@ -23,48 +23,35 @@ void game::Game::gameLoop()
 //         _packet.clear();
 //         _collide = true;
 //     }
+
     for (auto &it : *_participants) {
-        checkCollisions(it);
         if (it->getId() == _player->getId())
             continue;
+        checkCollisions(it);
     }
-}
-
-void game::Game::sendPosition()
-{
-    if (_collide == true)
-        return;
-    _packet.setType("move_other");
-    _packet.addData("id", _player->getId());
-    _packet.addData("sens", _player->getDirection());
-    for (auto &it : *_participants)
-        it->deliver(_packet.getPacket());
-    _packet.clear();
 }
 
 void game::Game::updatePosition(const t_id id, const std::string direction)
 {
-    if (_collide == true) {
-        std::cout << "ENTITY SIZE: " << _EM.getEntities().size() << std::endl;
+    if (_collide == true)
         return;
-    }
     for (auto &it : *_participants) {
-        if (it->getId() != id)
-            continue;
-        it->setDirection(direction);
-        if (direction.compare("up") == 0)
-            it->getPosition().z += 2;
-        else if (direction.compare("down") == 0)
-            it->getPosition().z -= 2;
-        else if (direction.compare("left") == 0)
-            it->getPosition().x -= 2;
-        else if (direction.compare("right") == 0)
-            it->getPosition().x += 2;
-        break;
+        if (it->getId() == id) {
+            it->setDirection(direction);
+            if (direction.compare("up") == 0)
+                it->getPosition().z += 2;
+            else if (direction.compare("down") == 0)
+                it->getPosition().z -= 2;
+            else if (direction.compare("left") == 0)
+                it->getPosition().x -= 2;
+            else if (direction.compare("right") == 0)
+                it->getPosition().x += 2;
+            break;
+        }
     }
+    _packet.addData("id", id);
+    _packet.addData("sens", direction);
     _packet.setType("move_other");
-    _packet.addData("id", _player->getId());
-    _packet.addData("sens", _player->getDirection());
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();
@@ -94,26 +81,47 @@ bool game::Game::checkCollisions(t_entity entity)
 }
 
 
+float roundDecimal(float n)
+{
+    // Smaller multiple
+    float a = (n / 10) * 10;
+
+    // Larger multiple
+    float b = a + 10;
+
+    // Return of closest of two
+    return (n - a > b - n) ? b : a;
+}
+
+
 
 void game::Game::fillEntitiesMap(const std::string map)
 {
-    for (auto &it : map)
+    float x = 0;
+    float y = 0;
+
+    for (auto &it : map) {
         switch (it) {
             case '1': {
                 Block b;
-                b.setPosition({0, 10, 0});
+                b.setPosition({x, 0, y});
                 _EM.addEntity(b);
                 break;
             }
             case '2': {
                 BrittleBlock bB;
-                bB.setPosition({0, 20, 0});
+                bB.setPosition({x, 0, y});
                 _EM.addEntity(bB);
                 break;
             }
+            case '\n':
+                y += 10;
+                x = 0;
             default:
                 break;
         }
+        x += 10;
+    }
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)
