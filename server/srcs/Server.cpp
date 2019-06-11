@@ -89,6 +89,7 @@ void server::Server::movement()
 {
     if (!_pause) {
         std::string sens = _root.get<std::string>("sens");
+
         _room.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
     }
 }
