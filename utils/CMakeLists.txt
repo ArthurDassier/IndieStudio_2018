@@ -2,6 +2,12 @@ project(utils)
 
 include_directories(./include)
 
+if (WIN32)
+    include_directories(
+        "C:/Boost/include/boost-1_70"
+    )
+endif ()
+
 add_library(utils
     STATIC
     ./srcs/Packet.cpp

@@ -1,5 +1,11 @@
 project(server)
 
+if (WIN32)
+    include_directories(
+        "C:/Boost/include/boost-1_70"
+    )
+endif ()
+
 include_directories(
     ./include
     ../game/include

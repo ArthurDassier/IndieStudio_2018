@@ -66,7 +66,7 @@ std::size_t bytes_transferred)
 }
 
 void server::Server::handle_send(boost::shared_ptr<std::string> message,
-const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferred)
+const boost::system::error_code &error, std::size_t bytes_transferred)
 {
     if (!error)
         std::cout << *message << " was sent" << std::endl;

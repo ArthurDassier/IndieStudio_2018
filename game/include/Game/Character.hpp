@@ -19,10 +19,10 @@ namespace game
             ~Character() = default;
 
             void setId(const t_id);
-            t_id getId() {}
+            t_id getId() {return _id;}
 
             void deliver(std::string) {}
-            player &get_playerdata() {}
+            // player &get_playerdata() {}
 
             void setPosition(const s_pos);
             s_pos &getPosition() noexcept;

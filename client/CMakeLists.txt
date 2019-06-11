@@ -1,5 +1,11 @@
 project(client)
 
+if (WIN32)
+    include_directories(
+        "C:/Boost/include/boost-1_70"
+    )
+endif ()
+
 include_directories(
     ../lib/include
     ./include
@@ -29,5 +35,5 @@ target_link_libraries(
 )
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
-    
+
 add_subdirectory(tests)
