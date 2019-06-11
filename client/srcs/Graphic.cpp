@@ -125,7 +125,7 @@ void EngineGraphic::manageRoot(boost::property_tree::ptree root)
 
 void EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("Client/ninja.b3d");
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
     node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
