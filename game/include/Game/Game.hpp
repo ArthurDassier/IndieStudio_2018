@@ -15,6 +15,7 @@
 #include "Character.hpp"
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
+#include "Game/EntityManager.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -26,20 +27,21 @@ namespace game
         public:
             Game() = default;
             ~Game() = default;
-            
+
             void gameLoop();
-            
-            void checkCollisions(t_entity);
+
+            bool checkCollisions(t_entity);
 
             void setPlayer(boost::shared_ptr<game::Character>);
             boost::shared_ptr<game::Character> getPlayer() const noexcept;
-            
+
             void updateParticipants(std::shared_ptr<t_vector>);
 
             std::string const getMap();
 
         private:
             Generation _generation;
+            EntityManager _entity;
             utils::Packet _packet;
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;

@@ -8,46 +8,38 @@
 #include "Game/Game.hpp"
 
 void game::Game::gameLoop()
-{  
+{
     for (auto &it : *_participants) {
+        checkCollisions(it);
         if (it->getId() == _player->getId())
             continue;
-        checkCollisions(it);
     }
 }
 
-/*----------------------------------------------\\
-
-                  CHAAAAAAARLES
-
-void DemoFunction()
+bool game::Game::checkCollisions(t_entity entity)
 {
-    if (condition) {
-        action();
-        if (need to update entity?)
-            _packet.setType(typeOfUpdate);
-            _packet.addData(all sort of data (it's a template lol));
-            for (auto &it : *_participants)
-                it->deliver(_packet.getPacket());
-    }
+    s_pos pos_player = _player->getPosition();
+    std::cout << _player->getPosition().x << ", " << _player->getPosition().z << std::endl;
+    if (_player->getDirection().compare("up") == 0)
+        pos_player.z += 10;
+    else if (_player->getDirection().compare("down") == 0)
+        pos_player.z -= 10;
+    else if (_player->getDirection().compare("left") == 0)
+        pos_player.x -= 10;
+    else if (_player->getDirection().compare("right") == 0)
+        pos_player.x += 10;
+    // if (dynamic_cast<Banana *>(_entity.getEntity(pos_player)) || dynamic_cast<Banana *>(_entity.getEntity(pos_player))) {
+    //
+    // }
+    //     _packet.setType("explosion");
+    //     _packet.addData("damage", 2);
+    //     for (auto &it : *_participants)
+    //         it->deliver(_packet.getPacket());
+    //     _player->setDirection("down");
+    // }
 }
 
-Concrete example:
-    
-    if (_player->getDirection().compare("up") == 0) {
-        _packet.setType("explosion");
-        _packet.addData("damage", 2);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _player->setDirection("down");
-    }
 
-//----------------------------------------------*/
-
-void game::Game::checkCollisions(t_entity entity)
-{
-
-}
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)
 {
