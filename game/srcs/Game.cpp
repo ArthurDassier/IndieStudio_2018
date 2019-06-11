@@ -82,7 +82,7 @@ bool game::Game::checkCollisions(t_entity entity)
         pos_player.x -= 10;
     else if (_player->getDirection().compare("right") == 0)
         pos_player.x += 10;
-    if (dynamic_cast<BrittleBlock *>(_EM.getEntity(pos_player)) || dynamic_cast<Block *>(_EM.getEntity(pos_player))) {
+    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
 
     }
     //     _packet.setType("explosion");

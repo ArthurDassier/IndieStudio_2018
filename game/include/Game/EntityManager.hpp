@@ -42,7 +42,7 @@ namespace game
                     std::cerr << "not found" << std::endl;
             }
 
-            p_entity::pointer getEntity(s_pos pos);
+            EntityType getEntity(s_pos pos);
             p_entity::pointer getEntity(t_id id);
 
             std::vector<p_entity> const &getEntities() const noexcept;
