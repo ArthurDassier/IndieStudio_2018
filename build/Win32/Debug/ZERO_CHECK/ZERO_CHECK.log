@@ -1,1 +1,32 @@
-﻿
+﻿  Checking Build System
+  CMake does not need to re-run because C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/build/CMakeFiles/generate.stamp is up-to-date.
+  CMake is re-running because C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/build/Bomberman/CMakeFiles/generate.stamp is out-of-date.
+    the file 'C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/Bomberman/CMakeLists.txt'
+    is newer than 'C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/build/Bomberman/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  -- Selecting Windows SDK version 10.0.17763.0 to target Windows 10.0.17134.
+  -- Found Boost 1.70.0 at C:/Boost/lib/cmake/Boost-1.70.0
+  --   Requested configuration: REQUIRED COMPONENTS filesystem;regex
+  -- Found boost_headers 1.70.0 at C:/Boost/lib/cmake/boost_headers-1.70.0
+  -- Found boost_filesystem 1.70.0 at C:/Boost/lib/cmake/boost_filesystem-1.70.0
+  --   libboost_filesystem-vc141-mt-gd-x32-1_70.lib
+  --   libboost_filesystem-vc141-mt-x32-1_70.lib
+  -- Adding boost_filesystem dependencies: headers
+  -- Found boost_regex 1.70.0 at C:/Boost/lib/cmake/boost_regex-1.70.0
+  --   libboost_regex-vc141-mt-gd-x32-1_70.lib
+  --   libboost_regex-vc141-mt-x32-1_70.lib
+  -- Adding boost_regex dependencies: headers
+  -- Found Boost 1.70.0 at C:/Boost/lib/cmake/Boost-1.70.0
+  --   Requested configuration: REQUIRED COMPONENTS filesystem;regex
+  -- Found boost_headers 1.70.0 at C:/Boost/lib/cmake/boost_headers-1.70.0
+  -- Found boost_filesystem 1.70.0 at C:/Boost/lib/cmake/boost_filesystem-1.70.0
+  --   libboost_filesystem-vc141-mt-gd-x32-1_70.lib
+  --   libboost_filesystem-vc141-mt-x32-1_70.lib
+  -- Adding boost_filesystem dependencies: headers
+  -- Found boost_regex 1.70.0 at C:/Boost/lib/cmake/boost_regex-1.70.0
+  --   libboost_regex-vc141-mt-gd-x32-1_70.lib
+  --   libboost_regex-vc141-mt-x32-1_70.lib
+  -- Adding boost_regex dependencies: headers
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/build

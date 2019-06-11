@@ -85,14 +85,12 @@
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;HAS_BOOST;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WIN32_WINNT=0x0601;HAS_BOOST;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Boost\include\boost-1_70;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\lib\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\.\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\game\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\utils\.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -117,16 +115,14 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Boost\include\boost-1_70;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\lib\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\.\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\game\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\utils\.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -151,16 +147,14 @@
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Boost\include\boost-1_70;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\lib\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\.\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\game\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\utils\.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -186,14 +180,12 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;NDEBUG;HAS_BOOST;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Boost\include\boost-1_70;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\lib\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\.\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\..\game\include;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\utils\.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -220,7 +212,7 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfig.cmake;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfigVersion.cmake;C:\Boost\lib\cmake\BoostDetectToolset-1.70.0.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config-version.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config-version.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config-version.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x64-1_70-static.cmake;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\build\client\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt</Message>
@@ -233,7 +225,7 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfig.cmake;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfigVersion.cmake;C:\Boost\lib\cmake\BoostDetectToolset-1.70.0.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config-version.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config-version.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config-version.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x64-1_70-static.cmake;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\build\client\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt</Message>
@@ -246,7 +238,7 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfig.cmake;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfigVersion.cmake;C:\Boost\lib\cmake\BoostDetectToolset-1.70.0.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config-version.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config-version.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config-version.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x64-1_70-static.cmake;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\build\client\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt</Message>
@@ -259,7 +251,7 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/$IGT000-FVNULUGL4TU3/Documents/second_version_indie/IndieStudio_2018/client/CMakeLists.txt;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfig.cmake;C:\Boost\lib\cmake\Boost-1.70.0\BoostConfigVersion.cmake;C:\Boost\lib\cmake\BoostDetectToolset-1.70.0.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config-version.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\boost_filesystem-config.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_filesystem-1.70.0\libboost_filesystem-variant-vc141-mt-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config-version.cmake;C:\Boost\lib\cmake\boost_headers-1.70.0\boost_headers-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config-version.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\boost_regex-config.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-gd-x64-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x32-1_70-static.cmake;C:\Boost\lib\cmake\boost_regex-1.70.0\libboost_regex-variant-vc141-mt-x64-1_70-static.cmake;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\client\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\$IGT000-FVNULUGL4TU3\Documents\second_version_indie\IndieStudio_2018\build\client\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
     </CustomBuild>
