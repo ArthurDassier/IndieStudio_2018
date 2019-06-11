@@ -9,7 +9,7 @@
 #include <iostream>
 #include "Client/Client.hpp"
 
-Client::Client(boost::asio::io_service &io_service):
+client::Client::Client(boost::asio::io_service &io_service):
     sock_(io_service)
 {
     try {
@@ -30,12 +30,7 @@ Client::Client(boost::asio::io_service &io_service):
     }
 }
 
-Client::~Client()
-{
-
-}
-
-void Client::start_receive()
+void client::Client::start_receive()
 {
     //initialize the rmoete_endpoint_
     boost::asio::ip::udp::endpoint sender_endpoint;
@@ -49,12 +44,12 @@ void Client::start_receive()
             boost::asio::placeholders::bytes_transferred));
 }
 
-void Client::sendToServer(std::string msg)
+void client::Client::sendToServer(std::string msg)
 {
     sock_.send_to(boost::asio::buffer(msg), remote_endpoint_);
 }
 
-void Client::handle_receive(const boost::system::error_code& error,
+void client::Client::handle_receive(const boost::system::error_code& error,
     std::size_t bytes_transferred)
 {
     if (!error || error == boost::asio::error::message_size) {
@@ -76,12 +71,12 @@ void Client::handle_receive(const boost::system::error_code& error,
         std::cout << "je passe la" << error.message() << std::endl;
 }
 
-boost::property_tree::ptree Client::getRoot() const
+boost::property_tree::ptree client::Client::getRoot() const
 {
     return (_root);
 }
 
-void Client::clearRoot()
+void client::Client::clearRoot()
 {
     _root.clear();
 }

@@ -10,7 +10,7 @@
 
 TEST(TestRoom, TestNbParticipants)
 {
-    Room room;
+    server::Room room;
 
     ASSERT_EQ(room.nbParticipants(), 0);
 }

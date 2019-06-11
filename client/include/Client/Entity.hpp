@@ -10,56 +10,65 @@
 #include <string>
 #include "irrlicht/irrlicht.h"
 
-enum e_type
+using t_id = std::size_t;
+
+namespace client
 {
-    WALL,
-    BOOST
-};
+    enum e_type
+    {
+        WALL,
+        BOOST
+    };
 
-class Entity
-{
-    public:
-        Entity();
-        ~Entity();
+    class Entity
+    {
+        public:
+            Entity() = default;
+            ~Entity() = default;
 
-    protected:
-};
+        protected:
+    };
 
-class Character : public Entity
-{
-    public:
-        Character();
-        ~Character();
-        void setId(const std::size_t);
-        void setSkin(int);
-        void setPosition(irr::core::vector3df);
-        void setNode(irr::scene::IAnimatedMeshSceneNode *);
-        std::size_t getId() const noexcept;
-        int getSkin() const;
-        irr::core::vector3df getPosition() const;
-        irr::scene::IAnimatedMeshSceneNode *getNode() const;
+    class Character : public Entity
+    {
+        public:
+            Character() = default;
+            ~Character() = default;
 
-    private:
-        std::size_t _id;
-        int _skin;
-        irr::core::vector3df _position;
-        irr::scene::IAnimatedMeshSceneNode *_node;
+            void setId(const t_id);
+            t_id getId() const noexcept;
+            
+            void setSkin(int);
+            int getSkin() const;
+            
+            void setPosition(irr::core::vector3df);
+            irr::core::vector3df getPosition() const;
+            
+            void setNode(irr::scene::IAnimatedMeshSceneNode *);
+            irr::scene::IAnimatedMeshSceneNode *getNode() const;
 
-};
+        private:
+            t_id _id;
+            int _skin;
+            irr::core::vector3df _position;
+            irr::scene::IAnimatedMeshSceneNode *_node;
 
-class Object : public Entity
-{
-    public:
-        Object();
-        ~Object();
+    };
 
-        e_type getType()
-        {
-            return _type;
-        }
+    class Object : public Entity
+    {
+        public:
+            Object() = default;
+            ~Object() = default;
 
-    private:
-        e_type _type;
-        irr::core::vector3df _position;
-        irr::scene::IAnimatedMeshSceneNode *_node;
-};
+            e_type getType()
+            {
+                return _type;
+            }
+
+        private:
+            e_type _type;
+            irr::core::vector3df _position;
+            irr::scene::IAnimatedMeshSceneNode *_node;
+    };
+}; // namespace client

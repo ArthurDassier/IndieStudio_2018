@@ -12,13 +12,14 @@
 
 TEST(TestGeneration, TestGeneration)
 {
+    game::Generation generation;
     std::vector<std::string> map;
 
     map.push_back("1111111111");
     map.push_back("0000000000");
     map.push_back("0000000000");
     map.push_back("0000000000");
-    ASSERT_EQ(getResult(map), "1111111111\n0000000000\n0000000000\n0000000000\n");
-    ASSERT_EQ(isBlockNext(map, 2, 5), true);
-    ASSERT_EQ(isBlockNext(map, 1, 5), false);
+    ASSERT_EQ(generation.getResult(map), "1111111111\n0000000000\n0000000000\n0000000000\n");
+    ASSERT_EQ(generation.isBlockNext(map, 2, 5), true);
+    ASSERT_EQ(generation.isBlockNext(map, 1, 5), false);
 }

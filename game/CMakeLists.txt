@@ -3,6 +3,7 @@ project(game)
 include_directories(
     ../lib/include
     ./include
+    ../server/include
 )
 
 add_library(game STATIC
@@ -10,7 +11,13 @@ add_library(game STATIC
     ./srcs/Character.cpp
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp
+    ./srcs/Game.cpp
     ./srcs/Generation.cpp
+)
+
+target_link_libraries(
+    game
+    utils
 )
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)

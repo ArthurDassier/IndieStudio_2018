@@ -10,14 +10,14 @@
 
 TEST(TestIrrlicht, getDataNULL)
 {
-    EngineGraphic graph;
+    client::EngineGraphic graph;
 
     ASSERT_EQ(graph.getData(), "");
 }
 
 TEST(TestIrrlicht, getData)
 {
-    EngineGraphic graph;
+    client::EngineGraphic graph;
 
     graph.dataMove("up");
     ASSERT_NE(graph.getData(), "");
@@ -25,7 +25,7 @@ TEST(TestIrrlicht, getData)
 
 TEST(TestIrrlicht, clearData)
 {
-    EngineGraphic graph;
+    client::EngineGraphic graph;
 
     graph.dataMove("up");
     graph.clearData();

@@ -7,7 +7,7 @@
 
 #include "Client/Graphic.hpp"
 
-EngineGraphic::EngineGraphic():
+client::EngineGraphic::EngineGraphic():
     _receiver(),
     _device(irr::createDevice(video::EDT_SOFTWARE,
     core::dimension2d<u32>(640, 480), 16, false, false, false, &_receiver)),
@@ -18,14 +18,20 @@ EngineGraphic::EngineGraphic():
     _clock()
 {
     // _client.start_receive();
+    _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
+    _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
+    _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
+    _fMap.emplace(std::make_pair("new_bomb", std::bind(&EngineGraphic::new_bomb, this)));
+    _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
+    _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
 }
 
-EngineGraphic::~EngineGraphic()
+client::EngineGraphic::~EngineGraphic()
 {
     _device->drop();
 }
 
-int EngineGraphic::runGraph()
+int client::EngineGraphic::runGraph()
 {
     _clock.setElapsedTime();
     _clock.setElapsed();
@@ -43,7 +49,7 @@ int EngineGraphic::runGraph()
     return (0);
 }
 
-void EngineGraphic::dataMove(std::string move)
+void client::EngineGraphic::dataMove(std::string move)
 {
     boost::property_tree::ptree root;
     root.put("type", "movement");
@@ -53,7 +59,7 @@ void EngineGraphic::dataMove(std::string move)
     _data = buff.str();
 }
 
-void EngineGraphic::sendEscape()
+void client::EngineGraphic::sendEscape()
 {
     boost::property_tree::ptree root;
     root.put("type", "pause");
@@ -62,7 +68,7 @@ void EngineGraphic::sendEscape()
     _data = buff.str();
 }
 
-void EngineGraphic::input()
+void client::EngineGraphic::input()
 {
     if (_receiver.IsKeyDown(irr::KEY_KEY_Z))
         dataMove("up");
@@ -76,56 +82,26 @@ void EngineGraphic::input()
         sendEscape();
 }
 
-std::string EngineGraphic::getData() const
+std::string client::EngineGraphic::getData() const
 {
     return (_data);
 }
 
-void EngineGraphic::clearData()
+void client::EngineGraphic::clearData()
 {
     _data.clear();
 }
 
-void EngineGraphic::manageRoot(boost::property_tree::ptree root)
+void client::EngineGraphic::matchQuery()
 {
-    std::string type = root.get<std::string>("type");
+    std::string type = _root.get<std::string>("type");
 
-    if (type.compare("move_other") == 0)
-        moveEntity(root.get<std::string>("sens"), root.get<std::string>("id"));
-    else if (type.compare("local_player") == 0) {
-        std::size_t id = root.get<std::size_t>("id");
-        float x = root.get<float>("x");
-        float y = root.get<float>("y");
-        float z = root.get<float>("z");
-        int skin = root.get<int>("skin");
-        Character player;
-
-        player.setId(id);
-        player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(skin);
-        addEntity(&player);
-        _charList.push_back(player);
-        create_map(root.get<std::string>("diagram"));
-    }
-    else if (type.compare("new_player") == 0) {
-        std::size_t id = root.get<std::size_t>("id");
-        Character player;
-        float x = root.get<float>("x");
-        float y = root.get<float>("y");
-        float z = root.get<float>("z");
-        int skin = root.get<int>("skin");
-
-        player.setId(id);
-        player.setPosition(core::vector3df(x, y, z));
-        player.setSkin(skin);
-        addEntity(&player);
-        _charList.push_back(player);
-    }
+    _fMap.find(type)->second();
 }
 
-void EngineGraphic::addEntity(Character *player)
+void client::EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
     node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
@@ -137,12 +113,12 @@ void EngineGraphic::addEntity(Character *player)
     player->setNode(node);
 }
 
-scene::ICameraSceneNode *EngineGraphic::addCamera()
+scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
     return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
 }
 
-void EngineGraphic::moveEntity(std::string sens, std::string id)
+void client::EngineGraphic::moveEntity(std::string sens, std::string id)
 {
     scene::IAnimatedMeshSceneNode *tmp;
     auto it = _charList.begin();
@@ -167,7 +143,7 @@ void EngineGraphic::moveEntity(std::string sens, std::string id)
     }
 }
 
-void EngineGraphic::updateEntity(std::vector<Character>::iterator &it,
+void client::EngineGraphic::updateEntity(std::vector<Character>::iterator &it,
 const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
@@ -178,7 +154,7 @@ const core::vector3df pos, const core::vector3df rotation)
     }
 }
 
-void EngineGraphic::create_map(std::string map)
+void client::EngineGraphic::create_map(std::string map)
 {
     int posi_x = 0;
     int posi_z = 0;
@@ -225,7 +201,7 @@ void EngineGraphic::create_map(std::string map)
     }
 }
 
-scene::IMeshSceneNode *EngineGraphic::createMapBlock(const io::path &filename, const core::vector3df pos)
+scene::IMeshSceneNode *client::EngineGraphic::createMapBlock(const io::path &filename, const core::vector3df pos)
 {
     scene::IMeshSceneNode *tmp = _smgr->addCubeSceneNode();
 
@@ -233,4 +209,80 @@ scene::IMeshSceneNode *EngineGraphic::createMapBlock(const io::path &filename, c
     tmp->setMaterialFlag(video::EMF_LIGHTING, false);
     tmp->setPosition(pos);
     return tmp;
+}
+
+client::Character client::EngineGraphic::createCharacter()
+{
+    std::size_t id = _root.get<std::size_t>("id");
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("y");
+    float z = _root.get<float>("z");
+    int skin = _root.get<int>("skin");
+    client::Character player;
+
+    player.setId(id);
+    player.setPosition(core::vector3df(x, y, z));
+    player.setSkin(skin);
+    return player;
+}
+
+void client::EngineGraphic::move_other()
+{
+    moveEntity(_root.get<std::string>("sens"), _root.get<std::string>("id"));
+}
+
+void client::EngineGraphic::local_player()
+{
+    client::Character player = createCharacter();
+
+    addEntity(&player);
+    _charList.push_back(player);
+    create_map(_root.get<std::string>("diagram"));
+}
+
+void client::EngineGraphic::new_player()
+{
+    client::Character player = createCharacter();
+
+    addEntity(&player);
+    _charList.push_back(player);
+}
+
+void client::EngineGraphic::new_bomb()
+{
+    std::cout << "ADD NEW BOMB" << std::endl;
+}
+
+void client::EngineGraphic::explosion()
+{
+    std::cout << "EXPLOSION" << std::endl;
+}
+
+void client::EngineGraphic::death()
+{
+    std::size_t id = _root.get<std::size_t>("id");
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("y");
+    float z = _root.get<float>("z");
+    core::vector3df pos = {x, y, z};
+    std::cout << "position = {" << x << ", " << y << ", " << z << "}" << std::endl;
+    for (auto &it : _charList) {
+        if (it.getId() != id)
+            continue;
+        it.getNode()->setPosition(pos);
+        if (it.getNode()->getEndFrame() != 13) {
+            it.getNode()->setFrameLoop(0, 13);
+            it.getNode()->setAnimationSpeed(15);
+        }
+    }
+}
+
+void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)
+{
+    _root = root;
+}
+
+std::shared_ptr<std::map<std::string, std::function<void()>>> client::EngineGraphic::getFunctionMap() noexcept
+{
+    return std::make_shared<decltype(_fMap)>(_fMap);
 }

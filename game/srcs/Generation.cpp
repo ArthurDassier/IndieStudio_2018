@@ -4,7 +4,9 @@
 #include <iostream>
 #include <ctime>
 
-bool isBlockNext(std::vector<std::string> map, int j, int k)
+#include "Game/Generation.hpp"
+
+bool game::Generation::isBlockNext(std::vector<std::string> map, int j, int k)
 {
     if (j == 0 || k == 0)
         return false;
@@ -20,7 +22,7 @@ bool isBlockNext(std::vector<std::string> map, int j, int k)
     return true;
 }
 
-std::string getResult(std::vector<std::string> &map)
+std::string game::Generation::getResult(std::vector<std::string> &map)
 {
     std::string result = "";
 
@@ -31,7 +33,7 @@ std::string getResult(std::vector<std::string> &map)
     return result;
 }
 
-std::string genMap(size_t len)
+std::string const game::Generation::genMap(const std::size_t len)
 {
     std::srand(std::time(nullptr));
     std::vector<std::string> map;

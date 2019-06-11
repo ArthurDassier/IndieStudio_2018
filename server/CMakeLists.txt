@@ -22,6 +22,7 @@ target_include_directories(server INTERFACE
 target_link_libraries(
     server
     game
+    utils
 )
 
 SET_TARGET_PROPERTIES(server PROPERTIES LINKER_LANGUAGE CXX)

@@ -12,17 +12,36 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "Game/Character.hpp"
+#include "Game/Generation.hpp"
+#include "Utils/Packet.hpp"
 
-class Room
+using t_vector = std::vector<boost::shared_ptr<game::Character>>;
+
+namespace server
 {
-public:
-    void join(boost::shared_ptr<game::Character>);
-    void updateJson(boost::property_tree::ptree &, boost::shared_ptr<game::Character>);
-    void updatePosition(const t_id, std::string);
-    void startPosi(boost::shared_ptr<game::Character>);
-    int nbParticipants();
+    class Room
+    {
+        public:
+            void join(boost::shared_ptr<game::Character>);
+            void updatePosition(const t_id, std::string);
 
-private:
-    void update_participants();
-    std::vector<boost::shared_ptr<game::Character>> _participants;
-};
+            void addParticipant(boost::shared_ptr<game::Character>, boost::shared_ptr<game::Character>);
+            void addLocalPlayer(boost::shared_ptr<game::Character>);
+
+            void sendDeath(boost::shared_ptr<game::Character>);
+
+            void setMap(const std::string);
+
+            void startPosi(boost::shared_ptr<game::Character>);
+            int nbParticipants();
+
+            void setParticipants();
+            std::shared_ptr<t_vector> getParticipants() const noexcept;
+            void update_participants();
+
+        private:
+            std::string _map;
+            utils::Packet _packet;
+            t_vector _participants;
+    };
+}; // namespace server
