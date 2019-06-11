@@ -22,6 +22,8 @@ target_link_libraries(
     utils
 )
 
+set(CMAKE_CXX_FLAGS "-g3")
+
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(tests)

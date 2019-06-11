@@ -26,10 +26,8 @@ std::string game::Generation::getResult(std::vector<std::string> &map)
 {
     std::string result = "";
 
-    for (int i = 0; i != map.size(); i++) {
+    for (int i = 0; i != map.size(); i++)
         result += map[i] + "\n";
-        std::cout << result;
-    }
     return result;
 }
 
@@ -52,7 +50,7 @@ std::string const game::Generation::genMap(const std::size_t len)
             }
         }
     }
-    map[len] = "1002222201";
-    map[len - 1] = "1022222001";
+    map[len - 1] = "1002222201";
+    map[len - 2] = "1022222001";
     return (getResult(map));
 }

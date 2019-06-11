@@ -25,9 +25,9 @@ void game::Game::gameLoop()
 //     }
 
     for (auto &it : *_participants) {
+        checkCollisions(it);
         if (it->getId() == _player->getId())
             continue;
-        checkCollisions(it);
     }
 }
 
@@ -57,21 +57,39 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
+float roundDecimal(float n)
+{
+    float a = (n / 10) * 10;
+    float b = a + 10;
+
+    return (n - a > b - n) ? b : a;
+}
+
 bool game::Game::checkCollisions(t_entity entity)
 {
     s_pos pos_player = _player->getPosition();
-    std::cout << _player->getPosition().x << ", " << _player->getPosition().z << std::endl;
-    if (_player->getDirection().compare("up") == 0)
-        pos_player.z += 10;
+
+    std::cout << pos_player.x << ", " << pos_player.y << "\n";
+    if (_player->getDirection().compare("up") == 0) {
+        pos_player.z += 10 ;
+    }
     else if (_player->getDirection().compare("down") == 0)
         pos_player.z -= 10;
     else if (_player->getDirection().compare("left") == 0)
         pos_player.x -= 10;
     else if (_player->getDirection().compare("right") == 0)
         pos_player.x += 10;
-    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
-
+    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock || _EM.getEntity(pos_player) == game::EntityType::block) {
+        std::cout << "la\n";
+        return false;
     }
+    pos_player.x = 0;
+    pos_player.z = 0;
+    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
+        std::cout << "la\n";
+        return false;
+    }
+    return true;
     //     _packet.setType("explosion");
     //     _packet.addData("damage", 2);
     //     for (auto &it : *_participants)
@@ -81,17 +99,6 @@ bool game::Game::checkCollisions(t_entity entity)
 }
 
 
-float roundDecimal(float n)
-{
-    // Smaller multiple
-    float a = (n / 10) * 10;
-
-    // Larger multiple
-    float b = a + 10;
-
-    // Return of closest of two
-    return (n - a > b - n) ? b : a;
-}
 
 
 
