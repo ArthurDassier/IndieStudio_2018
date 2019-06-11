@@ -14,7 +14,7 @@ a.out
 vgcore.*
 
 # Unit tests
-*_tests
+#*_tests
 
 # Emacs
 *~
