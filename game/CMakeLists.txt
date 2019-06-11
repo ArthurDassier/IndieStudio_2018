@@ -13,6 +13,7 @@ add_library(game STATIC
     ./srcs/Generation.cpp
 )
 
+set_property(TARGET game PROPERTY CXX_STANDARD 17)
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(tests)

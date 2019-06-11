@@ -15,6 +15,7 @@ add_library(client STATIC
 
 target_include_directories(client INTERFACE ./include ../lib/include)
 
+set_property(TARGET client PROPERTY CXX_STANDARD 17)
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 
 target_link_libraries(

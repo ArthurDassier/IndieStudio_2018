@@ -14,6 +14,7 @@ add_executable(
 set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -no-pie")
 
 set_target_properties(bomberman PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_property(TARGET bomberman PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(
     bomberman
