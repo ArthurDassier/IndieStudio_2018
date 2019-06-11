@@ -34,7 +34,6 @@ namespace game
 
             void fillEntitiesMap(const std::string);
 
-            void sendPosition();
             void updatePosition(const t_id, const std::string);
 
             void setPlayer(boost::shared_ptr<game::Character>);
