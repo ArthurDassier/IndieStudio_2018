@@ -25,7 +25,7 @@ void game::Game::gameLoop()
 //     }
 
     for (auto &it : *_participants) {
-        checkCollisions(it);
+        // checkCollisions(it);
         if (it->getId() == _player->getId())
             continue;
     }
@@ -33,10 +33,11 @@ void game::Game::gameLoop()
 
 void game::Game::updatePosition(const t_id id, const std::string direction)
 {
-    if (_collide == true)
-        return;
+    s_pos pos_player;
+
     for (auto &it : *_participants) {
         if (it->getId() == id) {
+            pos_player = it->getPosition();
             it->setDirection(direction);
             if (direction.compare("up") == 0)
                 it->getPosition().z += 2;
@@ -46,6 +47,10 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
                 it->getPosition().x -= 2;
             else if (direction.compare("right") == 0)
                 it->getPosition().x += 2;
+            if (checkCollisions() == false) {
+                it->setPosition(pos_player);
+                return;
+            }
             break;
         }
     }
@@ -57,36 +62,37 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
-float roundDecimal(float n)
+float roundDecimal(int n)
 {
-    float a = (n / 10) * 10;
-    float b = a + 10;
-
-    return (n - a > b - n) ? b : a;
+    int a = (n / 10) * 10;
+    int b = a + 10;
+    return (n - a >= b - n) ? b : a;
 }
 
-bool game::Game::checkCollisions(t_entity entity)
+bool game::Game::checkCollisions()
 {
     s_pos pos_player = _player->getPosition();
 
-    std::cout << pos_player.x << ", " << pos_player.y << "\n";
+    std::cout << pos_player.x << ", " << pos_player.z << "\n";
     if (_player->getDirection().compare("up") == 0) {
-        pos_player.z += 10 ;
+        pos_player.z = roundDecimal(pos_player.z);
+        pos_player.x = roundDecimal(pos_player.x);
     }
-    else if (_player->getDirection().compare("down") == 0)
-        pos_player.z -= 10;
-    else if (_player->getDirection().compare("left") == 0)
-        pos_player.x -= 10;
-    else if (_player->getDirection().compare("right") == 0)
-        pos_player.x += 10;
-    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock || _EM.getEntity(pos_player) == game::EntityType::block) {
-        std::cout << "la\n";
-        return false;
+    else if (_player->getDirection().compare("down") == 0) {
+        pos_player.z = roundDecimal(pos_player.z);
+        pos_player.x = roundDecimal(pos_player.x);
     }
-    pos_player.x = 0;
-    pos_player.z = 0;
+    else if (_player->getDirection().compare("left") == 0) {
+        pos_player.x = roundDecimal(pos_player.x);
+        pos_player.z = roundDecimal(pos_player.z);
+    }
+    else if (_player->getDirection().compare("right") == 0) {
+        pos_player.z = roundDecimal(pos_player.z);
+        pos_player.x = roundDecimal(pos_player.x);
+    }
+    std::cout << pos_player.x << ", " << pos_player.z << "\n";
+
     if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
-        std::cout << "la\n";
         return false;
     }
     return true;

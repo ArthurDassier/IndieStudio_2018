@@ -31,7 +31,7 @@ namespace game
 
             void gameLoop();
 
-            bool checkCollisions(t_entity);
+            bool checkCollisions();
 
             void fillEntitiesMap(const std::string);
 

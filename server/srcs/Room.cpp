@@ -107,7 +107,7 @@ void server::Room::startPosi(boost::shared_ptr<game::Character> participant)
 
     switch (nb_player) {
         case 1:
-            pos = {40, 10, 40};
+            pos = {11, 10, 11};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 0;
