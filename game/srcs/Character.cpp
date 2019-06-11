@@ -11,6 +11,7 @@ game::Character::Character():
     Entity(game::character),
     _hp(3)
 {
+    
 }
 
 void game::Character::setId(const t_id id)

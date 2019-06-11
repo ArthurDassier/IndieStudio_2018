@@ -22,7 +22,7 @@ namespace game
             t_id getId() {return _id;}
 
             void deliver(std::string) {}
-            // player &get_playerdata() {}
+            player &get_playerdata() {return _tamer;}
 
             void setPosition(const s_pos);
             s_pos &getPosition() noexcept;
@@ -54,5 +54,6 @@ namespace game
             std::string _direction;
             irr::scene::IAnimatedMeshSceneNode *_node;
             std::size_t _hp;
+            player _tamer;
     };
 }; // namespace game
