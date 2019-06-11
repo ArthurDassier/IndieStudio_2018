@@ -2,18 +2,21 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** Bomb.hpp
+** Block.hpp
 */
 
 #pragma once
 
-#include "Entity.hpp"
+#include "Game/Entity.hpp"
 
 namespace game
 {
-    class Bomb : public Entity
+    class Block : public Entity
     {
         public:
-            Bomb();
+            Block();
+            ~Block() = default;
+
+        private:
     };
 }; // namespace game

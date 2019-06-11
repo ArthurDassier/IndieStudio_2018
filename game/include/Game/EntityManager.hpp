@@ -11,7 +11,9 @@
 #include <memory>
 #include <vector>
 
+#include "Game/Block.hpp"
 #include "Game/Bomb.hpp"
+#include "Game/BrittleBlock.hpp"
 #include "Game/Character.hpp"
 
 namespace game

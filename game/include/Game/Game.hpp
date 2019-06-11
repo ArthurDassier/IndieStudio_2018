@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "Character.hpp"
+#include "EntityManager.hpp"
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
 
@@ -24,12 +25,17 @@ namespace game
     class Game
     {
         public:
-            Game() = default;
+            Game();
             ~Game() = default;
             
             void gameLoop();
             
             void checkCollisions(t_entity);
+
+            void fillEntitiesMap(const std::string);
+
+            void sendPosition();
+            void updatePosition(const t_id, const std::string);
 
             void setPlayer(boost::shared_ptr<game::Character>);
             boost::shared_ptr<game::Character> getPlayer() const noexcept;
@@ -40,8 +46,10 @@ namespace game
 
         private:
             Generation _generation;
+            EntityManager _EM;
             utils::Packet _packet;
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
+            bool _collide;
     };
 }; // namespace game
