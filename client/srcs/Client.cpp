@@ -9,12 +9,22 @@
 #include <iostream>
 #include "Client/Client.hpp"
 
-client::Client::Client(boost::asio::io_service &io_service):
-    sock_(io_service)
+client::Client::Client():
+    _io_service(),
+    sock_(_io_service)
+{
+}
+
+void client::Client::call_poll_one()
+{
+    _io_service.poll_one();
+}
+
+void client::Client::connect(std::string ip_addr, std::string port)
 {
     try {
-        boost::asio::ip::udp::resolver resolver(io_service);
-        boost::asio::ip::udp::resolver::query query("127.0.0.1", "7777");
+        boost::asio::ip::udp::resolver resolver(_io_service);
+        boost::asio::ip::udp::resolver::query query(ip_addr, port);
         remote_endpoint_ = *resolver.resolve(query);
         boost::property_tree::ptree root;
 
