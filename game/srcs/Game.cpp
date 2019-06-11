@@ -25,7 +25,7 @@ void game::Game::gameLoop()
     // }
 
     for (auto &it : *_participants) {
-        if (it->getId() == _player->getId())
+        if (it->getId() != _player->getId())
             continue;
         checkCollisions(it);
     }
@@ -104,10 +104,15 @@ void game::Game::checkCollisions(t_entity entity)
         s_pos tmp;
         tmp.x = pos.x; //roundDecimal(pos.x);
         tmp.z = roundDecimal(pos.z);
-        if (_EM.getEntity(tmp)->getType() == block) {
-            std::cout << "BLOCK" << std::endl;
-        } else if (_EM.getEntity(tmp)->getType() == brittleBlock) {
-            std::cout << "BRITTLE BLOCK" << std::endl;
+        auto t_entity = _EM.getEntity(tmp);
+        if (t_entity == nullptr) {
+            // std::cout << "not found" << std::endl;
+            return;
+        }
+        if (t_entity->getType() == block) {
+            // std::cout << "BLOCK" << std::endl;
+        } else if (t_entity->getType() == brittleBlock) {
+            // std::cout << "BRITTLE BLOCK" << std::endl;
         }
     }
 }

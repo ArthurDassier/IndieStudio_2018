@@ -19,14 +19,15 @@ namespace game
         public:
             Entity(const EntityType &);
 
+            t_id const getId() const noexcept;
+
             void setPosition(const s_pos &);
-            s_pos getPosition() const noexcept;
+            s_pos &getPosition() noexcept;
 
             EntityType getType() const noexcept;
 
-            const t_id id;
-
         private:
+            const t_id id;
             s_pos _pos;
             EntityType _type;
 
