@@ -4,6 +4,7 @@
 # Object files
 *.py
 *.o
+*.a
 
 # Executables
 bomberman
@@ -13,7 +14,7 @@ a.out
 vgcore.*
 
 # Unit tests
-#*_tests
+*_tests
 
 # Emacs
 *~
