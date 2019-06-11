@@ -47,11 +47,7 @@ namespace game
 
         private:
             Generation _generation;
-<<<<<<< HEAD
-            EntityManager _entity;
-=======
             EntityManager _EM;
->>>>>>> origin/EntityList
             utils::Packet _packet;
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;

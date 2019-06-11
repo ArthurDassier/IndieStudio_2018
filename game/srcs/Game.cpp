@@ -13,7 +13,7 @@ game::Game::Game():
 }
 
 void game::Game::gameLoop()
-// {
+{
 //     if (_player->getDirection().compare("up") == 0) {
 //         _packet.setType("explosion");
 //         _packet.addData("damage", 2);
@@ -82,9 +82,9 @@ bool game::Game::checkCollisions(t_entity entity)
         pos_player.x -= 10;
     else if (_player->getDirection().compare("right") == 0)
         pos_player.x += 10;
-    // if (dynamic_cast<Banana *>(_entity.getEntity(pos_player)) || dynamic_cast<Banana *>(_entity.getEntity(pos_player))) {
-    //
-    // }
+    if (dynamic_cast<BrittleBlock *>(_EM.getEntity(pos_player)) || dynamic_cast<Block *>(_EM.getEntity(pos_player))) {
+
+    }
     //     _packet.setType("explosion");
     //     _packet.addData("damage", 2);
     //     for (auto &it : *_participants)
@@ -133,13 +133,8 @@ void game::Game::updateParticipants(std::shared_ptr<t_vector> participants)
 
 std::string const game::Game::getMap()
 {
-<<<<<<< HEAD
-    return _generation.genMap(10);
-}
-=======
     std::string map = _generation.genMap(10);
 
     fillEntitiesMap(map);
     return map;
 }
->>>>>>> origin/EntityList
