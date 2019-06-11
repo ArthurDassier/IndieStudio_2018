@@ -59,9 +59,10 @@ int client::EngineGraphic::runGraph()
 void client::EngineGraphic::dataMove(std::string move)
 {
     boost::property_tree::ptree root;
+    std::ostringstream buff;
+
     root.put("type", "movement");
     root.put("sens", move);
-    std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
 }
@@ -69,8 +70,19 @@ void client::EngineGraphic::dataMove(std::string move)
 void client::EngineGraphic::sendEscape()
 {
     boost::property_tree::ptree root;
-    root.put("type", "pause");
     std::ostringstream buff;
+
+    root.put("type", "pause");
+    boost::property_tree::write_json(buff, root, false);
+    _data = buff.str();
+}
+
+void client::EngineGraphic::sendSpace()
+{
+    boost::property_tree::ptree root;
+    std::ostringstream buff;
+
+    root.put("type", "space");
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
 }
@@ -87,6 +99,8 @@ void client::EngineGraphic::input()
         dataMove("right");
     else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
         sendEscape();
+    else if (_receiver.IsKeyDown(irr::KEY_SPACE))
+        sendSpace();
 }
 
 std::string client::EngineGraphic::getData() const

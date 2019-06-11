@@ -52,6 +52,7 @@ namespace server
             void connection();
             void movement();
             void pause();
+            void space();
 
             boost::asio::io_service _io_service;
             boost::shared_ptr<boost::asio::ip::udp::socket> _socket;

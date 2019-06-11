@@ -84,6 +84,7 @@ namespace client
             void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
             void create_map(std::string map);
             void sendEscape();
+            void sendSpace();
             scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
 
         private:
