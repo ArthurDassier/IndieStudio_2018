@@ -64,7 +64,6 @@ void server::Room::updatePosition(const t_id id, std::string new_sens)
     root.put("id", id);
     for (auto &it : _participants)
         if (it->getId() == id) {
-            player &data = it->get_playerdata();
             it->setDirection(new_sens);
             if (new_sens.compare("up") == 0)
                 it->getPosition().z += 2;
@@ -76,13 +75,13 @@ void server::Room::updatePosition(const t_id id, std::string new_sens)
                 it->getPosition().x += 2;
             break;
         }
-    root.put("sens", new_sens);
-    for (auto &it : _participants) {
-        root.put("type", "move_other");
-        std::stringstream ss;
-        boost::property_tree::write_json(ss, root);
-        it->deliver(ss.str());
-    }
+    // root.put("sens", new_sens);
+    // for (auto &it : _participants) {
+    //     root.put("type", "move_other");
+    //     std::stringstream ss;
+    //     boost::property_tree::write_json(ss, root);
+    //     it->deliver(ss.str());
+    // }
 }
 
 void server::Room::sendDeath(boost::shared_ptr<game::Character> p)
