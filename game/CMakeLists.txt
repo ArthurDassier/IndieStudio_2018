@@ -1,16 +1,25 @@
 project(game)
 
-add_library(game
-    STATIC
-    ./src/Bomb.cpp
-    ./src/Character.cpp
-    ./src/Entity.cpp
-    ./src/EntityManager.cpp
-    ./src/Game.cpp
-    ../utils/src/Packet.cpp
-    )
+include_directories(
+    ../lib/include
+    ./include
+    ../server/include
+)
 
-target_include_directories(game INTERFACE ./include)
+add_library(game STATIC
+    ./srcs/Bomb.cpp
+    ./srcs/Character.cpp
+    ./srcs/Entity.cpp
+    ./srcs/EntityManager.cpp
+    ./srcs/Game.cpp
+    ./srcs/Generation.cpp
+)
+
+target_link_libraries(
+    game
+    utils
+)
+
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(tests)

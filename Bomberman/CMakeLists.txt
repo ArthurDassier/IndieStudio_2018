@@ -2,6 +2,10 @@ LINK_DIRECTORIES (
     ./lib
 )
 
+LINK_DIRECTORIES (
+    ../lib
+)
+
 add_executable(
     bomberman
     src/main.cpp
@@ -15,7 +19,6 @@ target_link_libraries(
     bomberman
     boost_system
     pthread
-    module_tmp
     client
     boost_timer
     Irrlicht
@@ -24,7 +27,6 @@ target_link_libraries(
     utils
     GL
     Xxf86vm
-    Xext
     X11
-    Xcursor
+    sfml-audio
 )

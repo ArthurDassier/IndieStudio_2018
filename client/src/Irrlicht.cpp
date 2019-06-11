@@ -101,7 +101,7 @@ void client::EngineGraphic::matchQuery()
 
 void client::EngineGraphic::addEntity(client::Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/ninja.b3d");
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/ninja.b3d");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
     node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
@@ -162,17 +162,17 @@ void client::EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/brick.png",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/brick.png",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/brick.png",
+                _map.push_back(createMapBlock("client/res/brick.png",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;

@@ -1,23 +1,33 @@
 project(client)
 
-add_library(client STATIC
-    ./src/client.cpp
-    ./src/core.cpp
-    ./src/entity.cpp
-    ./src/Irrlicht.cpp
-    ./src/clock.cpp
-    ../../game/src/Character.cpp
-    ../../game/src/Entity.cpp
-    )
+include_directories(
+    ../lib/include
+    ./include
+    ../game/include
+)
 
-target_include_directories(client INTERFACE ./include)
+add_library(client
+    STATIC
+    ./srcs/Client.cpp
+    ./srcs/Core.cpp
+    ./srcs/Entity.cpp
+    ./srcs/Graphic.cpp
+    ./srcs/Clock.cpp
+)
 
-set(CMAKE_CXX_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor -lboost_timer -lpthread -lboost_system")
-set(CMAKE_EXE_LINKER_FLAGS "-L./lib/  -L/usr/X11R6/lib64 -lGL -lXxf86vm -lXext -lX11 -lXcursor -lboost_timer -lpthread -lboost_system")
+target_include_directories(client INTERFACE ./include ../lib/include)
+
+target_link_libraries(
+    client
+    game
+    boost_system
+    pthread
+    boost_timer
+    GL
+    Xxf86vm
+    X11
+)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
-
-# target_include_directories(module_tmp STATIC ./include)
-# target_link_libraries(module_tmp STATIC)
-
+    
 add_subdirectory(tests)

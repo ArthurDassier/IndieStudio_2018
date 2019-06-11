@@ -1,11 +1,9 @@
 #include <iostream>
-#include "module_tmp/toto.hpp"
-#include "client/core.hpp"
-
 #include <ctime>
 #include <string>
 #include <thread>
-#include "server/server.hpp"
+#include "Client/Core.hpp"
+#include "Server/Server.hpp"
 
 int run_server()
 {
