@@ -9,6 +9,7 @@
 
 #include "Client/Client.hpp"
 #include "Client/Graphic.hpp"
+#include "Client/LogicPause.hpp"
 
 namespace client
 {
@@ -21,8 +22,7 @@ namespace client
             void startCore();
 
         private:
-            boost::asio::io_service _io_service;
-            Client _client;
             EngineGraphic _graph;
+            LogicPause _logicPause;
     };
-}; // namespace client
+};

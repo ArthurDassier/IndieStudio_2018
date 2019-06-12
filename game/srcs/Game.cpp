@@ -73,7 +73,6 @@ bool game::Game::checkCollisions()
 {
     s_pos pos_player = _player->getPosition();
 
-    std::cout << pos_player.x << ", " << pos_player.z << "\n";
     if (_player->getDirection().compare("up") == 0) {
         pos_player.z = roundDecimal(pos_player.z);
         pos_player.x = roundDecimal(pos_player.x);

@@ -13,6 +13,7 @@ add_library(client
     ./srcs/Entity.cpp
     ./srcs/Graphic.cpp
     ./srcs/Clock.cpp
+    ./srcs/LogicPause.cpp
 )
 
 target_include_directories(client INTERFACE ./include ../lib/include)

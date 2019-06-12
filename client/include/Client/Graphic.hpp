@@ -46,7 +46,6 @@ namespace client
             }
 
         private:
-        // We use this array to store the current state of each key
             bool KeyIsDown[KEY_KEY_CODES_COUNT];
     };
 
@@ -58,9 +57,7 @@ namespace client
 
             int runGraph();
             void dataMove(std::string);
-            void input();
-            std::string getData() const;
-            void clearData();
+            EKEY_CODE input();
             void matchQuery();
 
             void setRoot(const boost::property_tree::ptree);
@@ -87,6 +84,8 @@ namespace client
             void sendSpace();
             scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
 
+            void setKey(std::string);
+
         private:
             MyEventReceiver _receiver;
             std::shared_ptr<IrrlichtDevice> _device;
@@ -94,7 +93,6 @@ namespace client
             std::shared_ptr<scene::ISceneManager> _smgr;
             std::shared_ptr<gui::IGUIEnvironment> _guienv;
             video::E_DRIVER_TYPE _driverType;
-            std::string _data;
             std::vector<Character> _charList;
             std::list<scene::ISceneNode*> _map;
             Clock _clock;

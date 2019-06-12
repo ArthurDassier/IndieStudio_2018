@@ -26,6 +26,8 @@ int main(int ac, char **av)
         std::thread t1(run_server);
         sleep(3);
         client::Core all;
+        std::cout << "core created" << std::endl;
+        sleep(1);
         all.startCore();
         t1.join();
     }
