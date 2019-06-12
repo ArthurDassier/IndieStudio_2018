@@ -3,6 +3,7 @@ project(bomberman)
 
 add_subdirectory(Bomberman)
 add_subdirectory(client)
-add_subdirectory(server)
 add_subdirectory(game)
+add_subdirectory(server)
+add_subdirectory(sfx)
 add_subdirectory(utils)

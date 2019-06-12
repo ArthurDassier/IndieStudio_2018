@@ -23,6 +23,7 @@ target_link_libraries(
     boost_timer
     Irrlicht
     server
+    sfx
     game
     utils
     GL
