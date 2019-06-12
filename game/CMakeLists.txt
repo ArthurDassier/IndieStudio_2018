@@ -7,7 +7,10 @@ include_directories(
 )
 
 add_library(game STATIC
+    ./srcs/Block.cpp
     ./srcs/Bomb.cpp
+    ./srcs/BrittleBlock.cpp
+    ./srcs/Ground.cpp
     ./srcs/Character.cpp
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp
@@ -19,6 +22,8 @@ target_link_libraries(
     game
     utils
 )
+
+set(CMAKE_CXX_FLAGS "-g3")
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 

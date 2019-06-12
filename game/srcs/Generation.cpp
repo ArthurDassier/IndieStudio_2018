@@ -28,7 +28,7 @@ std::string game::Generation::getResult(std::vector<std::string> &map)
 
     for (int i = 0; i != map.size(); i++) {
         result += map[i] + "\n";
-        std::cout << result;
+        std::cout << map[i] + '\n';
     }
     return result;
 }
@@ -41,18 +41,21 @@ std::string const game::Generation::genMap(const std::size_t len)
     map.push_back("1111111111");
     map.push_back("1002222001");
     map.push_back("1022222201");
-    for (int i = 0; i != len - 3; i++)
+    for (int i = 0; i != len - 4; i++)
         map.push_back("1222222221");
-    for (size_t j = 1; j != map.size() - 1; j++) {
+    for (size_t j = 1; j != map.size() - 2; j++) {
         k = std::rand() % (len - 2);
-        for (; k != map[k].size() - 1; k++) {
+        for (; k != map[k].size() - 2; k++) {
             if (isBlockNext(map, j, k) == true) {
                 map[j][k] = '1';
                 break;
             }
         }
     }
-    map[len] = "1002222201";
-    map[len - 1] = "1022222001";
+    // map[len - 2] = "1002222201";
+    // map[len - 1] = "1022222001";
+    map.push_back("1111111111");
+    std::cout << "size: " << map.size() << "\n";
+
     return (getResult(map));
 }

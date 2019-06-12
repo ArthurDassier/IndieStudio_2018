@@ -11,7 +11,9 @@
 #include <memory>
 #include <vector>
 
+#include "Game/Block.hpp"
 #include "Game/Bomb.hpp"
+#include "Game/BrittleBlock.hpp"
 #include "Game/Character.hpp"
 
 namespace game
@@ -40,7 +42,7 @@ namespace game
                     std::cerr << "not found" << std::endl;
             }
 
-            p_entity::pointer getEntity(s_pos pos);
+            EntityType getEntity(s_pos pos);
             p_entity::pointer getEntity(t_id id);
 
             std::vector<p_entity> const &getEntities() const noexcept;

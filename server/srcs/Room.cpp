@@ -64,7 +64,6 @@ void server::Room::updatePosition(const t_id id, std::string new_sens)
     root.put("id", id);
     for (auto &it : _participants)
         if (it->getId() == id) {
-            player &data = it->get_playerdata();
             it->setDirection(new_sens);
             if (new_sens.compare("up") == 0)
                 it->getPosition().z += 2;
@@ -76,13 +75,13 @@ void server::Room::updatePosition(const t_id id, std::string new_sens)
                 it->getPosition().x += 2;
             break;
         }
-    root.put("sens", new_sens);
-    for (auto &it : _participants) {
-        root.put("type", "move_other");
-        std::stringstream ss;
-        boost::property_tree::write_json(ss, root);
-        it->deliver(ss.str());
-    }
+    // root.put("sens", new_sens);
+    // for (auto &it : _participants) {
+    //     root.put("type", "move_other");
+    //     std::stringstream ss;
+    //     boost::property_tree::write_json(ss, root);
+    //     it->deliver(ss.str());
+    // }
 }
 
 void server::Room::sendDeath(boost::shared_ptr<game::Character> p)
@@ -108,28 +107,28 @@ void server::Room::startPosi(boost::shared_ptr<game::Character> participant)
 
     switch (nb_player) {
         case 1:
-            pos = {40, 10, 40};
+            pos = {11, 5, 11};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 0;
             // participant->setSkin(0);
             break;
         case 2:
-            pos = {20, 10, 20};
+            pos = {20, 5, 20};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 1;
             // participant->setSkin(1);
             break;
         case 3:
-            pos = {10, 10, 10};
+            pos = {10, 5, 10};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 2;
             // participant->setSkin(2);
             break;
         case 4:
-            pos = {30, 10, 30};
+            pos = {30, 5, 30};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 3;

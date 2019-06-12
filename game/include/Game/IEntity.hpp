@@ -27,7 +27,10 @@ namespace game
 
     enum EntityType
     {
+        block,
         bomb,
-        character
+        brittleBlock,
+        character,
+        ground
     };
 }; // namespace game

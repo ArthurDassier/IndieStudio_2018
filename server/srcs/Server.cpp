@@ -20,6 +20,7 @@ server::Server::Server() :
     _fMap.emplace(std::make_pair("connection", std::bind(&Server::connection, this)));
     _fMap.emplace(std::make_pair("movement", std::bind(&Server::movement, this)));
     _fMap.emplace(std::make_pair("pause", std::bind(&Server::pause, this)));
+    _fMap.emplace(std::make_pair("space", std::bind(&Server::space, this)));
     _room.setMap(_game.getMap());
     start_receive();
 }
@@ -88,8 +89,15 @@ void server::Server::movement()
 {
     if (!_pause) {
         std::string sens = _root.get<std::string>("sens");
-        _room.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
+        // _room.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
+        _game.updatePosition(boost::lexical_cast<t_id>(_remote_endpoint.port()), sens);
+        // _game.sendPosition();
     }
+}
+
+void server::Server::space()
+{
+    std::cout << "space" << std::endl;
 }
 
 void server::Server::pause()
