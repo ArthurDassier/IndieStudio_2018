@@ -1,6 +1,12 @@
+/*
+** EPITECH PROJECT, 2019
+** IndieStudio_2018
+** File description:
+** CustomMenu.cpp
+*/
+
 #include <functional>
 #include "Client/CustomMenu.hpp"
-
 
 CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) : _driver(driver)
 {
@@ -13,9 +19,6 @@ CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) :
 		_env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
 	}
 }
-
-CustomMenu::~CustomMenu()
-{}
 
 gui::IGUIElement *CustomMenu::operator[](s32 i)
 {

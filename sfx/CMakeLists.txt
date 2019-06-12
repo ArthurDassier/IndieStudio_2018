@@ -11,7 +11,7 @@ add_library(sfx
 )
 
 target_include_directories(sfx INTERFACE
-    ./include()
+    ./include
 )
 
 target_link_libraries(
