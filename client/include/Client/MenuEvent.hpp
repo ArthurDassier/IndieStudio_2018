@@ -1,15 +1,22 @@
 #pragma once
 
+#include <unordered_map>
 #include "CustomMenu.hpp"
 
-using elem_f = (*void)(int, std::string);
+using elem_f = std::string (MenuEvent::*)(u32);
 
 class MenuEvent : public IEventReceiver
 {
 public:
     MenuEvent(CustomMenu &menu);
     ~MenuEvent() = default;
-    virtual bool OnEvent(const SEvent &event);
+    std::string startSolo(u32 id);
+    std::string menuMulti(u32 id);
+    std::string startMulti(u32 id);
+    std::string menuOptions(u32 id);
+    std::string soundVolume(u32 id);
+    std::string musicVolume(u32 id);
 private:
-    CustomMenu &_menu;
+    std::unordered_map<std::string, elem_f> _functions;
+    CustomMenu _menu;
 };
