@@ -31,7 +31,7 @@ namespace game
 
             void gameLoop();
 
-            bool checkCollisions();
+            bool checkCollisions(t_entity::element_type*);//Entity& entity);
 
             void fillEntitiesMap(const std::string);
 
@@ -44,6 +44,7 @@ namespace game
 
             std::string const getMap();
 
+            void putBomb(t_id);
         private:
             Generation _generation;
             EntityManager _EM;

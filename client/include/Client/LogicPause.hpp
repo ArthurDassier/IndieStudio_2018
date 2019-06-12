@@ -33,6 +33,7 @@ class LogicPause
 
         void dataMove(std::string move);
         void sendEscape();
+        void sendSpace();
 
     private:
         client::Client _client;

@@ -50,6 +50,16 @@ void LogicPause::sendEscape()
     _data = buff.str();
 }
 
+
+void LogicPause::sendSpace()
+{
+    boost::property_tree::ptree root;
+    root.put("type", "space");
+    std::ostringstream buff;
+    boost::property_tree::write_json(buff, root, false);
+    _data = buff.str();
+}
+
 void LogicPause::manageKey()
 {
     if (_lastKey == KEY_KEY_CODES_COUNT)
@@ -79,6 +89,12 @@ void LogicPause::manageKey()
             sendEscape();
             _client.sendToServer(_data);
             _mode = MENU;
+        }
+        else if (_lastKey == KEY_SPACE) {
+            sendSpace();
+            _client.sendToServer(_data);
+            _data.clear();
+
         }
     }
     _lastKey = KEY_KEY_CODES_COUNT;
