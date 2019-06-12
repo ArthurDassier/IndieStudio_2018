@@ -9,18 +9,23 @@
 
 client::Core::Core():
     _graph(),
-    _logicPause()
+    _logicPause(),
+    _menuEvent(_graph.getGUIEnvironment(), _graph.getDriver(), _logicPause.getMode())
 {
 }
 
 void client::Core::startCore()
 {
-    // _client.start_receive();
-    _logicPause.getClient().connect();
-    _logicPause.getClient().start_receive();
+    std::string instruction = "";
+
     _graph.addCamera();
     while (2) {
-        if (_graph.runGraph() == 84)
+        instruction = _menuEvent.launchFunction(_graph.getGuiID());
+        if (instruction == "connect") {
+            _logicPause.getClient().connect();
+            _logicPause.getClient().start_receive();
+        }
+        if (_graph.runGraph(_logicPause.getMode()) == 84)
             break;
         _logicPause.setKey(_graph.input());
         _logicPause.manageKey();
@@ -29,6 +34,7 @@ void client::Core::startCore()
             _graph.matchQuery();
             _logicPause.getClient().clearRoot();
         }
-        _logicPause.getClient().call_poll_one();
+        if (_logicPause.getMode() != MAINMENU)
+            _logicPause.getClient().call_poll_one();
     }
 }

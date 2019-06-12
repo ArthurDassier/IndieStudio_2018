@@ -5,7 +5,7 @@
 ** ConfigManager.cpp
 */
 
-#include "../include/client/ConfigManager.hpp"
+#include "Client/ConfigManager.hpp"
 
 ConfigManager::ConfigManager(const std::string &file):
     _configFile(file),
@@ -63,6 +63,8 @@ pt::ptree ConfigManager::getNode(const std::string &node) const noexcept
 
 std::string ConfigManager::getNodePath(const std::string &node) const noexcept
 {
+    if (_node == "")
+        return node;
     return _node + "." + node;
 }
 

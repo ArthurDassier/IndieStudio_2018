@@ -5,7 +5,7 @@
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
 #include "ConfigManager.hpp"
-#include "irrlicht.h"
+#include "irrlicht/irrlicht.h"
 using namespace irr;
 
 template<typename T>

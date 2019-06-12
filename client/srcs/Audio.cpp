@@ -5,7 +5,7 @@
 ** SFX.cpp
 */
 
-#include "SFX.hpp"
+#include "Client/SFX.hpp"
 
 Audio::Audio(const std::string &name):
     _name(name)

@@ -24,10 +24,7 @@ int main(int ac, char **av)
     std::string str(av[1]);
     if (str.compare("serv") == 0) {
         std::thread t1(run_server);
-        std::cout << "create core" << std::endl;
         client::Core all;
-        std::cout << "core created" << std::endl;
-        sleep(1);
         all.startCore();
         t1.join();
     }

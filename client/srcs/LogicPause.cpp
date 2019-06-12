@@ -10,7 +10,7 @@
 
 LogicPause::LogicPause():
     _client(),
-    _mode(GAME),
+    _mode(MAINMENU),
     _lastKey(KEY_KEY_CODES_COUNT),
     _data("")
 {
@@ -19,16 +19,6 @@ LogicPause::LogicPause():
 void LogicPause::setKey(EKEY_CODE key)
 {
     _lastKey = key;
-}
-
-void LogicPause::setData(std::string data)
-{
-    _data = data;
-}
-
-std::string LogicPause::getData() const
-{
-    return _data;
 }
 
 void LogicPause::dataMove(std::string move)
@@ -87,4 +77,9 @@ void LogicPause::manageKey()
 client::Client &LogicPause::getClient()
 {
     return _client;
+}
+
+MODE &LogicPause::getMode()
+{
+    return _mode;
 }

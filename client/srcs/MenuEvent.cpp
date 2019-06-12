@@ -1,13 +1,26 @@
 #include "Client/MenuEvent.hpp"
 
-MenuEvent::MenuEvent(CustomMenu &menu): _menu(menu)
-{}
-
-bool MenuEvent::OnEvent(const SEvent &event)
+MenuEvent::MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MODE &mode):
+    _menu(env, driver),
+    _mode(mode)
 {
-    if (event.EventType == EET_GUI_EVENT) {
-        s32 id = event.GUIEvent.Caller->getID();
-        return true;
+    _menu.changeMenu("client/srcs/menu.json");
+    _functions["startSolo"] = &MenuEvent::startSolo;
+}
+
+std::string MenuEvent::launchFunction(s32 id)
+{
+    if (id == -1)
+        return "";
+    return (this->*_functions[_menu[id]->getName()])(id);
+}
+
+std::string MenuEvent::startSolo(s32 id)
+{
+    (void)id;
+    if (_mode == MAINMENU) {
+        _mode = GAME;
+        return "connect";
     }
-    return false;
+    return "";
 }

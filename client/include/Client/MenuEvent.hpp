@@ -1,22 +1,24 @@
 #pragma once
 
 #include <unordered_map>
-#include "CustomMenu.hpp"
+#include "Client/LogicPause.hpp"
+#include "Client/CustomMenu.hpp"
 
-using elem_f = std::string (MenuEvent::*)(u32);
-
-class MenuEvent : public IEventReceiver
+class MenuEvent
 {
-public:
-    MenuEvent(CustomMenu &menu);
-    ~MenuEvent() = default;
-    std::string startSolo(u32 id);
-    std::string menuMulti(u32 id);
-    std::string startMulti(u32 id);
-    std::string menuOptions(u32 id);
-    std::string soundVolume(u32 id);
-    std::string musicVolume(u32 id);
-private:
-    std::unordered_map<std::string, elem_f> _functions;
-    CustomMenu _menu;
+    public:
+        typedef std::string (MenuEvent::*elem_f)(s32);
+        MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MODE &mode);
+        ~MenuEvent() = default;
+        std::string launchFunction(s32 id);
+        std::string startSolo(s32 id);
+        // std::string menuMulti(S32 id);
+        // std::string startMulti(S32 id);
+        // std::string menuOptions(S32 id);
+        // std::string soundVolume(S32 id);
+        // std::string musicVolume(S32 id);
+    private:
+        std::unordered_map<std::string, elem_f> _functions;
+        CustomMenu _menu;
+        MODE &_mode;
 };

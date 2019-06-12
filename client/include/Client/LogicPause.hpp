@@ -14,6 +14,7 @@
 using namespace irr;
 
 enum MODE {
+    MAINMENU,
     MENU,
     GAME
 };
@@ -26,13 +27,13 @@ class LogicPause
 
         void setKey(EKEY_CODE key);
         void setData(std::string data);
-        std::string getData() const;
         void manageKey();
 
         client::Client &getClient();
 
         void dataMove(std::string move);
         void sendEscape();
+        MODE &getMode();
 
     private:
         client::Client _client;

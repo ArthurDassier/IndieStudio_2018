@@ -10,6 +10,7 @@
 #include "Client/Client.hpp"
 #include "Client/Graphic.hpp"
 #include "Client/LogicPause.hpp"
+#include "Client/MenuEvent.hpp"
 
 namespace client
 {
@@ -24,5 +25,6 @@ namespace client
         private:
             EngineGraphic _graph;
             LogicPause _logicPause;
+            MenuEvent _menuEvent;
     };
 };

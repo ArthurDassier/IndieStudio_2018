@@ -16,6 +16,7 @@
 #include "Client/Client.hpp"
 #include "Client/Entity.hpp"
 #include "Client/Clock.hpp"
+#include "Client/LogicPause.hpp"
 #include "Game/Character.hpp"
 
 using namespace irr;
@@ -30,7 +31,19 @@ namespace client
                 // Remember whether each key is down or up
                 if (event.EventType == irr::EET_KEY_INPUT_EVENT)
                     KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+                if (event.EventType == EET_GUI_EVENT) {
+                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED)
+                        _guiID = event.GUIEvent.Caller->getID();
+                    return true;
+                } else {
+                    _guiID = -1;
+                }
                 return false;
+            }
+
+            s32 getID() const
+            {
+                return _guiID;
             }
 
             // This is used to check whether a key is being held down
@@ -39,13 +52,15 @@ namespace client
                 return KeyIsDown[keyCode];
             }
 
-            MyEventReceiver()
+            MyEventReceiver():
+                _guiID(-1)
             {
                 for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
                     KeyIsDown[i] = false;
             }
 
         private:
+            s32 _guiID;
             bool KeyIsDown[KEY_KEY_CODES_COUNT];
     };
 
@@ -55,7 +70,7 @@ namespace client
             EngineGraphic();
             ~EngineGraphic();
 
-            int runGraph();
+            int runGraph(const MODE &mode);
             void dataMove(std::string);
             EKEY_CODE input();
             void matchQuery();
@@ -85,12 +100,16 @@ namespace client
 
             void setKey(std::string);
 
+            video::IVideoDriver *getDriver() const;
+            gui::IGUIEnvironment *getGUIEnvironment() const;
+            s32 getGuiID() const;
+
         private:
             MyEventReceiver _receiver;
-            std::shared_ptr<IrrlichtDevice> _device;
-            std::shared_ptr<video::IVideoDriver> _driver;
-            std::shared_ptr<scene::ISceneManager> _smgr;
-            std::shared_ptr<gui::IGUIEnvironment> _guienv;
+            IrrlichtDevice *_device;
+            video::IVideoDriver *_driver;
+            scene::ISceneManager *_smgr;
+            gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
             std::vector<Character> _charList;
             std::list<scene::ISceneNode*> _map;

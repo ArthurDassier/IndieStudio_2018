@@ -57,7 +57,7 @@ void CustomMenu::addButton(pt::ptree elem, core::recti rect)
     newElem->setSpriteBank(_env->getSkin()->getSpriteBank());
     newElem->setSprite(gui::EGBS_BUTTON_FOCUSED, elem.get<s32>("texture"));
     newElem->setSprite(gui::EGBS_BUTTON_NOT_FOCUSED, elem.get<s32>("texture"));
-    newElem->setName((wchar_t *)elem.get<std::string>("name").c_str());
+    newElem->setName(elem.get<std::string>("name").c_str());
     _elems.push_back(newElem);
 }
 
@@ -67,7 +67,7 @@ void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
 
     newElem->setMax(100);
     newElem->setMin(0);
-    newElem->setName((wchar_t *)elem.get<std::string>("name").c_str());
+    newElem->setName(elem.get<std::string>("name").c_str());
     _elems.push_back(newElem);
 }
 

@@ -14,6 +14,10 @@ add_library(client
     ./srcs/Graphic.cpp
     ./srcs/Clock.cpp
     ./srcs/LogicPause.cpp
+    ./srcs/Audio.cpp
+    ./srcs/ConfigManager.cpp
+    ./srcs/CustomMenu.cpp
+    ./srcs/MenuEvent.cpp
 )
 
 target_include_directories(client INTERFACE ./include ../lib/include)
