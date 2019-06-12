@@ -9,6 +9,8 @@
 
 #include "Game/MovableEntity.hpp"
 #include "irrlicht/irrlicht.h"
+#include <chrono>
+
 
 namespace game
 {
@@ -54,5 +56,6 @@ namespace game
             std::string _direction;
             irr::scene::IAnimatedMeshSceneNode *_node;
             std::size_t _hp;
+            std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBomb;
     };
 }; // namespace game

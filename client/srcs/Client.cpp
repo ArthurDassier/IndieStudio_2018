@@ -9,13 +9,23 @@
 #include <iostream>
 #include "Client/Client.hpp"
 
-client::Client::Client(boost::asio::io_service &io_service):
-    sock_(io_service)
+client::Client::Client():
+    _io_service(),
+    _sock(_io_service)
+{
+}
+
+void client::Client::call_poll_one()
+{
+    _io_service.poll_one();
+}
+
+void client::Client::connect(std::string ip_addr, std::string port)
 {
     try {
-        boost::asio::ip::udp::resolver resolver(io_service);
-        boost::asio::ip::udp::resolver::query query("127.0.0.1", "7777");
-        remote_endpoint_ = *resolver.resolve(query);
+        boost::asio::ip::udp::resolver resolver(_io_service);
+        boost::asio::ip::udp::resolver::query query(ip_addr, port);
+        _remote_endpoint = *resolver.resolve(query);
         boost::property_tree::ptree root;
 
         root.put("type", "connection");
@@ -23,8 +33,8 @@ client::Client::Client(boost::asio::io_service &io_service):
         boost::property_tree::write_json(buf, root, false);
         std::string data = buf.str();
 
-        sock_.open(boost::asio::ip::udp::v4());
-        sock_.send_to(boost::asio::buffer(data), remote_endpoint_);
+        _sock.open(boost::asio::ip::udp::v4());
+        _sock.send_to(boost::asio::buffer(data), _remote_endpoint);
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
@@ -34,8 +44,8 @@ void client::Client::start_receive()
 {
     //initialize the rmoete_endpoint_
     boost::asio::ip::udp::endpoint sender_endpoint;
-    sock_.async_receive_from(
-        boost::asio::buffer(recv_buffer_),
+    _sock.async_receive_from(
+        boost::asio::buffer(_recv_buffer),
         sender_endpoint,
         boost::bind(
             &Client::handle_receive,
@@ -46,15 +56,15 @@ void client::Client::start_receive()
 
 void client::Client::sendToServer(std::string msg)
 {
-    sock_.send_to(boost::asio::buffer(msg), remote_endpoint_);
+    _sock.send_to(boost::asio::buffer(msg), _remote_endpoint);
 }
 
 void client::Client::handle_receive(const boost::system::error_code& error,
     std::size_t bytes_transferred)
 {
     if (!error || error == boost::asio::error::message_size) {
-        std::string receive_json = std::string(recv_buffer_.begin(),
-        recv_buffer_.begin() + bytes_transferred);
+        std::string receive_json = std::string(_recv_buffer.begin(),
+        _recv_buffer.begin() + bytes_transferred);
         boost::property_tree::ptree root;
         std::stringstream ss;
 

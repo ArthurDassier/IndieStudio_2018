@@ -11,6 +11,8 @@ game::Character::Character():
     MovableEntity(game::character),
     _hp(3)
 {
+    _cooldownBomb = std::chrono::high_resolution_clock::now();
+
 }
 
 void game::Character::setId(const t_id id)
@@ -30,7 +32,7 @@ void game::Character::deliver(std::string)
 
 player &game::Character::get_playerdata()
 {
-    
+
 }
 
 void game::Character::setPosition(const s_pos pos)
