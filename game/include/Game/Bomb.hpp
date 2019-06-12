@@ -15,12 +15,15 @@ namespace game
     class Bomb : public Entity
     {
         public:
-            Bomb(float x, float y, size_t _power);
+            Bomb() = default;
+            // Bomb(float x, float y, size_t _power);
             ~Bomb() = default;
             bool getAlive();
             size_t checkTimeExplosion();
             void destroyMap();
             void RefreshBomb();
+            float getPosX() const noexcept;
+            float getPosZ() const noexcept;
         private:
             size_t _power = 2;
             float posX = 0;

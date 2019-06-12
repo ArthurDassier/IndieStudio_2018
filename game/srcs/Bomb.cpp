@@ -7,6 +7,11 @@
 
 #include "Game/Bomb.hpp"
 
+t_id game::Character::getId()
+{
+    return _id;
+}
+
 game::Bomb::Bomb(float x, float y, size_t power):
     Entity(game::bomb)
 {
@@ -24,6 +29,18 @@ size_t game::Bomb::checkTimeExplosion()
 
     return elapsed.count() / 1000;
 }
+
+float game::Bomb::getPosX() const noexcept
+{
+    return posX;
+}
+
+
+float game::Bomb::getPosZ() const noexcept
+{
+    return posY;
+}
+
 
 void game::Bomb::destroyMap()
 {

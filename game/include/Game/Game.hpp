@@ -26,7 +26,7 @@ namespace game
     class Game
     {
         public:
-            Game();
+            Game() = default;
             ~Game() = default;
 
             void gameLoop();
@@ -45,12 +45,13 @@ namespace game
             std::string const getMap();
 
             void putBomb(t_id);
+            void refreshBomb();
         private:
             Generation _generation;
             EntityManager _EM;
             utils::Packet _packet;
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
-            bool _collide;
+            std::vector<Bomb> _allBomb;
     };
 }; // namespace game

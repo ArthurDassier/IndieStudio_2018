@@ -10,23 +10,9 @@
 #include "Game/Character.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Game/IEntity.hpp"
-game::Game::Game():
-    _collide(false)
-{
-}
 
 void game::Game::gameLoop()
 {
-//     if (_player->getDirection().compare("up") == 0) {
-//         _packet.setType("explosion");
-//         _packet.addData("damage", 2);
-//         // for (auto &it_c : *_participants)
-//         _player->deliver(_packet.getPacket());
-//         _player->setDirection("down");
-//         _packet.clear();
-//         _collide = true;
-//     }
-
     for (auto &it : *_participants) {
         if (it->getId() != _player->getId())
             continue;
@@ -66,6 +52,22 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
+void game::Game::refreshBomb()
+{
+    for (int i = 0; i != _allBomb.size(); i++) {
+        if (_allBomb[i].checkTimeExplosion() >= 1.5) {
+            _packet.setType("explosion");
+            _packet.addData("x", _allBomb[i].getPosX());
+            _packet.addData("z", _allBomb[i].getPosZ());
+            for (auto &it : *_participants)
+                it->deliver(_packet.getPacket());
+            _packet.clear();
+            _allBomb.erase(_allBomb.begin() + i);
+            i--;
+        }
+    }
+}
+
 float roundDecimal(int n)
 {
     int a = (n / 10) * 10;
@@ -82,6 +84,7 @@ void game::Game::putBomb(t_id id)
                 _packet.addData("x", it.get()->getPosition().x);
                 _packet.addData("z", it.get()->getPosition().z);
                 static_cast<Character *>(it.get())->setCooldownBomb();
+                // _allBomb.emplace_back(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getPower());
             }
         }
     }
