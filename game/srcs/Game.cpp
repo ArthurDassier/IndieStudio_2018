@@ -52,6 +52,13 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
+void game::Game::destroyMap(size_t power)
+{
+    // for (int i = 0; i != power || _EM.getEntityType(pos_player) == game::EntityType::block; i++) {
+    //
+    // }
+}
+
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {

@@ -21,7 +21,6 @@ namespace game
             Bomb & operator = (Bomb const &);
             bool getAlive();
             size_t checkTimeExplosion();
-            void destroyMap();
             void RefreshBomb();
             float getPosX() const noexcept;
             float getPosZ() const noexcept;

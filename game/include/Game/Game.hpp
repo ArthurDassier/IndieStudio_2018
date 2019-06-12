@@ -46,6 +46,7 @@ namespace game
 
             void putBomb(t_id);
             void refreshBomb();
+            void destroyMap(size_t power);
         private:
             Generation _generation;
             EntityManager _EM;
