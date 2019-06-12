@@ -11,7 +11,7 @@ game::EntityType game::EntityManager::getEntity(s_pos pos)
 {
     auto it = std::find_if(_entities.begin(), _entities.end(),
                             [&](const std::unique_ptr<Entity> &i) {
-                                return i->getPosition() == pos;
+                                return i->getPosition().x == pos.x && i->getPosition().z == pos.z;
                             });
     if (it != _entities.end())
         return it->get()->getType();

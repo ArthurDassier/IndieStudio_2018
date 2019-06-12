@@ -86,7 +86,7 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
-    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
+    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-20), core::vector3df(35,25,10)));
 }
 
 void client::EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -133,27 +133,27 @@ void client::EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '2': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wood.jpg",
+                _map.push_back(createMapBlock("client/res/box.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;

@@ -31,11 +31,10 @@ namespace game
 
             void gameLoop();
 
-            bool checkCollisions(t_entity);
+            bool checkCollisions();
 
             void fillEntitiesMap(const std::string);
 
-            void sendPosition();
             void updatePosition(const t_id, const std::string);
 
             void setPlayer(boost::shared_ptr<game::Character>);
