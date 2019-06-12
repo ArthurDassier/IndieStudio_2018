@@ -99,7 +99,7 @@ namespace client
             Clock _clock;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
-            scene::IAnimatedMeshSceneNode *_nodeBomb;
+            std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
 
             std::map<int, const irr::io::path> _skins = {
                 {0, "client/res/nskinrd.jpg"},

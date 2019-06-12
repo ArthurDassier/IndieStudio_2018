@@ -14,6 +14,7 @@
 void game::Game::gameLoop()
 {
     for (auto &it : *_participants) {
+        refreshBomb();
         if (it->getId() != _player->getId())
             continue;
     }
@@ -26,7 +27,6 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     for (auto &it : *_participants) {
         if (it->getId() == id) {
             // std::cout << it->getId() << "\n";
-            std::cout << it->getPosition().x << "\n";
             pos_player = it->getPosition();
             it->setDirection(direction);
             if (direction.compare("up") == 0)
@@ -55,10 +55,12 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {
-        if (_allBomb[i].checkTimeExplosion() >= 1.5) {
+        _allBomb[i].RefreshBomb();
+        if (_allBomb[i].getAlive() == false) {
             _packet.setType("explosion");
             _packet.addData("x", _allBomb[i].getPosX());
             _packet.addData("z", _allBomb[i].getPosZ());
+            _packet.addData("id", _allBomb.size() - 1);
             for (auto &it : *_participants)
                 it->deliver(_packet.getPacket());
             _packet.clear();
@@ -84,7 +86,7 @@ void game::Game::putBomb(t_id id)
                 _packet.addData("x", it.get()->getPosition().x);
                 _packet.addData("z", it.get()->getPosition().z);
                 static_cast<Character *>(it.get())->setCooldownBomb();
-                // _allBomb.emplace_back(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getPower());
+                _allBomb.emplace_back(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getPower());
             }
         }
     }
@@ -95,9 +97,7 @@ void game::Game::putBomb(t_id id)
 
 bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
 {
-    std::cout << entity->getPosition().x << std::endl;
     s_pos pos_player = entity->getPosition();
-    std::cout << pos_player.x << ", " << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block

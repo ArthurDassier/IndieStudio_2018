@@ -236,7 +236,10 @@ void client::EngineGraphic::new_bomb()
 
 void client::EngineGraphic::explosion()
 {
-    std::cout << "EXPLOSION" << std::endl;
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("z");
+    _nodeBomb[_root.get<size_t>("id")]->remove();
+
 }
 
 void client::EngineGraphic::death()
@@ -271,7 +274,7 @@ void client::EngineGraphic::bomb()
     node->setFrameLoop(0, 0);
     node->setScale(core::vector3df(30, 30, 30));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
-    _nodeBomb = node;
+    _nodeBomb.push_back(node);
 }
 
 void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)
