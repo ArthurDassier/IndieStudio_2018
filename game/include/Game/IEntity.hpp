@@ -30,6 +30,7 @@ namespace game
         block,
         bomb,
         brittleBlock,
-        character
+        character,
+        ground
     };
 }; // namespace game

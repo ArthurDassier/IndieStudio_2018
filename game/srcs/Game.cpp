@@ -6,6 +6,7 @@
 */
 
 #include "Game/Game.hpp"
+#include "Game/Ground.hpp"
 
 game::Game::Game():
     _collide(false)
@@ -25,7 +26,6 @@ void game::Game::gameLoop()
 //     }
 
     for (auto &it : *_participants) {
-        // checkCollisions(it);
         if (it->getId() == _player->getId())
             continue;
     }
@@ -73,7 +73,6 @@ bool game::Game::checkCollisions()
 {
     s_pos pos_player = _player->getPosition();
 
-    std::cout << pos_player.x << ", " << pos_player.z << "\n";
     if (_player->getDirection().compare("up") == 0) {
         pos_player.z = roundDecimal(pos_player.z);
         pos_player.x = roundDecimal(pos_player.x);
@@ -87,12 +86,11 @@ bool game::Game::checkCollisions()
         pos_player.z = roundDecimal(pos_player.z);
     }
     else if (_player->getDirection().compare("right") == 0) {
-        pos_player.z = roundDecimal(pos_player.z);
         pos_player.x = roundDecimal(pos_player.x);
+        pos_player.z = roundDecimal(pos_player.z);
     }
-    std::cout << pos_player.x << ", " << pos_player.z << "\n";
-
-    if (_EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
+    std::cout << pos_player.x << ", " << pos_player.y << "\n";
+    if ( _EM.getEntity(pos_player) == game::EntityType::block) {
         return false;
     }
     return true;
@@ -113,27 +111,27 @@ void game::Game::fillEntitiesMap(const std::string map)
     float x = 0;
     float y = 0;
 
-    for (auto &it : map) {
-        switch (it) {
-            case '1': {
-                Block b;
-                b.setPosition({x, 0, y});
-                _EM.addEntity(b);
-                break;
-            }
-            case '2': {
-                BrittleBlock bB;
-                bB.setPosition({x, 0, y});
-                _EM.addEntity(bB);
-                break;
-            }
-            case '\n':
-                y += 10;
-                x = 0;
-            default:
-                break;
+    for (int i = 0; i != map.size(); i++) {
+        if (map[i] == '0') {
+            Ground g;
+            g.setPosition({x, 0, y});
+            _EM.addEntity(g);
         }
-        x += 10;
+        else if (map[i] == '1') {
+            Block b;
+            b.setPosition({x, 0, y});
+            _EM.addEntity(b);
+        }
+        else if (map[i] == '2') {
+            BrittleBlock bB;
+            bB.setPosition({x, 0, y});
+            _EM.addEntity(bB);
+        }
+        x+= 10;
+        if (map[i] == '\n') {
+            x = 0;
+            y += 10;
+        }
     }
 }
 

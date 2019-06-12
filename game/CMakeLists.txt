@@ -10,6 +10,7 @@ add_library(game STATIC
     ./srcs/Block.cpp
     ./srcs/Bomb.cpp
     ./srcs/BrittleBlock.cpp
+    ./srcs/Ground.cpp
     ./srcs/Character.cpp
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp
