@@ -88,10 +88,10 @@ namespace client
 
         private:
             MyEventReceiver _receiver;
-            std::shared_ptr<IrrlichtDevice> _device;
-            std::shared_ptr<video::IVideoDriver> _driver;
-            std::shared_ptr<scene::ISceneManager> _smgr;
-            std::shared_ptr<gui::IGUIEnvironment> _guienv;
+            IrrlichtDevice *_device;
+            video::IVideoDriver *_driver;
+            scene::ISceneManager *_smgr;
+            gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
             std::vector<Character> _charList;
             std::list<scene::ISceneNode*> _map;

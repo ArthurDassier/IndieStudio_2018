@@ -26,7 +26,7 @@ void game::Game::gameLoop()
 //     }
 
     for (auto &it : *_participants) {
-        if (it->getId() == _player->getId())
+        if (it->getId() != _player->getId())
             continue;
     }
 }
@@ -89,7 +89,8 @@ bool game::Game::checkCollisions()
         pos_player.x = roundDecimal(pos_player.x);
         pos_player.z = roundDecimal(pos_player.z);
     }
-    if ( _EM.getEntity(pos_player) == game::EntityType::block ||  _EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
+    if (_EM.getEntityType(pos_player) == game::EntityType::block
+    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock) {
         return false;
     }
     return true;
@@ -100,10 +101,6 @@ bool game::Game::checkCollisions()
     //     _player->setDirection("down");
     // }
 }
-
-
-
-
 
 void game::Game::fillEntitiesMap(const std::string map)
 {

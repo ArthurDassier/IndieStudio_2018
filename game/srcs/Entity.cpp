@@ -13,12 +13,17 @@ game::Entity::Entity(const game::EntityType &type):
 {
 }
 
+t_id const game::Entity::getId() const noexcept
+{
+    return id;
+}
+
 void game::Entity::setPosition(const s_pos &pos)
 {
     _pos = pos;
 }
 
-game::s_pos game::Entity::getPosition() const noexcept
+game::s_pos &game::Entity::getPosition() noexcept
 {
     return _pos;
 }
