@@ -23,7 +23,6 @@ namespace game
             s_pos getPosition() const noexcept;
 
             EntityType getType() const noexcept;
-
             const t_id id;
 
         private:

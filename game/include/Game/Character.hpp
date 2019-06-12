@@ -47,6 +47,10 @@ namespace game
             void setHealthPoints(std::size_t);
             std::size_t &getHealthPoints() noexcept;
 
+            void setCooldownBomb();
+            size_t getCooldownBomb();
+
+
         private:
             t_id _id;
             s_pos _pos;

@@ -32,6 +32,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("new_bomb", std::bind(&EngineGraphic::new_bomb, this)));
     _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
+    _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -221,7 +222,16 @@ void client::EngineGraphic::new_player()
 
 void client::EngineGraphic::new_bomb()
 {
-    std::cout << "ADD NEW BOMB" << std::endl;
+    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.b3d");
+    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    //
+    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    // node->setRotation(core::vector3df(0, 80, 0));
+    // node->setPosition(player->getPosition());
+    // node->setFrameLoop(0, 0);
+    // node->setScale(core::vector3df(2, 2, 2));
+    // node->setMaterialFlag(video::EMF_LIGHTING, false);
+    // player->setNode(node);
 }
 
 void client::EngineGraphic::explosion()
@@ -247,6 +257,21 @@ void client::EngineGraphic::death()
             it.getNode()->setAnimationSpeed(15);
         }
     }
+}
+
+void client::EngineGraphic::bomb()
+{
+    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+
+    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(30, 30, 30));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBomb = node;
 }
 
 void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)
