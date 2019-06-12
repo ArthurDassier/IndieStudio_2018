@@ -28,7 +28,7 @@ void game::Game::gameLoop()
 //     }
 
     for (auto &it : *_participants) {
-        if (it->getId() == _player->getId())
+        if (it->getId() != _player->getId())
             continue;
     }
 }
@@ -79,31 +79,16 @@ void game::Game::putBomb(t_id id)
         if (it->getId() == id) {
             if (static_cast<Character *>(it.get())->getCooldownBomb() >= 5) {
                 _packet.setType("bomb");
-                _packet.addData("x", it.get()->getPosition().x
-            );
+                _packet.addData("x", it.get()->getPosition().x);
                 _packet.addData("z", it.get()->getPosition().z);
                 static_cast<Character *>(it.get())->setCooldownBomb();
             }
         }
     }
-
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
-        _packet.clear();
-    // entity->getPosition();
-    // entity->getDirection();
+    _packet.clear();
 }
-//
-// void game::Game::determinePos()
-// {
-//     if (direction.compare("up") == 0)
-//         it->getPosition().z += 2;
-//     else if (direction.compare("down") == 0)
-//         it->getPosition().z -= 2;
-//     else if (direction.compare("left") == 0)
-//         it->getPosition().x -= 2;
-//     else if (direction.compare("right") == 0)
-// }
 
 bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
 {
@@ -112,7 +97,8 @@ bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity
     std::cout << pos_player.x << ", " << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
-    if ( _EM.getEntity(pos_player) == game::EntityType::block ||  _EM.getEntity(pos_player) == game::EntityType::brittleBlock)
+    if (_EM.getEntityType(pos_player) == game::EntityType::block
+    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock)
         return false;
     return true;
 }

@@ -15,11 +15,6 @@ game::Character::Character():
 
 }
 
-void game::Character::setId(const t_id id)
-{
-    _id = id;
-}
-
 t_id game::Character::getId()
 {
     return _id;
@@ -33,16 +28,6 @@ void game::Character::deliver(std::string)
 player &game::Character::get_playerdata()
 {
 
-}
-
-void game::Character::setPosition(const s_pos pos)
-{
-    _pos = pos;
-}
-
-game::s_pos &game::Character::getPosition() noexcept
-{
-    return _pos;
 }
 
 void game::Character::setSpawn(const s_pos spawn)

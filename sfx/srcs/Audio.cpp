@@ -5,31 +5,31 @@
 ** SFX.cpp
 */
 
-#include "SFX.hpp"
+#include "SFX/Audio.hpp"
 
-Audio::Audio(const std::string &name):
+sfx::Audio::Audio(const std::string &name):
     _name(name)
 {
 }
 
-std::string Audio::getName() const noexcept
+std::string sfx::Audio::getName() const noexcept
 {
     return _name;
 }
 
-Music::Music(const std::string &music, const std::string &file):
+sfx::Music::Music(const std::string &music, const std::string &file):
     Audio(music)
 {
     _music = std::make_shared<sf::Music>();
     _music->openFromFile(file);
 }
 
-std::shared_ptr<sf::Music> Music::get() const noexcept
+std::shared_ptr<sf::Music> sfx::Music::get() const noexcept
 {
     return _music;
 }
 
-Sound::Sound(const std::string &sound, const std::string &file):
+sfx::Sound::Sound(const std::string &sound, const std::string &file):
     Audio(sound)
 {
     _buffer.loadFromFile(file);
@@ -37,7 +37,7 @@ Sound::Sound(const std::string &sound, const std::string &file):
     _sound->setBuffer(_buffer);
 }
 
-std::shared_ptr<sf::Sound> Sound::get() const noexcept
+std::shared_ptr<sf::Sound> sfx::Sound::get() const noexcept
 {
     return _sound;
 }

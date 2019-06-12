@@ -13,7 +13,6 @@ TEST(TestCharacter, TestClass)
     game::Character test;
 
     test.setDirection("right");
-    test.setId(7);
     test.setPosition3df(irr::core::vector3df({2, 22, 222}));
     test.setPosition({1, 11, 111});
     test.setSkin(3);
