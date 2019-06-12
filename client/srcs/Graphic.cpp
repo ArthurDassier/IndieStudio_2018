@@ -44,11 +44,6 @@ int client::EngineGraphic::runGraph()
     _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
-    if (_clock.getElapsed() >= _clock.getSecond()) {
-        input();
-        _clock.getClock().stop();
-        _clock.getClock().start();
-    }
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     _smgr->drawAll();
     _guienv->drawAll();
@@ -56,47 +51,16 @@ int client::EngineGraphic::runGraph()
     return (0);
 }
 
-void client::EngineGraphic::dataMove(std::string move)
+EKEY_CODE client::EngineGraphic::input()
 {
-    boost::property_tree::ptree root;
-    root.put("type", "movement");
-    root.put("sens", move);
-    std::ostringstream buff;
-    boost::property_tree::write_json(buff, root, false);
-    _data = buff.str();
-}
-
-void client::EngineGraphic::sendEscape()
-{
-    boost::property_tree::ptree root;
-    root.put("type", "pause");
-    std::ostringstream buff;
-    boost::property_tree::write_json(buff, root, false);
-    _data = buff.str();
-}
-
-void client::EngineGraphic::input()
-{
-    if (_receiver.IsKeyDown(irr::KEY_KEY_Z))
-        dataMove("up");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_S))
-        dataMove("down");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_Q))
-        dataMove("left");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_D))
-        dataMove("right");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
-        sendEscape();
-}
-
-std::string client::EngineGraphic::getData() const
-{
-    return (_data);
-}
-
-void client::EngineGraphic::clearData()
-{
-    _data.clear();
+    if (_clock.getElapsed() >= _clock.getSecond()) {
+        for (unsigned int i = KEY_LBUTTON; i < KEY_KEY_CODES_COUNT; i++)
+            if (_receiver.IsKeyDown((EKEY_CODE)i))
+                return (EKEY_CODE)i;
+        _clock.getClock().stop();
+        _clock.getClock().start();
+    }
+    return KEY_KEY_CODES_COUNT;
 }
 
 void client::EngineGraphic::matchQuery()

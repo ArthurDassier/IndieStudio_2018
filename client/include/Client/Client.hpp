@@ -11,14 +11,16 @@
 #include <boost/asio.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <memory>
 
 namespace client
 {
     class Client
     {
         public:
-            Client(boost::asio::io_service& io_service);
+            Client();
             ~Client() = default;
+            void connect(std::string ip_addr = "127.0.0.1", std::string port = "7777");
             void start_receive();
             void sendToServer(std::string msg);
             void handle_receive(const boost::system::error_code& error,
@@ -28,11 +30,13 @@ namespace client
                 std::size_t /*bytes_transferred*/);
             boost::property_tree::ptree getRoot() const;
             void clearRoot();
+            void call_poll_one();
 
         private:
-            boost::asio::ip::udp::endpoint remote_endpoint_;
-            boost::array<char, 256> recv_buffer_;
-            boost::asio::ip::udp::socket sock_;
+            boost::asio::io_service _io_service;
+            boost::asio::ip::udp::socket _sock;
+            boost::asio::ip::udp::endpoint _remote_endpoint;
+            boost::array<char, 256> _recv_buffer;
             boost::property_tree::ptree _root;
     };
 }; // namespace client
