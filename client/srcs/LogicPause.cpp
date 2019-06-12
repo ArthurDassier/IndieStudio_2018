@@ -14,7 +14,6 @@ LogicPause::LogicPause():
     _lastKey(KEY_KEY_CODES_COUNT),
     _data("")
 {
-    // _client.start_receive();
 }
 
 void LogicPause::setKey(EKEY_CODE key)

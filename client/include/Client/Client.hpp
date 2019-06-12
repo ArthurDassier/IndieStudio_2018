@@ -34,9 +34,9 @@ namespace client
 
         private:
             boost::asio::io_service _io_service;
-            boost::asio::ip::udp::socket sock_;
-            boost::asio::ip::udp::endpoint remote_endpoint_;
-            boost::array<char, 256> recv_buffer_;
+            boost::asio::ip::udp::socket _sock;
+            boost::asio::ip::udp::endpoint _remote_endpoint;
+            boost::array<char, 256> _recv_buffer;
             boost::property_tree::ptree _root;
     };
 }; // namespace client

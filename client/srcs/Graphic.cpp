@@ -51,38 +51,9 @@ int client::EngineGraphic::runGraph()
     return (0);
 }
 
-// void client::EngineGraphic::dataMove(std::string move)
-// {
-//     boost::property_tree::ptree root;
-//     root.put("type", "movement");
-//     root.put("sens", move);
-//     std::ostringstream buff;
-//     boost::property_tree::write_json(buff, root, false);
-//     _data = buff.str();
-// }
-
-// void client::EngineGraphic::sendEscape()
-// {
-//     boost::property_tree::ptree root;
-//     root.put("type", "pause");
-//     std::ostringstream buff;
-//     boost::property_tree::write_json(buff, root, false);
-//     _data = buff.str();
-// }
-
 EKEY_CODE client::EngineGraphic::input()
 {
     if (_clock.getElapsed() >= _clock.getSecond()) {
-        // if (_receiver.IsKeyDown(irr::KEY_KEY_Z))
-        //     // dataMove("up");
-        // else if (_receiver.IsKeyDown(irr::KEY_KEY_S))
-        //     // dataMove("down");
-        // else if (_receiver.IsKeyDown(irr::KEY_KEY_Q))
-        //     // dataMove("left");
-        // else if (_receiver.IsKeyDown(irr::KEY_KEY_D))
-        //     // dataMove("right");
-        // else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
-        //     // sendEscape();
         for (unsigned int i = KEY_LBUTTON; i < KEY_KEY_CODES_COUNT; i++)
             if (_receiver.IsKeyDown((EKEY_CODE)i))
                 return (EKEY_CODE)i;

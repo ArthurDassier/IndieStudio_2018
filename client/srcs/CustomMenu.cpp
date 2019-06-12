@@ -1,5 +1,5 @@
 #include <functional>
-#include "../include/client/CustomMenu.hpp"
+#include "Client/CustomMenu.hpp"
 
 
 CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) : _driver(driver)

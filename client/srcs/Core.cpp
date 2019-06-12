@@ -8,8 +8,6 @@
 #include "Client/Core.hpp"
 
 client::Core::Core():
-    // _io_service(),
-    // _client(_io_service),
     _graph(),
     _logicPause()
 {
@@ -26,10 +24,6 @@ void client::Core::startCore()
             break;
         _logicPause.setKey(_graph.input());
         _logicPause.manageKey();
-        // if (_graph.getData().empty() == false) {
-        //     _client.sendToServer(_graph.getData());
-        //     _graph.clearData();
-        // }
         if (_logicPause.getClient().getRoot().empty() == false) {
             _graph.setRoot(_logicPause.getClient().getRoot());
             _graph.matchQuery();

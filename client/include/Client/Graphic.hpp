@@ -58,8 +58,6 @@ namespace client
             int runGraph();
             void dataMove(std::string);
             EKEY_CODE input();
-            // std::string getData() const;
-            // void clearData();
             void matchQuery();
 
             void setRoot(const boost::property_tree::ptree);
@@ -94,7 +92,6 @@ namespace client
             std::shared_ptr<scene::ISceneManager> _smgr;
             std::shared_ptr<gui::IGUIEnvironment> _guienv;
             video::E_DRIVER_TYPE _driverType;
-            // std::string _data;
             std::vector<Character> _charList;
             std::list<scene::ISceneNode*> _map;
             Clock _clock;
