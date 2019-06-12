@@ -45,6 +45,8 @@ namespace game
             p_entity::pointer getEntity(s_pos pos);
             p_entity::pointer getEntity(t_id id);
 
+            EntityType getEntityType(s_pos pos);
+
             std::vector<p_entity> const &getEntities() const noexcept;
 
         private:

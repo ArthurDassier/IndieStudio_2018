@@ -6,37 +6,38 @@
 */
 
 #include "Game/Game.hpp"
+#include "Game/Ground.hpp"
 
 game::Game::Game():
     _collide(false)
-{        
+{
 }
 
 void game::Game::gameLoop()
 {
-    // if (_player->getDirection().compare("up") == 0) {
-    //     _packet.setType("explosion");
-    //     _packet.addData("damage", 2);
-    //     // for (auto &it_c : *_participants)
-    //     _player->deliver(_packet.getPacket());
-    //     _player->setDirection("down");
-    //     _packet.clear();
-    //     _collide = true;
-    // }
+//     if (_player->getDirection().compare("up") == 0) {
+//         _packet.setType("explosion");
+//         _packet.addData("damage", 2);
+//         // for (auto &it_c : *_participants)
+//         _player->deliver(_packet.getPacket());
+//         _player->setDirection("down");
+//         _packet.clear();
+//         _collide = true;
+//     }
 
     for (auto &it : *_participants) {
         if (it->getId() != _player->getId())
             continue;
-        checkCollisions(it);
     }
 }
 
 void game::Game::updatePosition(const t_id id, const std::string direction)
 {
-    if (_collide == true)
-        return;
+    s_pos pos_player;
+
     for (auto &it : *_participants) {
         if (it->getId() == id) {
+            pos_player = it->getPosition();
             it->setDirection(direction);
             if (direction.compare("up") == 0)
                 it->getPosition().z += 2;
@@ -46,6 +47,10 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
                 it->getPosition().x -= 2;
             else if (direction.compare("right") == 0)
                 it->getPosition().x += 2;
+            if (checkCollisions() == false) {
+                it->setPosition(pos_player);
+                return;
+            }
             break;
         }
     }
@@ -57,64 +62,44 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
-/*----------------------------------------------\\
-
-                  CHAAAAAAARLES
-
-void DemoFunction()
+float roundDecimal(int n)
 {
-    if (condition) {
-        action();
-        if (need to update entity?)
-            _packet.setType(typeOfUpdate);
-            _packet.addData(all sort of data (it's a template lol));
-            for (auto &it : *_participants)
-                it->deliver(_packet.getPacket());
-    }
+    int a = (n / 10) * 10;
+    int b = a + 10;
+    return (n - a >= b - n) ? b : a;
 }
 
-Concrete example:
-    
+bool game::Game::checkCollisions()
+{
+    s_pos pos_player = _player->getPosition();
+
     if (_player->getDirection().compare("up") == 0) {
-        _packet.setType("explosion");
-        _packet.addData("damage", 2);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _player->setDirection("down");
+        pos_player.z = roundDecimal(pos_player.z);
+        pos_player.x = roundDecimal(pos_player.x);
     }
-
-//----------------------------------------------*/
-
-float roundDecimal(float n)
-{
-    // Smaller multiple
-    float a = (n / 10) * 10;
-
-    // Larger multiple
-    float b = a + 10;
-
-    // Return of closest of two
-    return (n - a > b - n) ? b : a;
-}
-
-void game::Game::checkCollisions(t_entity entity)
-{
-    if (entity->getDirection().compare("up") == 0) {
-        s_pos pos = entity->getPosition();
-        s_pos tmp;
-        tmp.x = pos.x; //roundDecimal(pos.x);
-        tmp.z = roundDecimal(pos.z);
-        auto t_entity = _EM.getEntity(tmp);
-        if (t_entity == nullptr) {
-            // std::cout << "not found" << std::endl;
-            return;
-        }
-        if (t_entity->getType() == block) {
-            // std::cout << "BLOCK" << std::endl;
-        } else if (t_entity->getType() == brittleBlock) {
-            // std::cout << "BRITTLE BLOCK" << std::endl;
-        }
+    else if (_player->getDirection().compare("down") == 0) {
+        pos_player.z = roundDecimal(pos_player.z);
+        pos_player.x = roundDecimal(pos_player.x);
     }
+    else if (_player->getDirection().compare("left") == 0) {
+        pos_player.x = roundDecimal(pos_player.x);
+        pos_player.z = roundDecimal(pos_player.z);
+    }
+    else if (_player->getDirection().compare("right") == 0) {
+        pos_player.x = roundDecimal(pos_player.x);
+        pos_player.z = roundDecimal(pos_player.z);
+    }
+    if (_EM.getEntityType(pos_player) == game::EntityType::block
+    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock) {
+        return false;
+    }
+    return true;
+    //     _packet.setType("explosion");
+    //     _packet.addData("damage", 2);
+    //     for (auto &it : *_participants)
+    //         it->deliver(_packet.getPacket());
+    //     _player->setDirection("down");
+    // }
 }
 
 void game::Game::fillEntitiesMap(const std::string map)
@@ -122,27 +107,27 @@ void game::Game::fillEntitiesMap(const std::string map)
     float x = 0;
     float y = 0;
 
-    for (auto &it : map) {
-        switch (it) {
-            case '1': {
-                Block b;
-                b.setPosition({x, 0, y});
-                _EM.addEntity(b);
-                break;
-            }
-            case '2': {
-                BrittleBlock bB;
-                bB.setPosition({x, 0, y});
-                _EM.addEntity(bB);
-                break;
-            }
-            case '\n':
-                y += 10;
-                x = 0;
-            default:
-                break;
+    for (int i = 0; i != map.size(); i++) {
+        if (map[i] == '0') {
+            Ground g;
+            g.setPosition({x, 0, y});
+            _EM.addEntity(g);
         }
-        x += 10;
+        else if (map[i] == '1') {
+            Block b;
+            b.setPosition({x, 0, y});
+            _EM.addEntity(b);
+        }
+        else if (map[i] == '2') {
+            BrittleBlock bB;
+            bB.setPosition({x, 0, y});
+            _EM.addEntity(bB);
+        }
+        y+= 10;
+        if (map[i] == '\n') {
+            x += 10;
+            y = 0;
+        }
     }
 }
 
