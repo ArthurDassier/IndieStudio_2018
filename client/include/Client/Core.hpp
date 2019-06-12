@@ -21,10 +21,12 @@ namespace client
             ~Core() = default;
 
             void startCore();
+            bool isHost() const;
 
         private:
             EngineGraphic _graph;
             LogicPause _logicPause;
             MenuEvent _menuEvent;
+            bool _isHost;
     };
 };

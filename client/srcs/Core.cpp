@@ -5,23 +5,46 @@
 ** main.cpp
 */
 
+#include <thread>
 #include "Client/Core.hpp"
+#include "Server/Server.hpp"
+
+int run_server()
+{
+    try {
+        std::cout << "starting a server" << std::endl;
+        server::Server server;
+        server.run();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return (0);
+}
 
 client::Core::Core():
     _graph(),
     _logicPause(),
-    _menuEvent(_graph.getGUIEnvironment(), _graph.getDriver(), _logicPause.getMode())
+    _menuEvent(_graph.getGUIEnvironment(), _graph.getDriver(), _logicPause.getMode()),
+    _isHost(false)
 {
 }
 
 void client::Core::startCore()
 {
     std::string instruction = "";
+    std::thread t1;
 
     _graph.addCamera();
     while (2) {
         instruction = _menuEvent.launchFunction(_graph.getGuiID());
-        if (instruction == "connect") {
+        if (instruction == "connectSolo" || instruction == "connectHost") {
+            if (instruction == "connectHost")
+                _isHost = true;
+            t1 = std::thread(run_server);
+            sleep(1);
+        }
+        if (strStartWith(instruction, "connect")) {
+            std::cout << "connection" << std::endl;
             _logicPause.getClient().connect();
             _logicPause.getClient().start_receive();
         }
@@ -37,4 +60,6 @@ void client::Core::startCore()
         if (_logicPause.getMode() != MAINMENU)
             _logicPause.getClient().call_poll_one();
     }
+    if (_isHost)
+        t1.join();
 }

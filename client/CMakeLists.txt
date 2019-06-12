@@ -4,6 +4,7 @@ include_directories(
     ../lib/include
     ./include
     ../game/include
+    ../server/include
 )
 
 add_library(client

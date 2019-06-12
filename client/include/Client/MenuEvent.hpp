@@ -12,8 +12,9 @@ class MenuEvent
         ~MenuEvent() = default;
         std::string launchFunction(s32 id);
         std::string startSolo(s32 id);
+        std::string host(s32 id);
         // std::string menuMulti(S32 id);
-        // std::string startMulti(S32 id);
+        std::string startMulti(s32 id);
         // std::string menuOptions(S32 id);
         // std::string soundVolume(S32 id);
         // std::string musicVolume(S32 id);
@@ -21,4 +22,5 @@ class MenuEvent
         std::unordered_map<std::string, elem_f> _functions;
         CustomMenu _menu;
         MODE &_mode;
+        bool _isHost;
 };

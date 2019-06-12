@@ -30,3 +30,5 @@ private:
     gui::IGUISpriteBank *_bank;
     video::IVideoDriver *_driver;
 };
+
+bool strStartWith(std::string str1, const std::string str2);

@@ -56,7 +56,7 @@ namespace server
             boost::asio::io_service _io_service;
             boost::shared_ptr<boost::asio::ip::udp::socket> _socket;
             boost::asio::ip::udp::endpoint _remote_endpoint;
-            boost::array<char, 128> _recv_buffer;
+            std::array<char, 256> _recv_buffer = {0};
             boost::shared_ptr<Session> _session;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;

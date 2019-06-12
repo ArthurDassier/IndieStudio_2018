@@ -71,15 +71,20 @@ void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
     _elems.push_back(newElem);
 }
 
+bool strStartWith(std::string str1, const std::string str2)
+{
+    return str1.substr(0, str2.size()) == str2;
+}
+
 void CustomMenu::addElement(pt::ptree elem, const std::string name)
 {
     std::vector<int> pos;
 
     for (auto &it : elem.get_child("pos"))
         pos.push_back(it.second.get_value<int>());
-    if (name == "button")
+    if (strStartWith(name, "button"))
         this->addButton(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
-    else if (name == "scrollBar")
+    else if (strStartWith(name, "scrollBar"))
         this->addScrollbar(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
     else
         exit(84);
