@@ -97,7 +97,10 @@ void server::Server::movement()
 
 void server::Server::space()
 {
-    std::cout << "space" << std::endl;
+    if (!_pause) {
+        _game.putBomb(boost::lexical_cast<t_id>(_remote_endpoint.port()));
+    }
+
 }
 
 void server::Server::pause()

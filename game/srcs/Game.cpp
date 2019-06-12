@@ -47,7 +47,7 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
                 it->getPosition().x -= 2;
             else if (direction.compare("right") == 0)
                 it->getPosition().x += 2;
-            if (checkCollisions() == false) {
+            if (checkCollisions(*_EM.getEntity(id)) == false) {
                 it->setPosition(pos_player);
                 return;
             }
@@ -69,29 +69,27 @@ float roundDecimal(int n)
     return (n - a >= b - n) ? b : a;
 }
 
-bool game::Game::checkCollisions()
+void game::Game::putBomb(t_id id)
+{
+    auto entity = _EM.getEntity(id);
+
+    if (entity == nullptr)
+        return;
+    if (checkCollisions(*entity) == true) {
+        
+    }
+    // entity->getPosition();
+    // entity->getDirection();
+}
+
+bool game::Game::checkCollisions(Entity& entity)
 {
     s_pos pos_player = _player->getPosition();
 
-    if (_player->getDirection().compare("up") == 0) {
-        pos_player.z = roundDecimal(pos_player.z);
-        pos_player.x = roundDecimal(pos_player.x);
-    }
-    else if (_player->getDirection().compare("down") == 0) {
-        pos_player.z = roundDecimal(pos_player.z);
-        pos_player.x = roundDecimal(pos_player.x);
-    }
-    else if (_player->getDirection().compare("left") == 0) {
-        pos_player.x = roundDecimal(pos_player.x);
-        pos_player.z = roundDecimal(pos_player.z);
-    }
-    else if (_player->getDirection().compare("right") == 0) {
-        pos_player.x = roundDecimal(pos_player.x);
-        pos_player.z = roundDecimal(pos_player.z);
-    }
-    if ( _EM.getEntity(pos_player) == game::EntityType::block ||  _EM.getEntity(pos_player) == game::EntityType::brittleBlock) {
+    pos_player.z = roundDecimal(pos_player.z);
+    pos_player.x = roundDecimal(pos_player.x);
+    if ( _EM.getEntity(pos_player) == game::EntityType::block ||  _EM.getEntity(pos_player) == game::EntityType::brittleBlock)
         return false;
-    }
     return true;
     //     _packet.setType("explosion");
     //     _packet.addData("damage", 2);
