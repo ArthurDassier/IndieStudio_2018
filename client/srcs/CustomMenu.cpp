@@ -11,6 +11,7 @@ CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) :
         video::SColor col = _env->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
         col.setAlpha(255);
         _env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
+        _env->getSkin()->setFont(_env->getBuiltInFont(), gui::EGDF_BUTTON);
 	}
 }
 
@@ -54,7 +55,7 @@ void CustomMenu::changeMenu(const std::string &configFile)
 
 void CustomMenu::addButton(pt::ptree elem, core::recti rect)
 {
-    gui::IGUIButton *newElem = _env->addButton(rect, 0, elem.get<int>("id"));
+    gui::IGUIButton *newElem = _env->addButton(rect, 0, elem.get<int>("id"), L"Coucou", L"ok");
     newElem->setSpriteBank(_env->getSkin()->getSpriteBank());
     newElem->setSprite(gui::EGBS_BUTTON_FOCUSED, elem.get<s32>("texture"));
     newElem->setSprite(gui::EGBS_BUTTON_NOT_FOCUSED, elem.get<s32>("texture"));

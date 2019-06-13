@@ -38,8 +38,7 @@ void client::Core::startCore()
     while (2) {
         instruction = _menuEvent.launchFunction(_graph.getGuiID());
         if (instruction == "connectSolo" || instruction == "connectHost") {
-            if (instruction == "connectHost")
-                _isHost = true;
+            _isHost = true;
             t1 = std::thread(run_server);
             sleep(1);
         }
