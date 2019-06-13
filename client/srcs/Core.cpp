@@ -6,6 +6,7 @@
 */
 
 #include <thread>
+#include <chrono>
 #include "Client/Core.hpp"
 #include "Server/Server.hpp"
 
@@ -29,6 +30,8 @@ client::Core::Core():
 {
 }
 
+
+
 void client::Core::startCore()
 {
     std::string instruction = "";
@@ -37,18 +40,30 @@ void client::Core::startCore()
     _graph.addCamera();
     while (2) {
         instruction = _menuEvent.launchFunction(_graph.getGuiID());
+        if (instruction == "quit") {
+            if (t1.joinable()) {
+                _logicPause.buildJSON("quit");
+                _logicPause.getClient().sendToServer(_logicPause.getData());
+            }
+            break;
+        }
         if (instruction == "connectSolo" || instruction == "connectHost") {
             _isHost = true;
             t1 = std::thread(run_server);
-            sleep(1);
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         if (strStartWith(instruction, "connect")) {
             std::cout << "connection" << std::endl;
             _logicPause.getClient().connect();
             _logicPause.getClient().start_receive();
         }
-        if (_graph.runGraph(_logicPause.getMode()) == 84)
+        if (_graph.runGraph(_logicPause.getMode()) == 84) {
+            if (t1.joinable()) {
+                _logicPause.buildJSON("quit");
+                _logicPause.getClient().sendToServer(_logicPause.getData());
+            }
             break;
+        }
         _logicPause.setKey(_graph.input());
         _logicPause.manageKey();
         if (_logicPause.getClient().getRoot().empty() == false) {

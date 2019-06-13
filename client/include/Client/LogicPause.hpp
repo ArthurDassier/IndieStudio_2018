@@ -32,8 +32,9 @@ class LogicPause
         client::Client &getClient();
 
         void dataMove(std::string move);
-        void sendEscape();
+        void buildJSON(std::string type);
         MODE &getMode();
+        std::string getData() const;
 
     private:
         client::Client _client;

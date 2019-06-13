@@ -271,7 +271,7 @@ gui::IGUIEnvironment *client::EngineGraphic::getGUIEnvironment() const
     return _guienv;
 }
 
-s32 client::EngineGraphic::getGuiID() const
+s32 client::EngineGraphic::getGuiID()
 {
     return _receiver.getID();
 }

@@ -4,10 +4,14 @@ MenuEvent::MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MOD
     _menu(env, driver),
     _mode(mode)
 {
-    _menu.changeMenu("client/srcs/menu.json");
+    _menu.changeMenu("client/config/MainMenu.json");
     _functions["startSolo"] = &MenuEvent::startSolo;
     _functions["host"] = &MenuEvent::host;
     _functions["startMulti"] = &MenuEvent::startMulti;
+    _functions["optionMenu"] = &MenuEvent::menuOptions;
+    _functions["quit"] = &MenuEvent::quit;
+    _functions["help"] = &MenuEvent::menuHelp;
+    _functions["returnMain"] = &MenuEvent::returnMain;
 }
 
 std::string MenuEvent::launchFunction(s32 id)
@@ -44,5 +48,32 @@ std::string MenuEvent::startMulti(s32 id)
         _mode = GAME;
         return "connect";
     }
+    return "";
+}
+
+std::string MenuEvent::menuOptions(s32 id)
+{
+    (void)id;
+    _menu.changeMenu("client/config/OptionsMenu.json");
+    return "";
+}
+
+std::string MenuEvent::quit(s32 id)
+{
+    (void)id;
+    return "quit";
+}
+
+std::string MenuEvent::menuHelp(s32 id)
+{
+    (void)id;
+    _menu.changeMenu("client/config/helpMenu.json");
+    return "";
+}
+
+std::string MenuEvent::returnMain(s32 id)
+{
+    (void)id;
+    _menu.changeMenu("client/config/MainMenu.json");
     return "";
 }

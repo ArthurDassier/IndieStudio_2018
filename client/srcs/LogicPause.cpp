@@ -31,10 +31,10 @@ void LogicPause::dataMove(std::string move)
     _data = buff.str();
 }
 
-void LogicPause::sendEscape()
+void LogicPause::buildJSON(std::string type)
 {
     boost::property_tree::ptree root;
-    root.put("type", "pause");
+    root.put("type", type);
     std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
@@ -66,7 +66,7 @@ void LogicPause::manageKey()
             _data.clear();
         }
         else if (_lastKey == KEY_ESCAPE) {
-            sendEscape();
+            buildJSON("pause");
             _client.sendToServer(_data);
             _mode = MENU;
         }
@@ -82,4 +82,9 @@ client::Client &LogicPause::getClient()
 MODE &LogicPause::getMode()
 {
     return _mode;
+}
+
+std::string LogicPause::getData() const
+{
+    return _data;
 }

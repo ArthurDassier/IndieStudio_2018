@@ -13,9 +13,12 @@ class MenuEvent
         std::string launchFunction(s32 id);
         std::string startSolo(s32 id);
         std::string host(s32 id);
-        // std::string menuMulti(S32 id);
         std::string startMulti(s32 id);
-        // std::string menuOptions(S32 id);
+        std::string menuOptions(s32 id);
+        std::string quit(s32 id);
+        std::string menuHelp(s32 id);
+        std::string returnMain(s32 id);
+        // std::string menuMulti(S32 id);
         // std::string soundVolume(S32 id);
         // std::string musicVolume(S32 id);
     private:

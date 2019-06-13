@@ -1,0 +1,15 @@
+{
+    "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
+    "imageBackground": {
+        "pos": [],
+        "texture": 1,
+        "id": 0
+    },
+    "button1": {
+        "pos": [800,800,1100,850],
+        "texture": 0,
+        "id": 1,
+        "name": "returnMain",
+        "text": "Return"
+    }
+}

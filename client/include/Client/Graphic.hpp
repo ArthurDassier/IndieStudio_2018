@@ -41,9 +41,11 @@ namespace client
                 return false;
             }
 
-            s32 getID() const
+            s32 getID()
             {
-                return _guiID;
+                s32 tmp = _guiID;
+                _guiID = -1;
+                return tmp;
             }
 
             // This is used to check whether a key is being held down
@@ -102,7 +104,7 @@ namespace client
 
             video::IVideoDriver *getDriver() const;
             gui::IGUIEnvironment *getGUIEnvironment() const;
-            s32 getGuiID() const;
+            s32 getGuiID();
 
         private:
             MyEventReceiver _receiver;

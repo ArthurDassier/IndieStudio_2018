@@ -21,6 +21,7 @@ public:
     gui::IGUIElement *operator[](s32 i);
     gui::IGUIEnvironment *operator->();
 private:
+    void addImage(pt::ptree elem);
     void addButton(pt::ptree elem, core::recti rect);
     void addScrollbar(pt::ptree elem, core::recti rect);
     void setSpriteBank(pt::ptree menu);
