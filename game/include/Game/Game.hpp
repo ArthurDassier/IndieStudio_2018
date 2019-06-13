@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 #include "Character.hpp"
 #include "EntityManager.hpp"
@@ -22,6 +22,7 @@
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
+#include "Game/Lib.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -51,6 +52,9 @@ namespace game
 
             void putBomb(t_id);
             void refreshBomb();
+            void destroyMap(size_t power,float x, float z);
+            s_pos determineBombPos(int x, int z, std::string sens);
+
         private:
             Generation _generation;
             EntityManager _EM;

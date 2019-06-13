@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "Game/Entity.hpp"
 #include <chrono>
+
+#include "Game/Entity.hpp"
 
 namespace game
 {
@@ -23,11 +24,10 @@ namespace game
             
             bool getAlive();
             size_t checkTimeExplosion();
-            void destroyMap();
             void RefreshBomb();
             float getPosX() const noexcept;
             float getPosZ() const noexcept;
-
+            size_t getPower() const noexcept;
         private:
             size_t _power = 2;
             float _posX = 0;

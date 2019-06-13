@@ -36,6 +36,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
+    _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -230,6 +231,24 @@ void client::EngineGraphic::explosion()
 
     _nodeBomb[_root.get<size_t>("id")]->remove();
     _nodeBomb.erase(_nodeBomb.begin());
+}
+
+
+void client::EngineGraphic::destroy()
+{
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    int i = 0;
+    std::cout << "fini de ddestroy\n";
+    for (;i != _map.size(); i++) {
+        if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
+            break;
+        }
+    }
+    if (i != _map.size()) {
+        _map[i]->remove();
+        _map.erase(_map.begin() + i);
+    }
 }
 
 void client::EngineGraphic::death()

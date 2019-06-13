@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+
 #include "Utils/ConfigManager.hpp"
 #include "irrlicht.h"
 

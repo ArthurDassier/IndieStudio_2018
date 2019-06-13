@@ -36,7 +36,7 @@ void client::Client::connect(std::string ip_addr, std::string port)
         _sock.open(boost::asio::ip::udp::v4());
         _sock.send_to(boost::asio::buffer(data), _remote_endpoint);
     } catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        throw(error::ClientError(e.what()));
     }
 }
 
@@ -72,7 +72,7 @@ void client::Client::handle_receive(const boost::system::error_code& error,
         try {
             boost::property_tree::read_json(ss, root);
         } catch (std::exception &e) {
-            std::cout << "Error: " << e.what() << std::endl;
+            throw(error::ClientError(e.what()));
         }
         // manageType(root);
         _root = root;

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <iostream>
+
 #include "Game/IEntity.hpp"
 
 using t_id = std::size_t;

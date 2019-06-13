@@ -43,3 +43,13 @@ std::vector<game::p_entity> const &game::EntityManager::getEntities() const noex
 {
     return _entities;
 }
+
+void game::EntityManager::deleteFromPos(float x, float z)
+{
+    for (int i = 0; i != _entities.size(); i++) {
+        if (_entities[i].get()->getPosition().x == x && _entities[i].get()->getPosition().z == z) {
+            _entities.erase(_entities.begin() + i);
+            return;
+        }
+    }
+}
