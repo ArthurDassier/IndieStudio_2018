@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "Game/Entity.hpp"
 #include <chrono>
+
+#include "Game/Entity.hpp"
 
 namespace game
 {

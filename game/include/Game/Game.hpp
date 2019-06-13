@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 #include "Character.hpp"
 #include "EntityManager.hpp"

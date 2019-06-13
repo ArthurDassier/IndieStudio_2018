@@ -9,6 +9,7 @@
 
 #include <string>
 #include <iostream>
+#include <map>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/array.hpp>
@@ -16,7 +17,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <map>
 
 #include "Server/Room.hpp"
 #include "Server/Session.hpp"

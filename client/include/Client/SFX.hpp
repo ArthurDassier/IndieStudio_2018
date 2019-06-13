@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include <boost/algorithm/string.hpp>
 #include <cassert>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 
 #include "Audio.hpp"
 #include "ConfigManager.hpp"

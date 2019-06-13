@@ -7,11 +7,11 @@
 
 #pragma once
 
+#include <memory>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <memory>
 
 #include "Error/Error.hpp"
 

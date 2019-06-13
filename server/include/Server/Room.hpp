@@ -11,6 +11,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+
 #include "Game/Character.hpp"
 #include "Game/Generation.hpp"
 #include "Utils/Packet.hpp"
