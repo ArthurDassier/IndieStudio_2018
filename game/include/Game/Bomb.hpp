@@ -24,6 +24,7 @@ namespace game
             void RefreshBomb();
             float getPosX() const noexcept;
             float getPosZ() const noexcept;
+            size_t getPower() const noexcept;
         private:
             size_t _power = 2;
             float _posX = 0;

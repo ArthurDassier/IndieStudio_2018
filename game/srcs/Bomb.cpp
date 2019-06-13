@@ -49,6 +49,12 @@ void game::Bomb::RefreshBomb()
     _alive = false;
 }
 
+size_t game::Bomb::getPower() const noexcept
+{
+    return _power;
+}
+
+
 bool game::Bomb::getAlive()
 {
     return _alive;
