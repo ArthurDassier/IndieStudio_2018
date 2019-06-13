@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
-#include "ConfigManager.hpp"
+#include "Utils/ConfigManager.hpp"
 #include "irrlicht/irrlicht.h"
 using namespace irr;
 
@@ -32,7 +32,7 @@ private:
     void addButton(pt::ptree elem, core::recti rect);
     void addScrollbar(pt::ptree elem, core::recti rect);
     void setSpriteBank(pt::ptree menu);
-    ConfigManager _manager;
+    utils::ConfigManager _manager;
     gui::IGUIEnvironment *_env;
     std::vector<gui::IGUIElement *> _elems;
     gui::IGUISpriteBank *_bank;
