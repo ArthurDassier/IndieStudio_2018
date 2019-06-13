@@ -89,7 +89,12 @@ std::size_t &game::Character::getHealthPoints() noexcept
 
 void game::Character::setCooldownBomb()
 {
-    // _cooldownBomb = std::chrono::high_resolution_clock::now();
+    _cooldownBomb = std::chrono::high_resolution_clock::now();
+}
+
+size_t game::Character::getPower()
+{
+    return _power;
 }
 
 size_t game::Character::getCooldownBomb()

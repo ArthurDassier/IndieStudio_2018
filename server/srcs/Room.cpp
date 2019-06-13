@@ -115,21 +115,21 @@ void server::Room::startPosi(boost::shared_ptr<game::Character> participant)
             // participant->setSkin(0);
             break;
         case 2:
-            pos = {90, 5, 90};
+            pos = {81, 5, 11};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 1;
             // participant->setSkin(1);
             break;
         case 3:
-            pos = {90, 5, 10};
+            pos = {91, 5, 11};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 2;
             // participant->setSkin(2);
             break;
         case 4:
-            pos = {10, 5, 90};
+            pos = {11, 5, 91};
             participant->setPosition(pos);
             participant->setSpawn(pos);
             participant->get_playerdata().skin = 3;
