@@ -59,7 +59,7 @@ std::size_t bytes_transferred)
         try {
             boost::property_tree::read_json(ss, _root);
         } catch (std::exception &e) {
-            std::cout << "Error: " << e.what() << std::endl;
+            throw(error::ServerError(e.what()));
         }
         _fMap.find(_root.get<std::string>("type"))->second();
         start_receive();

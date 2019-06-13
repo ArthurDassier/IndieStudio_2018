@@ -13,6 +13,8 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <memory>
 
+#include "Error/Error.hpp"
+
 namespace client
 {
     class Client
