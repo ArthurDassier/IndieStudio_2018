@@ -273,18 +273,18 @@ void client::EngineGraphic::water()
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     int i = 0;
-    std::cout << "water\n";
-    std::cout << x << std::endl;
-    std::cout << z << std::endl;
+
     for (;i != _listFire.size(); i++) {
         if (_listFire[i]->getPosition().X == x && _listFire[i]->getPosition().Z == z & _listFire[i]->getPosition().Y == 12) {
+            std::cout << "water" << std::endl;
             break;
         }
     }
-    if (i != _listFire.size()) {
-        _listFire[i]->remove();
+  //  if (i != _listFire.size()) {
+        std::cout << "print" << std::endl;
+        _listFire[i]->clearParticles();
         _listFire.erase(_listFire.begin() + i);
-    }
+  //  }
 }
 
 void client::EngineGraphic::explosion()
