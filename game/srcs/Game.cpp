@@ -6,6 +6,10 @@
 */
 
 #include "Game/Game.hpp"
+#include "Game/Ground.hpp"
+#include "Game/Character.hpp"
+#include "Game/MovableEntity.hpp"
+#include "Game/IEntity.hpp"
 
 void game::Game::gameLoop()
 {
@@ -47,6 +51,58 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
+void game::Game::destroyMap(size_t power, float x, float z)
+{
+    s_pos pos_block;
+    pos_block.x = x;
+    pos_block.z = z;
+
+    for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _packet.addData("x", x);
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.z += 10;
+        _packet.addData("z", z + i * 10);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+    }
+    _packet.clear();
+    pos_block.x = x;
+    pos_block.z = z;
+    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _packet.addData("x", x + i * 10);
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.x += 10;
+        _packet.addData("z", z);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+    }
+    _packet.clear();
+    pos_block.x = x;
+    pos_block.z = z;
+
+    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _packet.addData("x", x - i * 10);
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.x -= 10;
+        _packet.addData("z", z);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+    }
+    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _packet.addData("x", x);
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.z -= 10;
+        _packet.addData("z", z - i * 10);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+    }
+    _packet.clear();
+}
+
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {
@@ -55,11 +111,11 @@ void game::Game::refreshBomb()
             _packet.setType("explosion");
             _packet.addData("x", _allBomb[i].getPosX());
             _packet.addData("z", _allBomb[i].getPosZ());
-            std::cout << "=> ID BOMB: " << _allBomb.size() - 1 << std::endl;
             _packet.addData("id", _allBomb.size() - 1);
             for (auto &it : *_participants)
                 it->deliver(_packet.getPacket());
             _packet.clear();
+            destroyMap(_allBomb[i].getPower(), _allBomb[i].getPosX(), _allBomb[i].getPosZ());
             _allBomb.erase(_allBomb.begin() + i);
             i--;
         }
@@ -73,16 +129,44 @@ float roundDecimal(int n)
     return (n - a >= b - n) ? b : a;
 }
 
+game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
+{
+    s_pos pos_bomb;
+    if (sens.compare("up") == 0) {
+        pos_bomb.z = z - (z % 10);
+        pos_bomb.x = x - (x % 10);
+        std::cout << "Z: " << pos_bomb.z  << "X : " << pos_bomb.x << "\n";
+    }
+    else if (sens.compare("down") == 0) {
+        pos_bomb.z = z + 10 - (z % 10);
+        pos_bomb.x = x - (x % 10);
+    }
+    else if (sens.compare("right") == 0) {
+        pos_bomb.x = x - (x % 10);
+        pos_bomb.z = z - (z % 10);
+
+    }
+    else if (sens.compare("left") == 0) {
+        pos_bomb.x = x + 10 - (x % 10);
+        pos_bomb.z = z - (z % 10);
+    }
+    return pos_bomb;
+}
+
+
 void game::Game::putBomb(t_id id)
 {
+    s_pos pos_bomb;
+
     for (auto &it : *_participants) {
         if (it->getId() == id) {
-            if (static_cast<Character *>(it.get())->getCooldownBomb() >= 5) {
+            if (static_cast<Character *>(it.get())->getCooldownBomb() >= 0.5) {
+                pos_bomb = determineBombPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
                 _packet.setType("bomb");
-                _packet.addData("x", it.get()->getPosition().x);
-                _packet.addData("z", it.get()->getPosition().z);
+                _packet.addData("x", pos_bomb.x);
+                _packet.addData("z", pos_bomb.z);
                 static_cast<Character *>(it.get())->setCooldownBomb();
-                _allBomb.emplace_back(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getPower());
+                _allBomb.emplace_back(pos_bomb.x, pos_bomb.z, it.get()->getPower());
             }
         }
     }
@@ -94,6 +178,7 @@ void game::Game::putBomb(t_id id)
 bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
 {
     s_pos pos_player = entity->getPosition();
+    std::cout << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block

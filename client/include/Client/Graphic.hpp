@@ -71,6 +71,7 @@ namespace client
             void explosion();
             void death();
             void bomb();
+            void destroy();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -87,7 +88,6 @@ namespace client
             scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
 
             void setKey(std::string);
-
         private:
             MyEventReceiver _receiver;
             IrrlichtDevice *_device;
@@ -96,7 +96,7 @@ namespace client
             gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
             std::vector<Character> _charList;
-            std::list<scene::ISceneNode*> _map;
+            std::vector<scene::ISceneNode*> _map;
             Clock _clock;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
