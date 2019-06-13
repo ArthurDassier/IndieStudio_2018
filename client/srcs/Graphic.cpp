@@ -237,20 +237,20 @@ void client::EngineGraphic::new_bomb()
 
 void client::EngineGraphic::drawFire(float x, float y)
 {
-    scene::IParticleSystemSceneNode* ps = _smgr->addParticleSystemSceneNode(false);
-    scene::IParticleEmitter* em = ps->createBoxEmitter(
-            core::aabbox3d<f32>(-10,0,-10,10,1,10),
-            core::vector3df(0.0f,0.02f,0.0f),
-            20, 50,
-            video::SColor(0, 255, 255, 255),
-            video::SColor(0, 255, 255, 255),
-            300, 550, 0,
-            core::dimension2df(3.f, 3.f),
-            core::dimension2df(5.f, 5.f));
+    scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
+    scene::IParticleEmitter *em = ps->createBoxEmitter(
+        core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
+        core::vector3df(0.0f, 0.02f, 0.0f),
+        20, 50,
+        video::SColor(0, 255, 255, 255),
+        video::SColor(0, 255, 255, 255),
+        300, 550, 0,
+        core::dimension2df(3.f, 3.f),
+        core::dimension2df(5.f, 5.f));
 
     ps->setEmitter(em);
     em->drop();
-    scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+    scene::IParticleAffector *paf = ps->createFadeOutParticleAffector();
 
     ps->addAffector(paf);
     paf->drop();
