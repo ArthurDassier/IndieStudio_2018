@@ -15,16 +15,20 @@ namespace game
     class Bomb : public Entity
     {
         public:
+            Bomb() = default;
             Bomb(float x, float y, size_t _power);
             ~Bomb() = default;
+            Bomb & operator = (Bomb const &);
             bool getAlive();
             size_t checkTimeExplosion();
             void destroyMap();
             void RefreshBomb();
+            float getPosX() const noexcept;
+            float getPosZ() const noexcept;
         private:
             size_t _power = 2;
-            float posX = 0;
-            float posY = 0;
+            float _posX = 0;
+            float _posY = 0;
             bool _alive = true;
             std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownExplose;
 
