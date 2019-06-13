@@ -45,6 +45,7 @@ namespace game
             void setCooldownBomb();
             size_t getCooldownBomb();
 
+            size_t getPower();
 
         private:
             t_id _id;
@@ -55,6 +56,7 @@ namespace game
             std::string _direction;
             irr::scene::IAnimatedMeshSceneNode *_node;
             std::size_t _hp;
+            size_t _power = 2;
             std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBomb;
     };
 }; // namespace game
