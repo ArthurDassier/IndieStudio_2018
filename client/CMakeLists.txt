@@ -11,6 +11,7 @@ include_directories(
     ../lib/include
     ./include
     ../game/include
+    ../server/include
     ../error/include
 )
 
@@ -22,6 +23,9 @@ add_library(client
     ./srcs/Graphic.cpp
     ./srcs/Clock.cpp
     ./srcs/LogicPause.cpp
+    ./srcs/ConfigManager.cpp
+    ./srcs/CustomMenu.cpp
+    ./srcs/MenuEvent.cpp
 )
 
 if (WIN32)
