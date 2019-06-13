@@ -67,7 +67,7 @@ std::size_t bytes_transferred)
 }
 
 void server::Server::handle_send(boost::shared_ptr<std::string> message,
-const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferred)
+const boost::system::error_code &error, std::size_t bytes_transferred)
 {
     if (!error)
         std::cout << *message << " was sent" << std::endl;
@@ -98,7 +98,6 @@ void server::Server::movement()
 void server::Server::space()
 {
     if (!_pause) {
-        std::cout << "space\n";
         _game.putBomb(boost::lexical_cast<t_id>(_remote_endpoint.port()));
     }
 

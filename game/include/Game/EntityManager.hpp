@@ -48,6 +48,7 @@ namespace game
             EntityType getEntityType(s_pos pos);
 
             std::vector<p_entity> const &getEntities() const noexcept;
+            void deleteFromPos(float x, float y);
 
         private:
             std::vector<p_entity> _entities;
