@@ -8,9 +8,9 @@ CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) :
     _bank = _env->getSkin()->getSpriteBank();
     for (s32 i=0; i < irr::gui::EGDC_COUNT ; ++i)
 	{
-		video::SColor col = _env->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
-		col.setAlpha(255);
-		_env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
+        video::SColor col = _env->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
+        col.setAlpha(255);
+        _env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
 	}
 }
 
@@ -40,6 +40,7 @@ void CustomMenu::changeMenu(const std::string &configFile)
     if (!_elems.empty())
         _elems.clear();
     _env->clear();
+    _env->addImage(_driver->getTexture("./client/res/menu_back.jpg"), core::position2d<s32>(0, 0));
     _manager.setConfigFile(configFile);
     for (auto &it : _manager.getPtree()) {
         if (it.first == "textures")

@@ -1,7 +1,7 @@
 {
     "textures": ["./client/res/brick.png"],
     "button1": {
-        "pos": [10,240,110,272],
+        "pos": [900,500,1000,500],
         "texture": 0,
         "id": 0,
         "name": "startSolo"
