@@ -1,5 +1,12 @@
 project(server)
 
+if (WIN32)
+    include_directories(
+        "C:/Boost/include/boost-1_70"
+    )
+    set(CMAKE_CXX_FLAGS "-D_WIN32_WINNT=0x0601 /EHsc")
+endif ()
+
 include_directories(
     ./include
     ../game/include
@@ -14,7 +21,8 @@ add_library(server
     ./srcs/Session.cpp
 )
 
-target_include_directories(server INTERFACE
+target_include_directories(server
+    INTERFACE
     ./include
     ../game/include
     ../lib/include

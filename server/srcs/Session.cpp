@@ -47,8 +47,8 @@ void server::Session::deliver(std::string message)
     }
 }
 
-void server::Session::handle_send(__attribute__((unused)) std::string message,
-const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferre)
+void server::Session::handle_send(std::string message,
+const boost::system::error_code &error, std::size_t bytes_transferre)
 {
     if (!error && !_message_queue.empty()) {
         _message_queue.pop_front();
