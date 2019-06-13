@@ -19,7 +19,7 @@ void client::Core::startCore()
     _logicPause.getClient().connect();
     _logicPause.getClient().start_receive();
     _graph.addCamera();
-    while (2) {
+    forever {
         if (_graph.runGraph() == 84)
             break;
         _logicPause.setKey(_graph.input());

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+
 #include "irrlicht/irrlicht.h"
 
 using t_id = std::size_t;

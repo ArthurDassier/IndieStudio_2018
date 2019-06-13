@@ -38,17 +38,27 @@ void server::Session::deliver(std::string message)
     bool write_in_progress = !_message_queue.empty();
 
     _message_queue.push_back(message);
-    if (!write_in_progress)
-        sendTo();
+    if (!write_in_progress) {
+        try {
+            sendTo();
+        } catch (std::exception &e) {
+            throw(error::ServerError(e.what()));
+        }
+    }
 }
 
-void server::Session::handle_send(__attribute__((unused)) std::string message,
-const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferre)
+void server::Session::handle_send(std::string message,
+const boost::system::error_code &error, std::size_t bytes_transferre)
 {
     if (!error && !_message_queue.empty()) {
         _message_queue.pop_front();
-        if (!_message_queue.empty())
-            sendTo();
+        if (!_message_queue.empty()) {
+            try {
+                sendTo();
+            } catch (std::exception &e) {
+                throw(error::ServerError(e.what()));
+            }
+        }
     }
 }
 

@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "Game/MovableEntity.hpp"
-#include "irrlicht/irrlicht.h"
 #include <chrono>
 
+#include "Game/MovableEntity.hpp"
+#include "irrlicht/irrlicht.h"
 
 namespace game
 {

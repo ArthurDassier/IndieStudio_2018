@@ -59,7 +59,7 @@ std::size_t bytes_transferred)
         try {
             boost::property_tree::read_json(ss, _root);
         } catch (std::exception &e) {
-            std::cout << "Error: " << e.what() << std::endl;
+            throw(error::ServerError(e.what()));
         }
         _fMap.find(_root.get<std::string>("type"))->second();
         start_receive();
@@ -67,7 +67,7 @@ std::size_t bytes_transferred)
 }
 
 void server::Server::handle_send(boost::shared_ptr<std::string> message,
-const boost::system::error_code &error, __attribute__((unused)) std::size_t bytes_transferred)
+const boost::system::error_code &error, std::size_t bytes_transferred)
 {
     if (!error)
         std::cout << *message << " was sent" << std::endl;

@@ -11,6 +11,8 @@
 #include "Client/Graphic.hpp"
 #include "Client/LogicPause.hpp"
 
+#define forever while (42)
+
 namespace client
 {
     class Core
