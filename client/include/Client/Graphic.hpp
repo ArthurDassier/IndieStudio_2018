@@ -14,8 +14,9 @@
 #include "irrlicht/irrlicht.h"
 #include "irrlicht/driverChoice.h"
 #include "Client/Client.hpp"
-#include "Client/Entity.hpp"
 #include "Client/Clock.hpp"
+#include "Client/Entity.hpp"
+#include "Client/GraphicLoader.hpp"
 #include "Game/Character.hpp"
 
 using namespace irr;
@@ -83,7 +84,7 @@ namespace client
             void create_map(std::string map);
             void sendEscape();
             void sendSpace();
-            scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
+            scene::IMeshSceneNode *createMapBlock(const std::string, const core::vector3df);
 
             void setKey(std::string);
 
@@ -101,11 +102,13 @@ namespace client
             std::map<std::string, std::function<void()>> _fMap;
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
 
-            std::map<int, const irr::io::path> _skins = {
-                {0, "client/res/nskinrd.jpg"},
-                {1, "client/res/nskinbl.jpg"},
-                {2, "client/res/nskingr.jpg"},
-                {3, "client/res/nskinpu.jpg"}
-            };
+            GraphicLoader _loader;
+            std::map<int, const std::string> _skins = {
+                {0, "nskinrd"},
+                {1, "nskinbl"},
+                {2, "nskingr"},
+                {3, "nskinpu"}};
+
+            std::map<int, const scene::IAnimatedMesh *> _models;
     };
 }; // namespace client

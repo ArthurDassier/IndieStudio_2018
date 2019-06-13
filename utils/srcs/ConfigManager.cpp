@@ -5,7 +5,7 @@
 ** ConfigManager.cpp
 */
 
-#include "../include/utils/ConfigManager.hpp"
+#include "Utils/ConfigManager.hpp"
 
 ConfigManager::ConfigManager(const std::string &file):
     _configFile(file),

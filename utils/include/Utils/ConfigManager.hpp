@@ -77,7 +77,7 @@ class ConfigManager
         {
             std::unordered_map<std::string, T> um;
 
-            for (auto &it : _pt.get_child(getNodePath(key)))
+            for (auto &it : _pt.get_child(key))
                 um[it.first] = it.second.get_value<T>();
             return um;
         }

@@ -50,16 +50,18 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {
+    // for (auto &it : _allBomb) {
         _allBomb[i].RefreshBomb();
         if (_allBomb[i].getAlive() == false) {
             _packet.setType("explosion");
             _packet.addData("x", _allBomb[i].getPosX());
             _packet.addData("z", _allBomb[i].getPosZ());
-            std::cout << "=> ID BOMB: " << _allBomb.size() - 1 << std::endl;
             _packet.addData("id", _allBomb.size() - 1);
             for (auto &it : *_participants)
                 it->deliver(_packet.getPacket());
             _packet.clear();
+            // auto i = std::find(_allBomb.begin(), _allBomb.end(), it);
+            // int index = std::distance(_allBomb.begin(), i);
             _allBomb.erase(_allBomb.begin() + i);
             i--;
         }
@@ -91,7 +93,7 @@ void game::Game::putBomb(t_id id)
     _packet.clear();
 }
 
-bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
+bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
     pos_player.z = roundDecimal(pos_player.z);

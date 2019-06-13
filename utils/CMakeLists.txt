@@ -4,6 +4,7 @@ include_directories(./include)
 
 add_library(utils
     STATIC
+    ./srcs/ConfigManager.cpp
     ./srcs/Packet.cpp
 )
 
