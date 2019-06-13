@@ -70,6 +70,11 @@ void LogicPause::manageKey()
             _client.sendToServer(_data);
             _mode = MENU;
         }
+        else if (_lastKey == KEY_SPACE) {
+            buildJSON("space");
+            _client.sendToServer(_data);
+            _data.clear();
+        }
     }
     _lastKey = KEY_KEY_CODES_COUNT;
 }

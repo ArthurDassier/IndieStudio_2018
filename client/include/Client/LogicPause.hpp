@@ -15,8 +15,8 @@ using namespace irr;
 
 enum MODE {
     MAINMENU,
-    MENU,
-    GAME
+    GAME,
+    MENU
 };
 
 class LogicPause
@@ -35,7 +35,6 @@ class LogicPause
         void buildJSON(std::string type);
         MODE &getMode();
         std::string getData() const;
-
     private:
         client::Client _client;
         MODE _mode;

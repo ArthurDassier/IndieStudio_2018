@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include <fstream>
+
 #include "irrlicht/irrlicht.h"
 #include "irrlicht/driverChoice.h"
 #include "Client/Client.hpp"
@@ -86,6 +87,8 @@ namespace client
             void new_bomb();
             void explosion();
             void death();
+            void bomb();
+            void destroy();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -94,10 +97,11 @@ namespace client
 
             scene::ICameraSceneNode *addCamera();
             void moveEntity(std::string sens, std::string id);
-            
+
             void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
             void create_map(std::string map);
             void sendEscape();
+            void sendSpace();
             scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
 
             void setKey(std::string);
@@ -114,10 +118,11 @@ namespace client
             gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
             std::vector<Character> _charList;
-            std::list<scene::ISceneNode*> _map;
+            std::vector<scene::ISceneNode*> _map;
             Clock _clock;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
+            std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
 
             std::map<int, const irr::io::path> _skins = {
                 {0, "client/res/nskinrd.jpg"},

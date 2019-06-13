@@ -12,6 +12,8 @@
 #include "Client/LogicPause.hpp"
 #include "Client/MenuEvent.hpp"
 
+#define forever while (42)
+
 namespace client
 {
     class Core

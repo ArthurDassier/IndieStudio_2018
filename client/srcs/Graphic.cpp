@@ -32,6 +32,8 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("new_bomb", std::bind(&EngineGraphic::new_bomb, this)));
     _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
+    _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
+    _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -88,7 +90,7 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
-    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
+    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-20), core::vector3df(35,25,10)));
 }
 
 void client::EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -135,27 +137,27 @@ void client::EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '2': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wood.jpg",
+                _map.push_back(createMapBlock("client/res/box.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
@@ -223,12 +225,42 @@ void client::EngineGraphic::new_player()
 
 void client::EngineGraphic::new_bomb()
 {
-    std::cout << "ADD NEW BOMB" << std::endl;
+    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.b3d");
+    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    //
+    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    // node->setRotation(core::vector3df(0, 80, 0));
+    // node->setPosition(player->getPosition());
+    // node->setFrameLoop(0, 0);
+    // node->setScale(core::vector3df(2, 2, 2));
+    // node->setMaterialFlag(video::EMF_LIGHTING, false);
+    // player->setNode(node);
 }
 
 void client::EngineGraphic::explosion()
 {
-    std::cout << "EXPLOSION" << std::endl;
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("z");
+    _nodeBomb[_root.get<size_t>("id")]->remove();
+    _nodeBomb.erase(_nodeBomb.begin());
+}
+
+
+void client::EngineGraphic::destroy()
+{
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    int i = 0;
+    std::cout << "fini de ddestroy\n";
+    for (;i != _map.size(); i++) {
+        if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
+            break;
+        }
+    }
+    if (i != _map.size()) {
+        _map[i]->remove();
+        _map.erase(_map.begin() + i);
+    }
 }
 
 void client::EngineGraphic::death()
@@ -249,6 +281,21 @@ void client::EngineGraphic::death()
             it.getNode()->setAnimationSpeed(15);
         }
     }
+}
+
+void client::EngineGraphic::bomb()
+{
+    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+
+    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(30, 30, 30));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBomb.push_back(node);
 }
 
 void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)

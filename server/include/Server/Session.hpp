@@ -20,6 +20,7 @@
 
 #include "Game/Character.hpp"
 #include "Server/Room.hpp"
+#include "Error/Error.hpp"
 
 namespace server
 {
