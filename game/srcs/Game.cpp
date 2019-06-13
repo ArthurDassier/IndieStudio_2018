@@ -6,7 +6,6 @@
 */
 
 #include "Game/Game.hpp"
-#include "Game/Ground.hpp"
 
 game::Game::Game():
     _collide(false)
@@ -47,7 +46,7 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
                 it->getPosition().x -= 2;
             else if (direction.compare("right") == 0)
                 it->getPosition().x += 2;
-            if (checkCollisions() == false) {
+            if (checkCollisions(it.get()) == false) {
                 it->setPosition(pos_player);
                 return;
             }
@@ -69,37 +68,34 @@ float roundDecimal(int n)
     return (n - a >= b - n) ? b : a;
 }
 
-bool game::Game::checkCollisions()
+void game::Game::putBomb(t_id id)
 {
-    s_pos pos_player = _player->getPosition();
+    for (auto &it : *_participants) {
+        if (it->getId() == id) {
+            if (static_cast<Character *>(it.get())->getCooldownBomb() >= 5) {
+                _packet.setType("bomb");
+                _packet.addData("x", it.get()->getPosition().x);
+                _packet.addData("z", it.get()->getPosition().z);
+                static_cast<Character *>(it.get())->setCooldownBomb();
+            }
+        }
+    }
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
 
-    if (_player->getDirection().compare("up") == 0) {
-        pos_player.z = roundDecimal(pos_player.z);
-        pos_player.x = roundDecimal(pos_player.x);
-    }
-    else if (_player->getDirection().compare("down") == 0) {
-        pos_player.z = roundDecimal(pos_player.z);
-        pos_player.x = roundDecimal(pos_player.x);
-    }
-    else if (_player->getDirection().compare("left") == 0) {
-        pos_player.x = roundDecimal(pos_player.x);
-        pos_player.z = roundDecimal(pos_player.z);
-    }
-    else if (_player->getDirection().compare("right") == 0) {
-        pos_player.x = roundDecimal(pos_player.x);
-        pos_player.z = roundDecimal(pos_player.z);
-    }
+bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
+{
+    std::cout << entity->getPosition().x << std::endl;
+    s_pos pos_player = entity->getPosition();
+    std::cout << pos_player.x << ", " << pos_player.z << "\n";
+    pos_player.z = roundDecimal(pos_player.z);
+    pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block
-    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock) {
+    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock)
         return false;
-    }
     return true;
-    //     _packet.setType("explosion");
-    //     _packet.addData("damage", 2);
-    //     for (auto &it : *_participants)
-    //         it->deliver(_packet.getPacket());
-    //     _player->setDirection("down");
-    // }
 }
 
 void game::Game::fillEntitiesMap(const std::string map)

@@ -69,6 +69,7 @@ namespace client
             void new_bomb();
             void explosion();
             void death();
+            void bomb();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -77,7 +78,7 @@ namespace client
 
             scene::ICameraSceneNode *addCamera();
             void moveEntity(std::string sens, std::string id);
-            
+
             void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
             void create_map(std::string map);
             void sendEscape();
@@ -98,6 +99,7 @@ namespace client
             Clock _clock;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
+            scene::IAnimatedMeshSceneNode *_nodeBomb;
 
             std::map<int, const irr::io::path> _skins = {
                 {0, "client/res/nskinrd.jpg"},

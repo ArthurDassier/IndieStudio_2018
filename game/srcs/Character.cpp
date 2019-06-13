@@ -11,6 +11,7 @@ game::Character::Character():
     MovableEntity(game::character),
     _hp(3)
 {
+    _cooldownBomb = std::chrono::high_resolution_clock::now();
 }
 
 t_id game::Character::getId()
@@ -20,12 +21,10 @@ t_id game::Character::getId()
 
 void game::Character::deliver(std::string)
 {
-
 }
 
 player &game::Character::get_playerdata()
 {
-    
 }
 
 void game::Character::setSpawn(const s_pos spawn)
@@ -86,4 +85,17 @@ void game::Character::setHealthPoints(std::size_t hp)
 std::size_t &game::Character::getHealthPoints() noexcept
 {
     return _hp;
+}
+
+void game::Character::setCooldownBomb()
+{
+    // _cooldownBomb = std::chrono::high_resolution_clock::now();
+}
+
+size_t game::Character::getCooldownBomb()
+{
+    auto delay = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = delay - _cooldownBomb;
+
+    return elapsed.count() / 1000;
 }

@@ -14,9 +14,13 @@
 
 #include "Character.hpp"
 #include "EntityManager.hpp"
+#include "Game/Character.hpp"
+#include "Game/EntityManager.hpp"
+#include "Game/Ground.hpp"
+#include "Game/IEntity.hpp"
+#include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
-#include "Game/EntityManager.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -31,7 +35,7 @@ namespace game
 
             void gameLoop();
 
-            bool checkCollisions();
+            bool checkCollisions(t_entity::element_type*);//Entity& entity);
 
             void fillEntitiesMap(const std::string);
 
@@ -44,6 +48,7 @@ namespace game
 
             std::string const getMap();
 
+            void putBomb(t_id);
         private:
             Generation _generation;
             EntityManager _EM;
