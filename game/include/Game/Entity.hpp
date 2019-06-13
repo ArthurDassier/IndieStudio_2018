@@ -8,6 +8,7 @@
 #pragma once
 
 #include <iostream>
+
 #include "Game/IEntity.hpp"
 
 using t_id = std::size_t;
@@ -19,18 +20,15 @@ namespace game
         public:
             Entity(const EntityType &);
 
+            t_id const getId() const noexcept;
+
             void setPosition(const s_pos &);
-            s_pos getPosition() const noexcept;
+            s_pos &getPosition() noexcept;
 
             EntityType getType() const noexcept;
 
-            virtual void deliver(std::string message) = 0;
-            virtual player &get_playerdata() = 0;
-            virtual t_id getId() = 0;
-
-            const t_id id;
-
         private:
+            const t_id id;
             s_pos _pos;
             EntityType _type;
 

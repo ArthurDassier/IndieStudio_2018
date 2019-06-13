@@ -8,45 +8,127 @@
 #include "Game/Game.hpp"
 
 void game::Game::gameLoop()
-{  
+{
     for (auto &it : *_participants) {
-        if (it->getId() == _player->getId())
+        refreshBomb();
+        if (it->getId() != _player->getId())
             continue;
-        checkCollisions(it);
     }
 }
 
-/*----------------------------------------------\\
-
-                  CHAAAAAAARLES
-
-void DemoFunction()
+void game::Game::updatePosition(const t_id id, const std::string direction)
 {
-    if (condition) {
-        action();
-        if (need to update entity?)
-            _packet.setType(typeOfUpdate);
-            _packet.addData(all sort of data (it's a template lol));
+    s_pos pos_player;
+
+    for (auto &it : *_participants) {
+        if (it->getId() == id) {
+            pos_player = it->getPosition();
+            it->setDirection(direction);
+            if (direction.compare("up") == 0)
+                it->getPosition().z += 2;
+            else if (direction.compare("down") == 0)
+                it->getPosition().z -= 2;
+            else if (direction.compare("left") == 0)
+                it->getPosition().x -= 2;
+            else if (direction.compare("right") == 0)
+                it->getPosition().x += 2;
+            if (checkCollisions(it.get()) == false) {
+                it->setPosition(pos_player);
+                return;
+            }
+            break;
+        }
+    }
+    _packet.addData("id", id);
+    _packet.addData("sens", direction);
+    _packet.setType("move_other");
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
+void game::Game::refreshBomb()
+{
+    for (int i = 0; i != _allBomb.size(); i++) {
+        _allBomb[i].RefreshBomb();
+        if (_allBomb[i].getAlive() == false) {
+            _packet.setType("explosion");
+            _packet.addData("x", _allBomb[i].getPosX());
+            _packet.addData("z", _allBomb[i].getPosZ());
+            std::cout << "=> ID BOMB: " << _allBomb.size() - 1 << std::endl;
+            _packet.addData("id", _allBomb.size() - 1);
             for (auto &it : *_participants)
                 it->deliver(_packet.getPacket());
+            _packet.clear();
+            _allBomb.erase(_allBomb.begin() + i);
+            i--;
+        }
     }
 }
 
-Concrete example:
-    
-    if (_player->getDirection().compare("up") == 0) {
-        _packet.setType("explosion");
-        _packet.addData("damage", 2);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _player->setDirection("down");
-    }
-
-//----------------------------------------------*/
-
-void game::Game::checkCollisions(t_entity entity)
+float roundDecimal(int n)
 {
+    int a = (n / 10) * 10;
+    int b = a + 10;
+    return (n - a >= b - n) ? b : a;
+}
 
+void game::Game::putBomb(t_id id)
+{
+    for (auto &it : *_participants) {
+        if (it->getId() == id) {
+            if (static_cast<Character *>(it.get())->getCooldownBomb() >= 5) {
+                _packet.setType("bomb");
+                _packet.addData("x", it.get()->getPosition().x);
+                _packet.addData("z", it.get()->getPosition().z);
+                static_cast<Character *>(it.get())->setCooldownBomb();
+                _allBomb.emplace_back(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getPower());
+            }
+        }
+    }
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
+bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
+{
+    s_pos pos_player = entity->getPosition();
+    pos_player.z = roundDecimal(pos_player.z);
+    pos_player.x = roundDecimal(pos_player.x);
+    if (_EM.getEntityType(pos_player) == game::EntityType::block
+    || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock)
+        return false;
+    return true;
+}
+
+void game::Game::fillEntitiesMap(const std::string map)
+{
+    float x = 0;
+    float y = 0;
+
+    for (int i = 0; i != map.size(); i++) {
+        if (map[i] == '0') {
+            Ground g;
+            g.setPosition({x, 0, y});
+            _EM.addEntity(g);
+        }
+        else if (map[i] == '1') {
+            Block b;
+            b.setPosition({x, 0, y});
+            _EM.addEntity(b);
+        }
+        else if (map[i] == '2') {
+            BrittleBlock bB;
+            bB.setPosition({x, 0, y});
+            _EM.addEntity(bB);
+        }
+        y+= 10;
+        if (map[i] == '\n') {
+            x += 10;
+            y = 0;
+        }
+    }
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)
@@ -66,5 +148,8 @@ void game::Game::updateParticipants(std::shared_ptr<t_vector> participants)
 
 std::string const game::Game::getMap()
 {
-    return _generation.genMap(10);
+    std::string map = _generation.genMap(10);
+
+    fillEntitiesMap(map);
+    return map;
 }

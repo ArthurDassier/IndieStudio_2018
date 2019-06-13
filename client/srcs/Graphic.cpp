@@ -32,6 +32,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("new_bomb", std::bind(&EngineGraphic::new_bomb, this)));
     _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
+    _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -44,11 +45,6 @@ int client::EngineGraphic::runGraph()
     _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
-    if (_clock.getElapsed() >= _clock.getSecond()) {
-        input();
-        _clock.getClock().stop();
-        _clock.getClock().start();
-    }
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     _smgr->drawAll();
     _guienv->drawAll();
@@ -56,47 +52,16 @@ int client::EngineGraphic::runGraph()
     return (0);
 }
 
-void client::EngineGraphic::dataMove(std::string move)
+EKEY_CODE client::EngineGraphic::input()
 {
-    boost::property_tree::ptree root;
-    root.put("type", "movement");
-    root.put("sens", move);
-    std::ostringstream buff;
-    boost::property_tree::write_json(buff, root, false);
-    _data = buff.str();
-}
-
-void client::EngineGraphic::sendEscape()
-{
-    boost::property_tree::ptree root;
-    root.put("type", "pause");
-    std::ostringstream buff;
-    boost::property_tree::write_json(buff, root, false);
-    _data = buff.str();
-}
-
-void client::EngineGraphic::input()
-{
-    if (_receiver.IsKeyDown(irr::KEY_KEY_Z))
-        dataMove("up");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_S))
-        dataMove("down");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_Q))
-        dataMove("left");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_D))
-        dataMove("right");
-    else if (_receiver.IsKeyDown(irr::KEY_KEY_P))
-        sendEscape();
-}
-
-std::string client::EngineGraphic::getData() const
-{
-    return (_data);
-}
-
-void client::EngineGraphic::clearData()
-{
-    _data.clear();
+    if (_clock.getElapsed() >= _clock.getSecond()) {
+        for (unsigned int i = KEY_LBUTTON; i < KEY_KEY_CODES_COUNT; i++)
+            if (_receiver.IsKeyDown((EKEY_CODE)i))
+                return (EKEY_CODE)i;
+        _clock.getClock().stop();
+        _clock.getClock().start();
+    }
+    return KEY_KEY_CODES_COUNT;
 }
 
 void client::EngineGraphic::matchQuery()
@@ -122,7 +87,7 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
-    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-30), core::vector3df(22.5,35,10)));
+    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-20), core::vector3df(35,25,10)));
 }
 
 void client::EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -169,27 +134,27 @@ void client::EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wall.jpg",
+                _map.push_back(createMapBlock("client/res/wall_2.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '2': {
-                _map.push_back(createMapBlock("client/res/brick.png",
+                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wood.jpg",
+                _map.push_back(createMapBlock("client/res/box.jpg",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
@@ -257,12 +222,27 @@ void client::EngineGraphic::new_player()
 
 void client::EngineGraphic::new_bomb()
 {
-    std::cout << "ADD NEW BOMB" << std::endl;
+    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.b3d");
+    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    //
+    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    // node->setRotation(core::vector3df(0, 80, 0));
+    // node->setPosition(player->getPosition());
+    // node->setFrameLoop(0, 0);
+    // node->setScale(core::vector3df(2, 2, 2));
+    // node->setMaterialFlag(video::EMF_LIGHTING, false);
+    // player->setNode(node);
 }
 
 void client::EngineGraphic::explosion()
 {
-    std::cout << "EXPLOSION" << std::endl;
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("z");
+    std::cout << "REMOVE BOMB" << std::endl;
+    std::cout << "ID: " << _root.get<size_t>("id") << std::endl;
+    std::cout << "SIZE: " << _nodeBomb.size() << std::endl;
+    _nodeBomb[_root.get<size_t>("id")]->remove();
+    _nodeBomb.erase(_nodeBomb.begin());
 }
 
 void client::EngineGraphic::death()
@@ -283,6 +263,21 @@ void client::EngineGraphic::death()
             it.getNode()->setAnimationSpeed(15);
         }
     }
+}
+
+void client::EngineGraphic::bomb()
+{
+    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+
+    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(30, 30, 30));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBomb.push_back(node);
 }
 
 void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)

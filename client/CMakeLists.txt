@@ -11,6 +11,7 @@ include_directories(
     ../lib/include
     ./include
     ../game/include
+    ../error/include
 )
 
 add_library(client
@@ -20,6 +21,7 @@ add_library(client
     ./srcs/Entity.cpp
     ./srcs/Graphic.cpp
     ./srcs/Clock.cpp
+    ./srcs/LogicPause.cpp
 )
 
 if (WIN32)
@@ -33,15 +35,17 @@ if (WIN32)
     set_property(TARGET client PROPERTY CXX_STANDARD 11)
     target_include_directories(bomberman PRIVATE "C:/Boost/include/boost-1_70")
     target_include_directories(client INTERFACE ./include)
-    
+
     target_link_libraries(
         client
         game
+        error
     )
 else ()
     target_link_libraries(
         client
         game
+        error
         boost_system
         pthread
         boost_timer
@@ -55,4 +59,4 @@ target_include_directories(client INTERFACE ./include ../lib/include)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 
-add_subdirectory(tests)
+# add_subdirectory(tests)

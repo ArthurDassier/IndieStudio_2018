@@ -4,6 +4,10 @@ LINK_DIRECTORIES (
     ../../lib
 )
 
+INCLUDE_DIRECTORIES (
+    ../../lib/include
+)
+
 add_executable(
     client_tests
     tests_clock.cpp

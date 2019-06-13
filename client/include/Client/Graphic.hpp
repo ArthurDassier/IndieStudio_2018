@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include <fstream>
+
 #include "irrlicht/irrlicht.h"
 #include "irrlicht/driverChoice.h"
 #include "Client/Client.hpp"
@@ -46,7 +47,6 @@ namespace client
             }
 
         private:
-        // We use this array to store the current state of each key
             bool KeyIsDown[KEY_KEY_CODES_COUNT];
     };
 
@@ -58,9 +58,7 @@ namespace client
 
             int runGraph();
             void dataMove(std::string);
-            void input();
-            std::string getData() const;
-            void clearData();
+            EKEY_CODE input();
             void matchQuery();
 
             void setRoot(const boost::property_tree::ptree);
@@ -72,6 +70,7 @@ namespace client
             void new_bomb();
             void explosion();
             void death();
+            void bomb();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -80,25 +79,28 @@ namespace client
 
             scene::ICameraSceneNode *addCamera();
             void moveEntity(std::string sens, std::string id);
-            
+
             void updateEntity(std::vector<Character>::iterator &, const core::vector3df, const core::vector3df);
             void create_map(std::string map);
             void sendEscape();
+            void sendSpace();
             scene::IMeshSceneNode *createMapBlock(const io::path &, const core::vector3df);
+
+            void setKey(std::string);
 
         private:
             MyEventReceiver _receiver;
-            std::shared_ptr<IrrlichtDevice> _device;
-            std::shared_ptr<video::IVideoDriver> _driver;
-            std::shared_ptr<scene::ISceneManager> _smgr;
-            std::shared_ptr<gui::IGUIEnvironment> _guienv;
+            IrrlichtDevice *_device;
+            video::IVideoDriver *_driver;
+            scene::ISceneManager *_smgr;
+            gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
-            std::string _data;
             std::vector<Character> _charList;
             std::list<scene::ISceneNode*> _map;
             Clock _clock;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
+            std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
 
             std::map<int, const irr::io::path> _skins = {
                 {0, "client/res/nskinrd.jpg"},

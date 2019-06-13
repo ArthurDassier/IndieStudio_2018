@@ -16,18 +16,24 @@ struct player
 
 namespace game
 {
+    enum EntityType
+    {
+        block,
+        bomb,
+        brittleBlock,
+        character,
+        ground,
+        undefined
+    };
+
     class IEntity
     {
         public:
             virtual ~IEntity() = default;
 
             virtual void setPosition(const s_pos &) = 0;
-            virtual s_pos getPosition() const noexcept = 0;
-    };
+            virtual s_pos &getPosition() noexcept = 0;
 
-    enum EntityType
-    {
-        bomb,
-        character
+            virtual EntityType getType() const noexcept = 0;
     };
 }; // namespace game
