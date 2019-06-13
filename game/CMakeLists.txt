@@ -4,6 +4,7 @@ include_directories(
     ../lib/include
     ./include
     ../server/include
+    ../error/include
 )
 
 add_library(game STATIC
@@ -21,6 +22,7 @@ add_library(game STATIC
 target_link_libraries(
     game
     utils
+    error
 )
 
 set(CMAKE_CXX_FLAGS "-g3")
