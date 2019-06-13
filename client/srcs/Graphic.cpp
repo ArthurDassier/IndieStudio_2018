@@ -243,6 +243,33 @@ void client::EngineGraphic::explosion()
     std::cout << "SIZE: " << _nodeBomb.size() << std::endl;
     _nodeBomb[_root.get<size_t>("id")]->remove();
     _nodeBomb.erase(_nodeBomb.begin());
+    scene::IParticleSystemSceneNode* ps =
+    _smgr->addParticleSystemSceneNode(false); //pour le feu
+
+    scene::IParticleEmitter* em = ps->createBoxEmitter(
+        core::aabbox3d<f32>(-10,0,-10,10,1,10), // emitter size
+        core::vector3df(0.0f,0.02f,0.0f),   // initial direction
+        20,50,                             // emit rate
+        video::SColor(0,255,255,255),       // darkest color
+        video::SColor(0,255,255,255),       // brightest color
+        300,550,0,                         // min and max age, angle
+        core::dimension2df(3.f,3.f),         // min size
+        core::dimension2df(5.f,5.f));        // max size
+
+    ps->setEmitter(em);
+    em->drop();
+
+    scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+
+    ps->addAffector(paf); // same goes for the affector
+    paf->drop();
+
+    ps->setPosition(core::vector3df(0,15,0));
+    ps->setScale(core::vector3df(0.3,0.3,0.3));
+    ps->setMaterialFlag(video::EMF_LIGHTING, false);
+    ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+    ps->setMaterialTexture(0, _driver->getTexture("fire.bmp"));
+    ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 }
 
 void client::EngineGraphic::death()
