@@ -77,6 +77,8 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
 
 void server::Server::connection()
 {
+    if (_room.nbParticipants() == 4)
+        return;
     _pause = false;
     _session.reset(new Session(_socket, _remote_endpoint, _room));
     _session->start();

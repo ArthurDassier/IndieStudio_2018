@@ -11,6 +11,7 @@ include_directories(
     ../lib/include
     ./include
     ../game/include
+    ../utils/include
     ../server/include
     ../error/include
 )
@@ -18,12 +19,12 @@ include_directories(
 add_library(client
     STATIC
     ./srcs/Client.cpp
+    ./srcs/Clock.cpp
     ./srcs/Core.cpp
     ./srcs/Entity.cpp
     ./srcs/Graphic.cpp
-    ./srcs/Clock.cpp
+    ./srcs/GraphicLoader.cpp
     ./srcs/LogicPause.cpp
-    ./srcs/ConfigManager.cpp
     ./srcs/CustomMenu.cpp
     ./srcs/MenuEvent.cpp
 )
@@ -50,6 +51,7 @@ else ()
         client
         game
         error
+        utils
         boost_system
         pthread
         boost_timer

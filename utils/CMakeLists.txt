@@ -11,6 +11,7 @@ endif ()
 
 add_library(utils
     STATIC
+    ./srcs/ConfigManager.cpp
     ./srcs/Packet.cpp
 )
 

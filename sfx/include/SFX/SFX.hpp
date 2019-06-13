@@ -66,7 +66,7 @@ namespace sfx
 
         private:
             std::string _configPath;
-            ConfigManager _config;
+            utils::ConfigManager _config;
             std::vector<std::shared_ptr<Music>> _music;
             std::vector<std::shared_ptr<Sound>> _sound;
             std::unordered_map<std::string, float> _settings = {

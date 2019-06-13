@@ -106,6 +106,7 @@ void game::Game::destroyMap(size_t power, float x, float z)
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {
+    // for (auto &it : _allBomb) {
         _allBomb[i].RefreshBomb();
         if (_allBomb[i].getAlive() == false) {
             _packet.setType("explosion");
@@ -175,7 +176,7 @@ void game::Game::putBomb(t_id id)
     _packet.clear();
 }
 
-bool game::Game::checkCollisions(t_entity::element_type* entity)//Entity& entity)
+bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
     std::cout << pos_player.z << "\n";
