@@ -11,8 +11,8 @@ int run_server()
         std::cout << "starting a server" << std::endl;
         server::Server server;
         server.run();
-    } catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
+    } catch (std::exception &e) {
+        throw (error::ServerError(e.what()));
     }
     return (0);
 }
@@ -22,17 +22,24 @@ int main(int ac, char **av)
     if (ac != 2)
         return (84);
     std::string str(av[1]);
-    if (str.compare("serv") == 0) {
-        std::thread t1(run_server);
-        sleep(3);
-        client::Core all;
-        std::cout << "core created" << std::endl;
-        sleep(1);
-        all.startCore();
-        t1.join();
+
+    try {
+        if (str.compare("serv") == 0) {
+            std::thread t1(run_server);
+            sleep(3);
+            client::Core all;
+            std::cout << "core created" << std::endl;
+            sleep(1);
+            all.startCore();
+            t1.join();
+        }
+        else {
+            client::Core all;
+            all.startCore();
+        }
+    } catch (error::Error const &e) {
+        std::cerr << e.what() << std::endl;
+        return (84);
     }
-    else {
-        client::Core all;
-        all.startCore();
-    }
+    return (0);
 }

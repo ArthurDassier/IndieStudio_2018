@@ -4,6 +4,7 @@ include_directories(
     ../lib/include
     ./include
     ../game/include
+    ../error/include
 )
 
 add_library(client
@@ -21,6 +22,7 @@ target_include_directories(client INTERFACE ./include ../lib/include)
 target_link_libraries(
     client
     game
+    error
     boost_system
     pthread
     boost_timer

@@ -4,6 +4,7 @@ include_directories(
     ./include
     ../game/include
     ../lib/include
+    ../error/include
 )
 
 add_library(server
@@ -23,6 +24,7 @@ target_link_libraries(
     server
     game
     utils
+    error
 )
 
 SET_TARGET_PROPERTIES(server PROPERTIES LINKER_LANGUAGE CXX)
