@@ -34,6 +34,8 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
+    _fMap.emplace(std::make_pair("fire", std::bind(&EngineGraphic::fire, this)));
+    _fMap.emplace(std::make_pair("water", std::bind(&EngineGraphic::water, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -236,8 +238,10 @@ void client::EngineGraphic::new_bomb()
 }
 
 
-void client::EngineGraphic::drawFire(float x, float y)
+void client::EngineGraphic::fire()
 {
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
     scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
     scene::IParticleEmitter *em = ps->createBoxEmitter(
         core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
@@ -255,42 +259,49 @@ void client::EngineGraphic::drawFire(float x, float y)
 
     ps->addAffector(paf);
     paf->drop();
-    ps->setPosition(core::vector3df(x, 12, y));
+    ps->setPosition(core::vector3df(x, 12, z));
     ps->setScale(core::vector3df(0.3, 0.3, 0.3));
     ps->setMaterialFlag(video::EMF_LIGHTING, false);
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
     ps->setMaterialTexture(0, _driver->getTexture("fire.bmp"));
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    _listFire.push_back(ps);
+}
+
+void client::EngineGraphic::water()
+{
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    int i = 0;
+    std::cout << "water\n";
+    std::cout << x << std::endl;
+    std::cout << z << std::endl;
+    for (;i != _listFire.size(); i++) {
+        if (_listFire[i]->getPosition().X == x && _listFire[i]->getPosition().Z == z & _listFire[i]->getPosition().Y == 12) {
+            break;
+        }
+    }
+    if (i != _listFire.size()) {
+        _listFire[i]->remove();
+        _listFire.erase(_listFire.begin() + i);
+    }
 }
 
 void client::EngineGraphic::explosion()
 {
     float x = _root.get<float>("x");
     float y = _root.get<float>("z");
+    std::cout << "explosion" << std::endl;
     _nodeBomb[_root.get<size_t>("id")]->remove();
     _nodeBomb.erase(_nodeBomb.begin());
-
-    for (int i = 0; i < 3; ++i) {
-        drawFire(x + i * 10, y);
-    }
-    for (int i = 3; i > 0; --i) {
-        drawFire(x - i * 10, y);
-    }
-    for (int i = 0; i < 3; ++i) {
-        drawFire(x, y + i * 10);
-    }
-    for (int i = 3; i > 0; --i) {
-        drawFire(x, y - i * 10);
-    }
 }
-
 
 void client::EngineGraphic::destroy()
 {
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     int i = 0;
-    std::cout << "fini de ddestroy\n";
+    std::cout << "fini de destroy\n";
     for (;i != _map.size(); i++) {
         if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
             break;

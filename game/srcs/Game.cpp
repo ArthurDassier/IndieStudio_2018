@@ -65,6 +65,13 @@ void game::Game::destroyMap(size_t power, float x, float z)
         _packet.addData("z", z + i * 10);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        _allFire.emplace_back(pos_block.x, pos_block.z);
+        _packet.clear();
+        _packet.setType("fire");
+        _packet.addData("x", x);
+        _packet.addData("z", z + i * 10);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
     }
     _packet.clear();
     pos_block.x = x;
@@ -74,6 +81,13 @@ void game::Game::destroyMap(size_t power, float x, float z)
         _packet.addData("x", x + i * 10);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.x += 10;
+        _packet.addData("z", z);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+        _allFire.emplace_back(pos_block.x, pos_block.z);
+        _packet.clear();
+        _packet.setType("fire");
+        _packet.addData("x", x + i * 10);
         _packet.addData("z", z);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
@@ -90,12 +104,26 @@ void game::Game::destroyMap(size_t power, float x, float z)
         _packet.addData("z", z);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        _allFire.emplace_back(pos_block.x, pos_block.z);
+        _packet.clear();
+        _packet.setType("fire");
+        _packet.addData("x", x - i * 10);
+        _packet.addData("z", z);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
     }
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
         _packet.addData("x", x);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z -= 10;
+        _packet.addData("z", z - i * 10);
+        for (auto &it : *_participants)
+            it->deliver(_packet.getPacket());
+        _allFire.emplace_back(pos_block.x, pos_block.z);
+        _packet.clear();
+        _packet.setType("fire");
+        _packet.addData("x", x);
         _packet.addData("z", z - i * 10);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
@@ -106,7 +134,7 @@ void game::Game::destroyMap(size_t power, float x, float z)
 void game::Game::refreshBomb()
 {
     for (int i = 0; i != _allBomb.size(); i++) {
-        _allBomb[i].RefreshBomb();
+        _allBomb[i].refresh();
         if (_allBomb[i].getAlive() == false) {
             _packet.setType("explosion");
             _packet.addData("x", _allBomb[i].getPosX());
@@ -117,6 +145,20 @@ void game::Game::refreshBomb()
             _packet.clear();
             destroyMap(_allBomb[i].getPower(), _allBomb[i].getPosX(), _allBomb[i].getPosZ());
             _allBomb.erase(_allBomb.begin() + i);
+            i--;
+        }
+    }
+    for (int i = 0; i != _allFire.size(); i++) {
+        _allFire[i].refresh();
+        if (_allFire[i].getAlive() == false) {
+            _packet.setType("water");
+            _packet.addData("x", _allFire[i].getPosX());
+            _packet.addData("z", _allFire[i].getPosZ());
+            _packet.addData("id", _allFire.size() - 1);
+            for (auto &it : *_participants)
+                it->deliver(_packet.getPacket());
+            _packet.clear();
+            _allFire.erase(_allFire.begin() + i);
             i--;
         }
     }
