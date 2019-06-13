@@ -66,12 +66,6 @@ void game::Game::destroyMap(size_t power, float x, float z)
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
         _allFire.emplace_back(pos_block.x, pos_block.z);
-        _packet.clear();
-        _packet.setType("fire");
-        _packet.addData("x", x);
-        _packet.addData("z", z + i * 10);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
     }
     _packet.clear();
     pos_block.x = x;
@@ -85,12 +79,6 @@ void game::Game::destroyMap(size_t power, float x, float z)
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
         _allFire.emplace_back(pos_block.x, pos_block.z);
-        _packet.clear();
-        _packet.setType("fire");
-        _packet.addData("x", x + i * 10);
-        _packet.addData("z", z);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
     }
     _packet.clear();
     pos_block.x = x;
@@ -105,12 +93,6 @@ void game::Game::destroyMap(size_t power, float x, float z)
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
         _allFire.emplace_back(pos_block.x, pos_block.z);
-        _packet.clear();
-        _packet.setType("fire");
-        _packet.addData("x", x - i * 10);
-        _packet.addData("z", z);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
     }
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
@@ -121,12 +103,6 @@ void game::Game::destroyMap(size_t power, float x, float z)
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
         _allFire.emplace_back(pos_block.x, pos_block.z);
-        _packet.clear();
-        _packet.setType("fire");
-        _packet.addData("x", x);
-        _packet.addData("z", z - i * 10);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
     }
     _packet.clear();
 }

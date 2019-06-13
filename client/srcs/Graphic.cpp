@@ -34,7 +34,6 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
-    _fMap.emplace(std::make_pair("fire", std::bind(&EngineGraphic::fire, this)));
     _fMap.emplace(std::make_pair("water", std::bind(&EngineGraphic::water, this)));
 }
 
@@ -238,10 +237,8 @@ void client::EngineGraphic::new_bomb()
 }
 
 
-void client::EngineGraphic::fire()
+void client::EngineGraphic::fire(float x, float z)
 {
-    float x = _root.get<float>("x");
-    float z = _root.get<float>("z");
     scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
     scene::IParticleEmitter *em = ps->createBoxEmitter(
         core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
@@ -274,17 +271,7 @@ void client::EngineGraphic::water()
     float z = _root.get<float>("z");
     int i = 0;
 
-    for (;i != _listFire.size(); i++) {
-        if (_listFire[i]->getPosition().X == x && _listFire[i]->getPosition().Z == z & _listFire[i]->getPosition().Y == 12) {
-            std::cout << "water" << std::endl;
-            break;
-        }
-    }
-  //  if (i != _listFire.size()) {
-        std::cout << "print" << std::endl;
-        _listFire[i]->clearParticles();
-        _listFire.erase(_listFire.begin() + i);
-  //  }
+    // delete le feu
 }
 
 void client::EngineGraphic::explosion()
@@ -311,6 +298,7 @@ void client::EngineGraphic::destroy()
         _map[i]->remove();
         _map.erase(_map.begin() + i);
     }
+    fire(x, z);
 }
 
 void client::EngineGraphic::death()

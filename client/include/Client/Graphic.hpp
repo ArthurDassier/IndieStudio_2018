@@ -68,7 +68,7 @@ namespace client
             void new_player();
             void new_power_up();
             void new_bomb();
-            void fire();
+            void fire(float, float);
             void explosion();
             void death();
             void bomb();
