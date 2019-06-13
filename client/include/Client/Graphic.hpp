@@ -18,6 +18,7 @@
 #include "Client/Clock.hpp"
 #include "Client/Entity.hpp"
 #include "Client/GraphicLoader.hpp"
+#include "Client/LogicPause.hpp"
 #include "Game/Character.hpp"
 
 using namespace irr;
@@ -32,7 +33,21 @@ namespace client
                 // Remember whether each key is down or up
                 if (event.EventType == irr::EET_KEY_INPUT_EVENT)
                     KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+                if (event.EventType == EET_GUI_EVENT) {
+                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED)
+                        _guiID = event.GUIEvent.Caller->getID();
+                    return true;
+                } else {
+                    _guiID = -1;
+                }
                 return false;
+            }
+
+            s32 getID()
+            {
+                s32 tmp = _guiID;
+                _guiID = -1;
+                return tmp;
             }
 
             // This is used to check whether a key is being held down
@@ -41,13 +56,15 @@ namespace client
                 return KeyIsDown[keyCode];
             }
 
-            MyEventReceiver()
+            MyEventReceiver():
+                _guiID(-1)
             {
                 for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
                     KeyIsDown[i] = false;
             }
 
         private:
+            s32 _guiID;
             bool KeyIsDown[KEY_KEY_CODES_COUNT];
     };
 
@@ -57,7 +74,7 @@ namespace client
             EngineGraphic();
             ~EngineGraphic();
 
-            int runGraph();
+            int runGraph(const MODE &mode);
             void dataMove(std::string);
             EKEY_CODE input();
             void matchQuery();
@@ -89,6 +106,11 @@ namespace client
             scene::IMeshSceneNode *createMapBlock(const std::string, const core::vector3df);
 
             void setKey(std::string);
+
+            video::IVideoDriver *getDriver() const;
+            gui::IGUIEnvironment *getGUIEnvironment() const;
+            s32 getGuiID();
+
         private:
             MyEventReceiver _receiver;
             IrrlichtDevice *_device;

@@ -12,7 +12,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_SOFTWARE,
-            core::dimension2d<u32>(640, 480),
+            core::dimension2d<u32>(1920, 1080),
             16,
             false,
             false,
@@ -43,15 +43,17 @@ client::EngineGraphic::~EngineGraphic()
 {
 }
 
-int client::EngineGraphic::runGraph()
+int client::EngineGraphic::runGraph(const MODE &mode)
 {
     _clock.setElapsedTime();
     _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
-    _smgr->drawAll();
-    _guienv->drawAll();
+    if (mode != MAINMENU)
+        _smgr->drawAll();
+    else if (mode != GAME)
+        _guienv->drawAll();
     _driver->endScene();
     return (0);
 }
@@ -293,4 +295,19 @@ void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)
 std::shared_ptr<std::map<std::string, std::function<void()>>> client::EngineGraphic::getFunctionMap() noexcept
 {
     return std::make_shared<decltype(_fMap)>(_fMap);
+}
+
+video::IVideoDriver *client::EngineGraphic::getDriver() const
+{
+    return _driver;
+}
+
+gui::IGUIEnvironment *client::EngineGraphic::getGUIEnvironment() const
+{
+    return _guienv;
+}
+
+s32 client::EngineGraphic::getGuiID()
+{
+    return _receiver.getID();
 }

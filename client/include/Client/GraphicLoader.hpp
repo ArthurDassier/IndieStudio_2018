@@ -32,7 +32,7 @@ namespace client
             irr::video::ITexture *getTexture(const std::string) const noexcept;
 
         private:
-            ConfigManager _config;
+            utils::ConfigManager _config;
             scene::ISceneManager *_smgr;
             video::IVideoDriver *_driver;
             std::map<std::string, irr::video::ITexture *> _textures;

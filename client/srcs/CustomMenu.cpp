@@ -12,13 +12,18 @@ CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) :
 {
     _env = env;
     _bank = _env->getSkin()->getSpriteBank();
+    gui::IGUIFont *font = _env->getFont("./client/res/font.bmp");
     for (s32 i=0; i < irr::gui::EGDC_COUNT ; ++i)
 	{
-		video::SColor col = _env->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
-		col.setAlpha(255);
-		_env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
+        video::SColor col = _env->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
+        col.setAlpha(255);
+        _env->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
+        _env->getSkin()->setFont(font);
 	}
 }
+
+CustomMenu::~CustomMenu()
+{}
 
 gui::IGUIElement *CustomMenu::operator[](s32 i)
 {
@@ -40,8 +45,9 @@ void CustomMenu::setSpriteBank(pt::ptree menu)
 
 void CustomMenu::changeMenu(const std::string &configFile)
 {
-    if (!_elems.empty())
+    if (!_elems.empty()){
         _elems.clear();
+    }
     _env->clear();
     _manager.setConfigFile(configFile);
     for (auto &it : _manager.getPtree()) {
@@ -54,13 +60,22 @@ void CustomMenu::changeMenu(const std::string &configFile)
     }
 }
 
+void CustomMenu::addImage(pt::ptree elem)
+{
+    gui::IGUIImage *img = _env->addImage(_bank->getTexture(elem.get<int>("texture")), core::position2d<s32>(0, 0));
+    img->setID(elem.get<int>("id"));
+    _elems.push_back(img);
+}
+
 void CustomMenu::addButton(pt::ptree elem, core::recti rect)
 {
-    gui::IGUIButton *newElem = _env->addButton(rect, 0, elem.get<int>("id"));
+    std::string txt = elem.get<std::string>("text");
+    std::wstring wtxt(txt.length(), L' ');
+    std::copy(txt.begin(), txt.end(), wtxt.begin());
+    gui::IGUIButton *newElem = _env->addButton(rect, 0, elem.get<int>("id"), wtxt.c_str());
     newElem->setSpriteBank(_env->getSkin()->getSpriteBank());
-    newElem->setSprite(gui::EGBS_BUTTON_FOCUSED, elem.get<s32>("texture"));
-    newElem->setSprite(gui::EGBS_BUTTON_NOT_FOCUSED, elem.get<s32>("texture"));
-    newElem->setName((wchar_t *)elem.get<std::string>("name").c_str());
+    newElem->setSprite(gui::EGBS_BUTTON_UP, elem.get<s32>("texture"));
+    newElem->setName(elem.get<std::string>("name").c_str());
     _elems.push_back(newElem);
 }
 
@@ -70,8 +85,13 @@ void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
 
     newElem->setMax(100);
     newElem->setMin(0);
-    newElem->setName((wchar_t *)elem.get<std::string>("name").c_str());
+    newElem->setName(elem.get<std::string>("name").c_str());
     _elems.push_back(newElem);
+}
+
+bool strStartWith(std::string str1, const std::string str2)
+{
+    return str1.substr(0, str2.size()) == str2;
 }
 
 void CustomMenu::addElement(pt::ptree elem, const std::string name)
@@ -80,10 +100,12 @@ void CustomMenu::addElement(pt::ptree elem, const std::string name)
 
     for (auto &it : elem.get_child("pos"))
         pos.push_back(it.second.get_value<int>());
-    if (name == "button")
+    if (strStartWith(name, "button"))
         this->addButton(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
-    else if (name == "scrollBar")
+    else if (strStartWith(name, "scrollBar"))
         this->addScrollbar(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
+    else if (strStartWith(name, "image"))
+        this->addImage(elem);
     else
         exit(84);
 }
