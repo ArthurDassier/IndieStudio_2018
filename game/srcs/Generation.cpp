@@ -52,8 +52,8 @@ std::string const game::Generation::genMap(const std::size_t len)
             }
         }
     }
-    // map[len - 2] = "1002222201";
-    // map[len - 1] = "1022222001";
+    map[map.size() - 2] = "1002222201";
+    map[map.size() - 1] = "1022222001";
     map.push_back("1111111111");
     std::cout << "size: " << map.size() << "\n";
 

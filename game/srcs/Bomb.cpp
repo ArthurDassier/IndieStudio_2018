@@ -10,8 +10,8 @@
 game::Bomb::Bomb(float x, float y, size_t power):
     Entity(game::bomb)
 {
-    posX = x;
-    posY = y;
+    _posX = x;
+    _posY = y;
     _power = power;
     _cooldownExplose = std::chrono::high_resolution_clock::now();
 
@@ -25,37 +25,55 @@ size_t game::Bomb::checkTimeExplosion()
     return elapsed.count() / 1000;
 }
 
+float game::Bomb::getPosX() const noexcept
+{
+    return _posX;
+}
+
+
+float game::Bomb::getPosZ() const noexcept
+{
+    return _posY;
+}
+
+game::Bomb &game::Bomb::operator=(Bomb const &other)
+{
+    Bomb b(_posX, _posY, _power);
+    return b;
+}
+
+
 void game::Bomb::destroyMap()
 {
-    // for (int i = posX + 1, j = 0; i != map.size() && j != _power; i++, j++) {
+    // for (int i = _posX + 1, j = 0; i != map.size() && j != _power; i++, j++) {
     //     if (std::rand() % 25 == 12)
-    //         map[i][posY] = 'F';
+    //         map[i][_posY] = 'F';
     //     else
-    //         map[i][posY] = ' ';
+    //         map[i][_posY] = ' ';
     // }
-    // for (int i = posX - 1, j = 0; i != - 1 && i != _power; i--, j++) {
+    // for (int i = _posX - 1, j = 0; i != - 1 && i != _power; i--, j++) {
     //     if (std::rand() % 25 == 12)
-    //         map[i][posY] = 'F';
+    //         map[i][_posY] = 'F';
     //     else
-    //         map[i][posY] = ' ';
+    //         map[i][_posY] = ' ';
     // }
-    // for (int i = posY + 1, j = 0; i != map[posX].size() - 1 && j != _power; i++, j++) {
+    // for (int i = _posY + 1, j = 0; i != map[_posX].size() - 1 && j != _power; i++, j++) {
     //     if (std::rand() % 25 == 12)
-    //         map[posX][i] = 'F';
+    //         map[_posX][i] = 'F';
     //     else
-    //         map[posX][i] = ' ';
+    //         map[_posX][i] = ' ';
     // }
-    // for (int i = posY - 1, j = 0; i != - 1 && j != _power; i--, j++) {
+    // for (int i = _posY - 1, j = 0; i != - 1 && j != _power; i--, j++) {
     //     if (std::rand() % 25 == 12)
-    //         map[posX][i] = 'F';
+    //         map[_posX][i] = 'F';
     //     else
-    //         map[posX][i] = ' ';
+    //         map[_posX][i] = ' ';
     // }
 }
 
 void game::Bomb::RefreshBomb()
 {
-    // map[posX][posY] = 'O';
+    // map[_posX][_posY] = 'O';
     if (checkTimeExplosion() < 1)
         return;
     destroyMap();

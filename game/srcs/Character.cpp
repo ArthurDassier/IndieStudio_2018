@@ -12,7 +12,6 @@ game::Character::Character():
     _hp(3)
 {
     _cooldownBomb = std::chrono::high_resolution_clock::now();
-
 }
 
 t_id game::Character::getId()
@@ -22,12 +21,10 @@ t_id game::Character::getId()
 
 void game::Character::deliver(std::string)
 {
-
 }
 
 player &game::Character::get_playerdata()
 {
-
 }
 
 void game::Character::setSpawn(const s_pos spawn)
@@ -92,8 +89,12 @@ std::size_t &game::Character::getHealthPoints() noexcept
 
 void game::Character::setCooldownBomb()
 {
-    // _cooldownBomb = std::chrono::high_resolution_clock::now();
+    _cooldownBomb = std::chrono::high_resolution_clock::now();
+}
 
+size_t game::Character::getPower()
+{
+    return _power;
 }
 
 size_t game::Character::getCooldownBomb()
