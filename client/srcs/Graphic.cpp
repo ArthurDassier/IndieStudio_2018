@@ -238,8 +238,11 @@ void client::EngineGraphic::explosion()
 {
     float x = _root.get<float>("x");
     float y = _root.get<float>("z");
+    std::cout << "REMOVE BOMB" << std::endl;
+    std::cout << "ID: " << _root.get<size_t>("id") << std::endl;
+    std::cout << "SIZE: " << _nodeBomb.size() << std::endl;
     _nodeBomb[_root.get<size_t>("id")]->remove();
-
+    _nodeBomb.erase(_nodeBomb.begin());
 }
 
 void client::EngineGraphic::death()

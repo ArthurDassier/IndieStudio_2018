@@ -14,9 +14,14 @@
 
 #include "Character.hpp"
 #include "EntityManager.hpp"
+#include "Game/Bomb.hpp"
+#include "Game/Character.hpp"
+#include "Game/EntityManager.hpp"
+#include "Game/Ground.hpp"
+#include "Game/IEntity.hpp"
+#include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
-#include "Game/EntityManager.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;

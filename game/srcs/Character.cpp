@@ -12,7 +12,6 @@ game::Character::Character():
     _hp(3)
 {
     _cooldownBomb = std::chrono::high_resolution_clock::now();
-
 }
 
 t_id game::Character::getId()
@@ -22,12 +21,10 @@ t_id game::Character::getId()
 
 void game::Character::deliver(std::string)
 {
-
 }
 
 player &game::Character::get_playerdata()
 {
-
 }
 
 void game::Character::setSpawn(const s_pos spawn)

@@ -26,7 +26,6 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
 
     for (auto &it : *_participants) {
         if (it->getId() == id) {
-            // std::cout << it->getId() << "\n";
             pos_player = it->getPosition();
             it->setDirection(direction);
             if (direction.compare("up") == 0)
