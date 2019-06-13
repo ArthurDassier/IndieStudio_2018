@@ -29,11 +29,11 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
     _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
     _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
-    _fMap.emplace(std::make_pair("new_bomb", std::bind(&EngineGraphic::new_bomb, this)));
     _fMap.emplace(std::make_pair("explosion", std::bind(&EngineGraphic::explosion, this)));
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
+    _fMap.emplace(std::make_pair("dropBonus", std::bind(&EngineGraphic::dropBonus, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -221,20 +221,6 @@ void client::EngineGraphic::new_player()
     _charList.push_back(player);
 }
 
-void client::EngineGraphic::new_bomb()
-{
-    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.b3d");
-    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
-    //
-    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
-    // node->setRotation(core::vector3df(0, 80, 0));
-    // node->setPosition(player->getPosition());
-    // node->setFrameLoop(0, 0);
-    // node->setScale(core::vector3df(2, 2, 2));
-    // node->setMaterialFlag(video::EMF_LIGHTING, false);
-    // player->setNode(node);
-}
-
 void client::EngineGraphic::explosion()
 {
     float x = _root.get<float>("x");
@@ -243,13 +229,26 @@ void client::EngineGraphic::explosion()
     _nodeBomb.erase(_nodeBomb.begin());
 }
 
+void client::EngineGraphic::dropBonus()
+{
+    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+
+    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(30, 30, 30));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBomb.push_back(node);
+}
 
 void client::EngineGraphic::destroy()
 {
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     int i = 0;
-    std::cout << "fini de ddestroy\n";
     for (;i != _map.size(); i++) {
         if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
             break;
