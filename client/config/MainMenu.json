@@ -1,0 +1,50 @@
+{
+    "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
+    "imageBackground": {
+        "pos": [],
+        "texture": 1,
+        "id": 0
+    },
+    "button1": {
+        "pos": [800,300,1100,350],
+        "texture": 0,
+        "id": 1,
+        "name": "startSolo",
+        "text": "Play"
+    },
+    "button2": {
+        "pos": [800,400,1100,450],
+        "texture": 0,
+        "id": 2,
+        "name": "host",
+        "text": "Host"
+    },
+    "button3": {
+        "pos": [800,500,1100,550],
+        "texture": 0,
+        "id": 3,
+        "name": "startMulti",
+        "text": "Join Server"
+    },
+    "button4": {
+        "pos": [800,600,1100,650],
+        "texture": 0,
+        "id": 4,
+        "name": "optionMenu",
+        "text": "Options"
+    },
+    "button5": {
+        "pos": [800,700,1100,750],
+        "texture": 0,
+        "id": 5,
+        "name": "help",
+        "text": "Help"
+    },
+    "button6": {
+        "pos": [800,800,1100,850],
+        "texture": 0,
+        "id": 6,
+        "name": "quit",
+        "text": "Quit"
+    }
+}
