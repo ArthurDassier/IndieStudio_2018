@@ -79,9 +79,7 @@ std::string MenuEvent::quit(s32 id)
 std::string MenuEvent::menuHelp(s32 id)
 {
     (void)id;
-    std::cout << "change" << std::endl;
     _menu.changeMenu("client/config/helpMenu.json");
-    std::cout << "done" << std::endl;
     return "";
 }
 
@@ -107,6 +105,5 @@ std::string MenuEvent::joinServer(s32 id)
     ipAndPort += _menu[4]->getText();
     std::string txt(ipAndPort.length(), ' ');
     std::copy(ipAndPort.begin(), ipAndPort.end(), txt.begin());
-    std::cout << txt << std::endl;
     return "";
 }

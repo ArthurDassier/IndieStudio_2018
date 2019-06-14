@@ -66,7 +66,6 @@ int client::Core::menuEvent()
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         if (strStartWith(_instruction, "connect")) {
-            std::cout << "connection" << std::endl;
             _logicPause.getClient().connect();
             _logicPause.getClient().start_receive();
         }
@@ -75,15 +74,12 @@ int client::Core::menuEvent()
 
 void client::Core::startCore()
 {
-    std::string instruction = "";
-    std::thread t1;
-
     _graph.addCamera();
     while (2) {
         if (this->menuEvent() == 1)
             break;
         if (_graph.runGraph(_logicPause.getMode()) == 84) {
-            if (t1.joinable()) {
+            if (_t1.joinable()) {
                 _logicPause.buildJSON("quit");
                 _logicPause.getClient().sendToServer(_logicPause.getData());
             }
@@ -106,8 +102,6 @@ void client::Core::startCore()
         if (_logicPause.getMode() != MAINMENU)
             _logicPause.getClient().call_poll_one();
     }
-    std::cout << "ok" << std::endl;
     if (_isHost)
-        t1.join();
-    std::cout << "end" << std::endl;
+        _t1.join();
 }
