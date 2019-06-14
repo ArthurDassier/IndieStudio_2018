@@ -20,6 +20,13 @@ void game::Game::gameLoop()
     }
 }
 
+void game::Game::sendPacket(const std::string packet)
+{
+    for (auto &it : *_participants)
+        it->deliver(packet);
+    _packet.clear();
+}
+
 void game::Game::updatePosition(const t_id id, const std::string direction)
 {
     s_pos pos_player;
@@ -51,76 +58,94 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
-void game::Game::destroyMap(size_t power, float x, float z)
+void game::Game::destroyV(size_t power, s_pos pos)
 {
-    s_pos pos_block;
-    pos_block.x = x;
-    pos_block.z = z;
-    int test = 0;
+    s_pos pos_block = pos;
+    bool send = false;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z += 10;
-        _packet.addToVector<std::array<float, 2>>({x, z + i * 10});
-        test++;
+        _packet.addToVector<std::array<float, 2>>({pos.x, pos.z + i * 10});
+        send = true;
+        if (_packet.getVectorSize() == 3) {
+            _packet.addList("blocks", _packet.getVector());
+            sendPacket(_packet.getPacket());
+        }
     }
-    if (test != 0) {
+    if (send && _packet.getVectorSize() != 0) {
         _packet.addList("blocks", _packet.getVector());
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _packet.clear();
+        sendPacket(_packet.getPacket());
     }
-    test = 0;
-    pos_block.x = x;
-    pos_block.z = z;
-    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
-        _packet.setType("destroy");
-        _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.x += 10;
-        _packet.addToVector<std::array<float, 2>>({x + i * 10, z});
-        test++;
-    }
-    if (test != 0) {
-        _packet.addList("blocks", _packet.getVector());
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _packet.clear();
-    }
-    test = 0;
-    pos_block.x = x;
-    pos_block.z = z;
 
-    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
-        _packet.setType("destroy");
-        _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.x -= 10;
-        _packet.addToVector<std::array<float, 2>>({x - i * 10, z});
-        test++;
-    }
-    if (test != 0) {
-        _packet.addList("blocks", _packet.getVector());
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
-        _packet.clear();
-    }
-    test = 0;
-    pos_block.x = x;
-    pos_block.z = z;
+    pos_block = pos;
+    send = false;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z -= 10;
-        _packet.addToVector<std::array<float, 2>>({x, z - i * 10});
-        test++;
+        _packet.addToVector<std::array<float, 2>>({pos.x, pos.z - i * 10});
+        send = true;
+        if (_packet.getVectorSize() == 3) {
+            _packet.addList("blocks", _packet.getVector());
+            sendPacket(_packet.getPacket());
+        }
     }
-    if (test == 0) {
-        return;
+    if (send && _packet.getVectorSize() != 0) {
+        _packet.addList("blocks", _packet.getVector());
+        sendPacket(_packet.getPacket());
     }
-    _packet.addList("blocks", _packet.getVector());
-    for (auto &it : *_participants)
-        it->deliver(_packet.getPacket());
-    _packet.clear();
+}
+
+void game::Game::destroyH(size_t power, s_pos pos)
+{
+    s_pos pos_block = pos;
+    bool send = false;
+
+    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.x += 10;
+        _packet.addToVector<std::array<float, 2>>({pos.x + i * 10, pos.z});
+        send = true;
+        if (_packet.getVectorSize() == 3) {
+            _packet.addList("blocks", _packet.getVector());
+            sendPacket(_packet.getPacket());
+        }
+    }
+    if (send && _packet.getVectorSize() != 0) {
+        _packet.addList("blocks", _packet.getVector());
+        sendPacket(_packet.getPacket());
+    }
+    send = false;
+    pos_block = pos;
+    for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        _packet.setType("destroy");
+        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        pos_block.x -= 10;
+        _packet.addToVector<std::array<float, 2>>({pos.x - i * 10, pos.z});
+        send = true;
+        if (_packet.getVectorSize() == 3) {
+            _packet.addList("blocks", _packet.getVector());
+            sendPacket(_packet.getPacket());
+        }
+    }
+    if (send && _packet.getVectorSize() != 0) {
+        _packet.addList("blocks", _packet.getVector());
+        sendPacket(_packet.getPacket());
+    }
+}
+
+void game::Game::destroyMap(size_t power, float x, float z)
+{
+    s_pos pos_block;
+    pos_block.x = x;
+    pos_block.z = z;
+    bool send = false;
+
+    destroyV(power, pos_block);
+    destroyH(power, pos_block);
 }
 
 void game::Game::refreshBomb()
@@ -190,7 +215,7 @@ game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
 void game::Game::putBomb(t_id id)
 {
     s_pos pos_bomb;
-    bool test = false;
+    bool send = false;
 
     for (auto &it : *_participants) {
         if (it->getId() == id) {
@@ -201,11 +226,11 @@ void game::Game::putBomb(t_id id)
                 _packet.addData("z", pos_bomb.z);
                 static_cast<Character *>(it.get())->setCooldownBomb();
                 _allBomb.emplace_back(pos_bomb.x, pos_bomb.z, it.get()->getPower());
-                test = true;
+                send = true;
             }
         }
     }
-    if (test == false)
+    if (send == false)
         return;
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());

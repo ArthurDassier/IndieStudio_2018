@@ -48,6 +48,8 @@ namespace game
             void setPlayer(boost::shared_ptr<game::Character>);
             boost::shared_ptr<game::Character> getPlayer() const noexcept;
 
+            void sendPacket(const std::string packet);
+
             void updateParticipants(std::shared_ptr<t_vector>);
 
             std::string const getMap();
@@ -55,6 +57,10 @@ namespace game
             void putBomb(t_id);
             void refreshBomb();
             void destroyMap(size_t power,float x, float z);
+
+            void destroyV(size_t power, s_pos pos);
+            void destroyH(size_t power, s_pos pos);
+
             s_pos determineBombPos(int x, int z, std::string sens);
 
         private:

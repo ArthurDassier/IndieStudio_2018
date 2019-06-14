@@ -37,7 +37,6 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
-    _fMap.emplace(std::make_pair("water", std::bind(&EngineGraphic::water, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -73,9 +72,17 @@ EKEY_CODE client::EngineGraphic::input()
 
 void client::EngineGraphic::matchQuery()
 {
-    std::string type = _root.get<std::string>("type");
+    try {
+        std::string type = _root.get<std::string>("type");
 
-    _fMap.find(type)->second();
+        auto it =_fMap.find(type);
+        if (it != _fMap.end())
+            it->second();
+    }
+    catch (const std::exception &e)
+    {
+        throw(error::ClientError(e.what()));
+    }
 }
 
 void client::EngineGraphic::addEntity(Character *player)
@@ -232,33 +239,32 @@ void client::EngineGraphic::fire(float x, float z)
     // sz
 }
 
-void client::EngineGraphic::water()
-{
-    float x = _root.get<float>("x");
-    float z = _root.get<float>("z");
-    int i = 0;
-
-    // delete le feu
-}
-
 void client::EngineGraphic::explosion()
 {
-    float x = _root.get<float>("x");
-    float y = _root.get<float>("z");
-    _nodeBomb[_root.get<size_t>("id")]->remove();
-    _nodeBomb.erase(_nodeBomb.begin());
+    try {
+        float x = _root.get<float>("x");
+        float y = _root.get<float>("z");
+        _nodeBomb[_root.get<size_t>("id")]->remove();
+        _nodeBomb.erase(_nodeBomb.begin());
+    } catch (const std::exception &e) {
+        throw(error::ClientError(e.what()));
+    }
 }
 
 void client::EngineGraphic::destroy()
 {
     std::vector<std::vector<int>> getPos;
     int i = 0;
-    
-    for (pt::ptree::value_type &row : _root.get_child("blocks")) {
-        std::vector<int> tmp;
-        for (pt::ptree::value_type &cell : row.second)
-            tmp.push_back(cell.second.get_value<int>());
-        getPos.push_back(tmp);
+
+    try {
+        for (pt::ptree::value_type &row : _root.get_child("blocks")) {
+            std::vector<int> tmp;
+            for (pt::ptree::value_type &cell : row.second)
+                tmp.push_back(cell.second.get_value<int>());
+            getPos.push_back(tmp);
+        }
+    } catch (const std::exception &e) {
+        throw(error::ClientError("DESTROY"));
     }
     for (auto &it : getPos) {
         for (; i != _map.size(); i++) {
@@ -297,16 +303,20 @@ void client::EngineGraphic::death()
 
 void client::EngineGraphic::bomb()
 {
-    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("bomb"));
+    try {
+        core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+        scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("bomb"));
 
-    node->setMaterialTexture(0, _loader.getTexture("bomb"));
-    node->setRotation(core::vector3df(0, 80, 0));
-    node->setPosition(pos);
-    node->setFrameLoop(0, 0);
-    node->setScale(core::vector3df(30, 30, 30));
-    node->setMaterialFlag(video::EMF_LIGHTING, false);
-    _nodeBomb.push_back(node);
+        node->setMaterialTexture(0, _loader.getTexture("bomb"));
+        node->setRotation(core::vector3df(0, 80, 0));
+        node->setPosition(pos);
+        node->setFrameLoop(0, 0);
+        node->setScale(core::vector3df(30, 30, 30));
+        node->setMaterialFlag(video::EMF_LIGHTING, false);
+        _nodeBomb.push_back(node);
+    } catch(const std::exception &e) {
+        throw(error::ClientError("BOMB"));
+    }
 }
 
 void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)

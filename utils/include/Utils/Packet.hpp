@@ -51,11 +51,8 @@ namespace utils
             {
                 v.push_back(data);
             }
-
-            std::vector<std::array<float, 2>> getVector() const noexcept
-            {
-                return v;
-            }
+            std::vector<std::array<float, 2>> getVector() const noexcept;
+            std::size_t getVectorSize() const noexcept;
 
             template <typename T>
             void addPairToList(const std::string name1, const std::string name2, T elem1, T elem2)

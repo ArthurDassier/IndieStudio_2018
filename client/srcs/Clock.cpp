@@ -9,7 +9,7 @@
 
 client::Clock::Clock():
     _clock(),
-    _second(50000000LL)
+    _second(70000000LL)
 {
 }
 
