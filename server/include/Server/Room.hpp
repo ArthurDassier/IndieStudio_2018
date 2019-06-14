@@ -24,7 +24,6 @@ namespace server
     {
         public:
             void join(boost::shared_ptr<game::Character>);
-            void updatePosition(const t_id, std::string);
 
             void addParticipant(boost::shared_ptr<game::Character>, boost::shared_ptr<game::Character>);
             void addLocalPlayer(boost::shared_ptr<game::Character>);
@@ -38,7 +37,6 @@ namespace server
 
             void setParticipants();
             std::shared_ptr<t_vector> getParticipants() const noexcept;
-            void update_participants();
 
         private:
             std::string _map;

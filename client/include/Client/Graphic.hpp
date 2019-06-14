@@ -31,10 +31,11 @@ namespace client
             virtual bool OnEvent(const SEvent& event)
             {
                 // Remember whether each key is down or up
-                if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+                if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
                     KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+                }
                 if (event.EventType == EET_GUI_EVENT) {
-                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED)
+                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED || event.GUIEvent.EventType == gui::EGET_SCROLL_BAR_CHANGED)
                         _guiID = event.GUIEvent.Caller->getID();
                     return true;
                 } else {
@@ -91,7 +92,8 @@ namespace client
             void death();
             void bomb();
             void destroy();
-            void water();
+            void dropBonus();
+            void removeBonus();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -128,6 +130,7 @@ namespace client
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
             std::vector<scene::IParticleSystemSceneNode *> _listFire;
 
+            std::vector<scene::IAnimatedMeshSceneNode *> _nodeBonus;
             GraphicLoader _loader;
             utils::ConfigManager _config;
             std::map<int, const std::string> _skins = {

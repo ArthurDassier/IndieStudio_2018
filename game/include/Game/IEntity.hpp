@@ -24,6 +24,10 @@ namespace game
         character,
         fire,
         ground,
+        FireUp,
+        SpeedUp,
+        WallPass,
+        BombUp,
         undefined
     };
 

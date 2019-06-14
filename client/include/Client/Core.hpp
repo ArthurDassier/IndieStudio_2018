@@ -7,12 +7,13 @@
 
 #pragma once
 
+#include <thread>
+#include <chrono>
 #include "Client/Client.hpp"
 #include "Client/Graphic.hpp"
 #include "Client/LogicPause.hpp"
 #include "Client/MenuEvent.hpp"
-
-#define forever while (42)
+#include "Server/Server.hpp"
 
 namespace client
 {
@@ -23,6 +24,7 @@ namespace client
             ~Core() = default;
 
             void startCore();
+            int menuEvent();
             bool isHost() const;
 
         private:
@@ -30,5 +32,9 @@ namespace client
             LogicPause _logicPause;
             MenuEvent _menuEvent;
             bool _isHost;
+            bool _isPause;
+            std::string _instruction;
+            std::thread _t1;
+            std::array<std::string, 2> _infosConnect;
     };
 };
