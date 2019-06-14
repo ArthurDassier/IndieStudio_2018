@@ -271,12 +271,12 @@ void client::EngineGraphic::removeBonus()
     // _nodeBonus.push_back(node);
 }
 
-
 void client::EngineGraphic::destroy()
 {
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     int i = 0;
+    std::cout << "fini de ddestroy\n";
     for (;i != _map.size(); i++) {
         if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
             break;

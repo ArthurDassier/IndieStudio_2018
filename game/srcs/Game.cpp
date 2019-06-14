@@ -10,6 +10,10 @@
 #include "Game/Character.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Game/IEntity.hpp"
+#include "Game/BombUp.hpp"
+#include "Game/FireUp.hpp"
+#include "Game/SpeedUp.hpp"
+#include "Game/WallPass.hpp"
 
 void game::Game::gameLoop()
 {
@@ -93,6 +97,8 @@ void game::Game::destroyMap(size_t power, float x, float z)
             it->deliver(_packet.getPacket());
         pos_block.x -= 10;
         dropBonus(pos_block.x, pos_block.z);
+        _packet.clear();
+
     }
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
@@ -182,6 +188,7 @@ void game::Game::putBomb(t_id id)
 bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
+    std::cout << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block
@@ -234,29 +241,29 @@ void game::Game::dropBonus(float x, float z)
     _packet.addData("x", x);
     _packet.addData("z", z);
     if (k == 0) {
-        BombUp b;
-        b.setPosition({x, 5, y});
-        _EM.addEntity(b);
-        _packet.addData("bonusType", "BombUp");
+        BombUp toto;
+        // b.setPosition({x, 5, y});
+        // _EM.addEntity(b);
+        // _packet.addData("bonusType", "BombUp");
     }
-    else if (k == 1) {
-        SpeedUp b;
-        b.setPosition({x, 5, y});
-        _EM.addEntity(b);
-        _packet.addData("bonusType", "SpeedUp");
-    }
-    else if (k == 2) {
-        FireUp b;
-        b.setPosition({x, 5, y});
-        _EM.addEntity(b);
-        _packet.addData("bonusType", "FireUp");
-    }
-    else if (k == 3) {
-        WallPass b;
-        b.setPosition({x, 5, y});
-        _EM.addEntity(b);
-        _packet.addData("bonusType", "WallPass");
-    }
+    // else if (k == 1) {
+    //     SpeedUp b;
+    //     b.setPosition({x, 5, y});
+    //     _EM.addEntity(b);
+    //     _packet.addData("bonusType", "SpeedUp");
+    // }
+    // else if (k == 2) {
+    //     FireUp b;
+    //     b.setPosition({x, 5, y});
+    //     _EM.addEntity(b);
+    //     _packet.addData("bonusType", "FireUp");
+    // }
+    // else if (k == 3) {
+    //     WallPass b;
+    //     b.setPosition({x, 5, y});
+    //     _EM.addEntity(b);
+    //     _packet.addData("bonusType", "WallPass");
+    // }
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();
