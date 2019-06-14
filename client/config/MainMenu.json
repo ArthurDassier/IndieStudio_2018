@@ -6,42 +6,42 @@
         "id": 0
     },
     "button1": {
-        "pos": [800,300,1100,350],
+        "pos": [400,150,550,175],
         "texture": 0,
         "id": 1,
         "name": "startSolo",
         "text": "Play"
     },
     "button2": {
-        "pos": [800,400,1100,450],
+        "pos": [400,200,550,225],
         "texture": 0,
         "id": 2,
         "name": "host",
         "text": "Host"
     },
     "button3": {
-        "pos": [800,500,1100,550],
+        "pos": [400,250,550,275],
         "texture": 0,
         "id": 3,
         "name": "startMulti",
         "text": "Join Server"
     },
     "button4": {
-        "pos": [800,600,1100,650],
+        "pos": [400,300,550,325],
         "texture": 0,
         "id": 4,
         "name": "optionMenu",
         "text": "Options"
     },
     "button5": {
-        "pos": [800,700,1100,750],
+        "pos": [400,350,550,375],
         "texture": 0,
         "id": 5,
         "name": "help",
         "text": "Help"
     },
     "button6": {
-        "pos": [800,800,1100,850],
+        "pos": [400,400,550,425],
         "texture": 0,
         "id": 6,
         "name": "quit",

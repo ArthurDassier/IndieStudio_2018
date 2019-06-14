@@ -27,16 +27,19 @@ public:
     void addElement(pt::ptree elem, const std::string name);
     gui::IGUIElement *operator[](s32 i);
     gui::IGUIEnvironment *operator->();
+    std::string getLastMenu() const;
 private:
     void addImage(pt::ptree elem);
     void addButton(pt::ptree elem, core::recti rect);
     void addScrollbar(pt::ptree elem, core::recti rect);
+    void addEditBox(pt::ptree elem, core::recti rect);
     void setSpriteBank(pt::ptree menu);
     utils::ConfigManager _manager;
     gui::IGUIEnvironment *_env;
     std::vector<gui::IGUIElement *> _elems;
     gui::IGUISpriteBank *_bank;
     video::IVideoDriver *_driver;
+    std::string _lastMenu;
 };
 
 bool strStartWith(std::string str1, const std::string str2);

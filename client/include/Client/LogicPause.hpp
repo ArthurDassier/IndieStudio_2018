@@ -27,6 +27,7 @@ class LogicPause
 
         void setKey(EKEY_CODE key);
         void setData(std::string data);
+        void setMode(MODE mode);
         void manageKey();
 
         client::Client &getClient();
@@ -38,6 +39,7 @@ class LogicPause
     private:
         client::Client _client;
         MODE _mode;
+        EKEY_CODE _key;
         EKEY_CODE _lastKey;
         std::string _data;
         boost::property_tree::ptree _message;

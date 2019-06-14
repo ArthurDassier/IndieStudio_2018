@@ -8,10 +8,12 @@
 #include <functional>
 #include "Client/CustomMenu.hpp"
 
-CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver) : _driver(driver)
+CustomMenu::CustomMenu(gui::IGUIEnvironment *env, video::IVideoDriver *driver):
+    _driver(driver),
+    _env(env),
+    _bank(_env->getSkin()->getSpriteBank()),
+    _lastMenu("")
 {
-    _env = env;
-    _bank = _env->getSkin()->getSpriteBank();
     gui::IGUIFont *font = _env->getFont("./client/res/font.bmp");
     for (s32 i=0; i < irr::gui::EGDC_COUNT ; ++i)
 	{
@@ -45,10 +47,13 @@ void CustomMenu::setSpriteBank(pt::ptree menu)
 
 void CustomMenu::changeMenu(const std::string &configFile)
 {
-    if (!_elems.empty()){
+    if (!_elems.empty())
         _elems.clear();
-    }
     _env->clear();
+    if (_lastMenu == "")
+        _lastMenu = configFile;
+    else
+        _lastMenu = _manager.getConfigFile();
     _manager.setConfigFile(configFile);
     for (auto &it : _manager.getPtree()) {
         if (it.first == "textures")
@@ -64,6 +69,7 @@ void CustomMenu::addImage(pt::ptree elem)
 {
     gui::IGUIImage *img = _env->addImage(_bank->getTexture(elem.get<int>("texture")), core::position2d<s32>(0, 0));
     img->setID(elem.get<int>("id"));
+    img->setScaleImage(true);
     _elems.push_back(img);
 }
 
@@ -89,6 +95,15 @@ void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
     _elems.push_back(newElem);
 }
 
+void CustomMenu::addEditBox(pt::ptree elem, core::recti rect)
+{
+    std::string txt = elem.get<std::string>("text");
+    std::wstring wtxt(txt.length(), L' ');
+    std::copy(txt.begin(), txt.end(), wtxt.begin());
+    gui::IGUIEditBox *box = _env->addEditBox(wtxt.c_str(), rect, true, 0, elem.get<int>("id"));
+    _elems.push_back(box);
+}
+
 bool strStartWith(std::string str1, const std::string str2)
 {
     return str1.substr(0, str2.size()) == str2;
@@ -106,6 +121,13 @@ void CustomMenu::addElement(pt::ptree elem, const std::string name)
         this->addScrollbar(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
     else if (strStartWith(name, "image"))
         this->addImage(elem);
+    else if (strStartWith(name, "editBox"))
+        this->addEditBox(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
     else
         exit(84);
+}
+
+std::string CustomMenu::getLastMenu() const
+{
+    return _lastMenu;
 }
