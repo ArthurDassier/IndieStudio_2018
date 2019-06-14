@@ -58,6 +58,7 @@ if (WIN32)
         game
         error
         utils
+        bot
     )
 else ()
     target_include_directories(client INTERFACE
@@ -73,6 +74,7 @@ else ()
         game
         error
         utils
+        bot
         boost_system
         pthread
         boost_timer

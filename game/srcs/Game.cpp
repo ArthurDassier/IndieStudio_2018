@@ -144,7 +144,6 @@ game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
     else if (sens.compare("right") == 0) {
         pos_bomb.x = x - (x % 10);
         pos_bomb.z = z - (z % 10);
-
     }
     else if (sens.compare("left") == 0) {
         pos_bomb.x = x + 10 - (x % 10);

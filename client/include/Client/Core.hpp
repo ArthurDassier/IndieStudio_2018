@@ -15,6 +15,7 @@
 #include "Client/LogicPause.hpp"
 #include "Client/MenuEvent.hpp"
 #include "Server/Server.hpp"
+#include "Bot/Bot.hpp"
 
 namespace client
 {
@@ -31,6 +32,7 @@ namespace client
             EngineGraphic _graph;
             LogicPause _logicPause;
             MenuEvent _menuEvent;
+            Bot::Bot _bot;
             bool _isHost;
     };
 };
