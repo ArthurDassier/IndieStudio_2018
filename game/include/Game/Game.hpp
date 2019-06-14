@@ -15,14 +15,16 @@
 #include "Character.hpp"
 #include "EntityManager.hpp"
 #include "Game/Bomb.hpp"
+#include "Game/Fire.hpp"
 #include "Game/Character.hpp"
 #include "Game/EntityManager.hpp"
 #include "Game/Ground.hpp"
 #include "Game/IEntity.hpp"
+#include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
+// #include "Utils/ConfigManager.hpp"
 #include "Utils/Packet.hpp"
-#include "Game/Lib.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -62,5 +64,6 @@ namespace game
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
             std::vector<Bomb> _allBomb;
+            std::vector<Fire> _allFire;
     };
 }; // namespace game

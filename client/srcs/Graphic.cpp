@@ -37,6 +37,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("death", std::bind(&EngineGraphic::death, this)));
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
+    _fMap.emplace(std::make_pair("water", std::bind(&EngineGraphic::water, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -74,6 +75,7 @@ void client::EngineGraphic::matchQuery()
 {
     std::string type = _root.get<std::string>("type");
 
+    std::cout << "====TYPE: " << type << std::endl;
     _fMap.find(type)->second();
 }
 
@@ -226,31 +228,94 @@ void client::EngineGraphic::new_player()
     _charList.push_back(player);
 }
 
-void client::EngineGraphic::explosion()
+void client::EngineGraphic::fire(float x, float z)
 {
-    float x = _root.get<float>("x");
-    float y = _root.get<float>("z");
+    scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
+    scene::IParticleEmitter *em = ps->createBoxEmitter(
+        core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
+        core::vector3df(0.0f, 0.02f, 0.0f),
+        20, 50,
+        video::SColor(0, 255, 255, 255),
+        video::SColor(0, 255, 255, 255),
+        300, 550, 0,
+        core::dimension2df(3.f, 3.f),
+        core::dimension2df(5.f, 5.f));
 
-    _nodeBomb[_root.get<size_t>("id")]->remove();
-    _nodeBomb.erase(_nodeBomb.begin());
+    ps->setEmitter(em);
+    em->drop();
+    scene::IParticleAffector *paf = ps->createFadeOutParticleAffector();
+
+    ps->addAffector(paf);
+    paf->drop();
+    ps->setPosition(core::vector3df(x, 12, z));
+    ps->setScale(core::vector3df(0.3, 0.3, 0.3));
+    ps->setMaterialFlag(video::EMF_LIGHTING, false);
+    ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+    ps->setMaterialTexture(0, _loader.getTexture("fire"));
+    ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    _listFire.push_back(ps);
 }
 
-
-void client::EngineGraphic::destroy()
+void client::EngineGraphic::water()
 {
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     int i = 0;
-    std::cout << "fini de ddestroy\n";
-    for (;i != _map.size(); i++) {
-        if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
-            break;
+
+    // delete le feu
+}
+
+void client::EngineGraphic::explosion()
+{
+    float x = _root.get<float>("x");
+    float y = _root.get<float>("z");
+    std::cout << "explosion" << std::endl;
+    _nodeBomb[_root.get<size_t>("id")]->remove();
+    _nodeBomb.erase(_nodeBomb.begin());
+    std::cout << "end explosion" << std::endl;
+}
+
+void client::EngineGraphic::destroy()
+{
+    std::cout << "DESTROY" << std::endl;
+    std::cout << _root.get<std::string>("type") << std::endl;
+    // std::cout << _root.get<float>("blocks") << std::endl;
+    std::vector<std::vector<int>> getPos;
+    for (pt::ptree::value_type &row : _root.get_child("blocks")) {
+        std::vector<int> tmp;
+        for (pt::ptree::value_type &cell : row.second) {
+            tmp.push_back(cell.second.get_value<int>());
+        }
+        getPos.push_back(tmp);
+    }
+    std::cout << "RECUPERE" << std::endl;
+    int i = 0;
+    for (auto &it : getPos) {
+        for (auto &it_c : _map) {
+            if (it_c->getPosition().X == it.front() && it_c->getPosition().Z == it.back() && it_c->getPosition().Y == 10)
+                break;
+            i++;
+        }
+        if (i != _map.size()) {
+            _map[i]->remove();
+            _map.erase(_map.begin() + i);
         }
     }
-    if (i != _map.size()) {
-        _map[i]->remove();
-        _map.erase(_map.begin() + i);
-    }
+
+    // float x = _root.get<float>("x");
+    // float z = _root.get<float>("z");
+    // int i = 0;
+    // std::cout << "fini de destroy\n";
+    // for (;i != _map.size(); i++) {
+    //     if (_map[i]->getPosition().X == x && _map[i]->getPosition().Z == z & _map[i]->getPosition().Y == 10) {
+    //         break;
+    //     }
+    // }
+    // if (i != _map.size()) {
+    //     _map[i]->remove();
+    //     _map.erase(_map.begin() + i);
+    // }
+    // fire(x, z);
 }
 
 void client::EngineGraphic::death()

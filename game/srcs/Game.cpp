@@ -56,68 +56,108 @@ void game::Game::destroyMap(size_t power, float x, float z)
     s_pos pos_block;
     pos_block.x = x;
     pos_block.z = z;
+    std::vector<std::array<float, 2>> pos;
+    int test = 0;
 
     for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
-        _packet.addData("x", x);
+        // _packet.addData("x", x);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z += 10;
-        _packet.addData("z", z + i * 10);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
+        // _packet.addData("z", z + i * 10);
+        pos.push_back({x, z + i * 10});
+        test++;
     }
-    _packet.clear();
-    pos_block.x = x;
-    pos_block.z = z;
+    // _packet.addList("blocks", pos);
+    // _packet.addList("blocks");
+    // std::cout << "packet: " << _packet.getPacket() << std::endl;
+    // for (auto &it : *_participants)
+    //     it->deliver(_packet.getPacket());
+        // _allFire.emplace_back(pos_block.x, pos_block.z);
+    // }
+    // _packet.clear();
+    // pos_block.x = x;
+    // pos_block.z = z;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
-        _packet.addData("x", x + i * 10);
-        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        // _packet.addData("x", x + i * 10);
+        _EM.deleteFromPos(pos_block.x + i * 10, pos_block.z);
         pos_block.x += 10;
-        _packet.addData("z", z);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
+        // _packet.addData("z", z);
+        // for (auto &it : *_participants)
+        //     it->deliver(_packet.getPacket());
+        // _allFire.emplace_back(pos_block.x, pos_block.z);
+        pos.push_back({x, z});
+        test++;
     }
-    _packet.clear();
-    pos_block.x = x;
-    pos_block.z = z;
+    // _packet.clear();
+    // pos_block.x = x;
+    // pos_block.z = z;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
-        _packet.addData("x", x - i * 10);
-        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        // _packet.addData("x", x - i * 10);
+        _EM.deleteFromPos(pos_block.x - i * 10, pos_block.z);
         pos_block.x -= 10;
-        _packet.addData("z", z);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
+        pos.push_back({x, z});
+        test++;
+        // _packet.addData("z", z);
+        // for (auto &it : *_participants)
+        //     it->deliver(_packet.getPacket());
+        // _allFire.emplace_back(pos_block.x, pos_block.z);
     }
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
-        _packet.addData("x", x);
-        _EM.deleteFromPos(pos_block.x, pos_block.z);
+        // _packet.addData("x", x);
+        _EM.deleteFromPos(pos_block.x, pos_block.z - i * 10);
         pos_block.z -= 10;
-        _packet.addData("z", z - i * 10);
-        for (auto &it : *_participants)
-            it->deliver(_packet.getPacket());
+        pos.push_back({x, z});
+        test++;
+        // _packet.addData("z", z - i * 10);
+        // for (auto &it : *_participants)
+        //     it->deliver(_packet.getPacket());
+        // _allFire.emplace_back(pos_block.x, pos_block.z);
     }
+    if (test == 0)
+        std::cout << "PAS PASSER NUL PART" << std::endl;
+    _packet.addList("blocks", pos);
+    std::cout << "packet: " << _packet.getPacket() << std::endl;
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
     _packet.clear();
 }
 
 void game::Game::refreshBomb()
 {
+    // std::vector<std::array<float, 2>> pos;
     for (int i = 0; i != _allBomb.size(); i++) {
-    // for (auto &it : _allBomb) {
-        _allBomb[i].RefreshBomb();
+        _allBomb[i].refresh();
         if (_allBomb[i].getAlive() == false) {
             _packet.setType("explosion");
+            // pos.push_back({_allBomb[i].getPosX(), _allBomb[i].getPosZ()});
             _packet.addData("x", _allBomb[i].getPosX());
             _packet.addData("z", _allBomb[i].getPosZ());
+            // _packet.addList("blocks", pos);
             _packet.addData("id", _allBomb.size() - 1);
             for (auto &it : *_participants)
                 it->deliver(_packet.getPacket());
             _packet.clear();
             destroyMap(_allBomb[i].getPower(), _allBomb[i].getPosX(), _allBomb[i].getPosZ());
             _allBomb.erase(_allBomb.begin() + i);
+            i--;
+        }
+    }
+    for (int i = 0; i != _allFire.size(); i++) {
+        _allFire[i].refresh();
+        if (_allFire[i].getAlive() == false) {
+            _packet.setType("water");
+            _packet.addData("x", _allFire[i].getPosX());
+            _packet.addData("z", _allFire[i].getPosZ());
+            _packet.addData("id", _allFire.size() - 1);
+            for (auto &it : *_participants)
+                it->deliver(_packet.getPacket());
+            _packet.clear();
+            _allFire.erase(_allFire.begin() + i);
             i--;
         }
     }
@@ -136,7 +176,7 @@ game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
     if (sens.compare("up") == 0) {
         pos_bomb.z = z - (z % 10);
         pos_bomb.x = x - (x % 10);
-        std::cout << "Z: " << pos_bomb.z  << "X : " << pos_bomb.x << "\n";
+        // std::cout << "Z: " << pos_bomb.z  << "X : " << pos_bomb.x << "\n";
     }
     else if (sens.compare("down") == 0) {
         pos_bomb.z = z + 10 - (z % 10);
@@ -179,7 +219,7 @@ void game::Game::putBomb(t_id id)
 bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
-    std::cout << pos_player.z << "\n";
+    // std::cout << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block

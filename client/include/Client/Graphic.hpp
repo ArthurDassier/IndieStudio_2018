@@ -86,10 +86,12 @@ namespace client
             void new_player();
             void new_power_up();
             void new_bomb();
+            void fire(float, float);
             void explosion();
             void death();
             void bomb();
             void destroy();
+            void water();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
@@ -124,8 +126,10 @@ namespace client
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
+            std::vector<scene::IParticleSystemSceneNode *> _listFire;
 
             GraphicLoader _loader;
+            utils::ConfigManager _config;
             std::map<int, const std::string> _skins = {
                 {0, "nskinrd"},
                 {1, "nskinbl"},
