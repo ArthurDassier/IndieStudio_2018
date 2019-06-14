@@ -5,10 +5,7 @@
 ** main.cpp
 */
 
-#include <thread>
-#include <chrono>
 #include "Client/Core.hpp"
-#include "Server/Server.hpp"
 
 int run_server()
 {
@@ -38,7 +35,7 @@ void client::Core::startCore()
     std::thread t1;
 
     _graph.addCamera();
-    while (2) {
+    forever (42) {
         instruction = _menuEvent.launchFunction(_graph.getGuiID());
         if (instruction == "quit") {
             if (t1.joinable()) {
