@@ -15,4 +15,4 @@ target_include_directories(error INTERFACE
 
 SET_TARGET_PROPERTIES(error PROPERTIES LINKER_LANGUAGE CXX)
 
-add_subdirectory(tests)
+# add_subdirectory(tests)

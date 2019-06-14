@@ -20,8 +20,8 @@ namespace game
             Character();
             ~Character() = default;
 
-            void deliver(std::string);
-            player &get_playerdata();
+            // void deliver(std::string);
+            // player &get_playerdata();
             t_id getId();
 
             void setPosition3df(const irr::core::vector3df);

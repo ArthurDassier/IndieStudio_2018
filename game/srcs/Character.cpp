@@ -18,14 +18,14 @@ t_id game::Character::getId()
 {
     return _id;
 }
-
-void game::Character::deliver(std::string)
-{
-}
-
-player &game::Character::get_playerdata()
-{
-}
+//
+// void game::Character::deliver(std::string)
+// {
+// }
+// 
+// player &game::Character::get_playerdata()
+// {
+// }
 
 void game::Character::setSpawn(const s_pos spawn)
 {
