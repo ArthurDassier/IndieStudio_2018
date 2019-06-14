@@ -36,6 +36,27 @@ namespace utils
             //     root.add_child("name");
             // }
 
+            // template <typename T>
+            // std::vector<T> addToVector(T data = nullptr, bool set = true, bool clear = false)
+            // {
+            //     static std::vector<T> v;
+
+            //     if (clear == true)
+            //         v.clear();
+            //     v.push_back(data);
+            //     return set == false ? v : nullptr;
+            // }
+            template <typename T>
+            void addToVector(const T data)
+            {
+                v.push_back(data);
+            }
+
+            std::vector<std::array<float, 2>> getVector() const noexcept
+            {
+                return v;
+            }
+
             template <typename T>
             void addPairToList(const std::string name1, const std::string name2, T elem1, T elem2)
             {
@@ -72,6 +93,7 @@ namespace utils
                     matrix_node.push_back(std::make_pair("", row));
                 }
                 root.add_child(name, matrix_node);
+                v.clear();
             }
 
             void clear();
@@ -79,5 +101,6 @@ namespace utils
         private:
             boost::property_tree::ptree root;
             boost::property_tree::ptree list;
+            std::vector<std::array<float, 2>> v;
     };
 }; // namespace utils
