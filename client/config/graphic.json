@@ -1,7 +1,8 @@
 {
     "models": {
         "ninja": "client/res/ninja.b3d",
-        "bomb": "client/res/Bomb.3ds"
+        "bomb": "client/res/Bomb.3ds",
+        "rose": "client/res/rose.obj"
     },
     "textures": {
         "nskinrd": "client/res/nskinrd.jpg",
@@ -11,6 +12,8 @@
         "sand": "client/res/sand_sol.jpg",
         "wall": "client/res/wall_2.jpg",
         "box": "client/res/box.jpg",
-        "bomb": "client/res/Albedo.png"
+        "bomb": "client/res/Albedo.png",
+        "rose": "client/res/rose_texture.jpg"
+
     }
 }
