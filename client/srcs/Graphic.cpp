@@ -12,7 +12,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_SOFTWARE,
-            core::dimension2d<u32>(1920, 1080),
+            core::dimension2d<u32>(500,600),
             16,
             false,
             false,
@@ -238,17 +238,19 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::dropBonus()
 {
-    core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
-
-    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
-    node->setRotation(core::vector3df(0, 80, 0));
-    node->setPosition(pos);
-    node->setFrameLoop(0, 0);
-    node->setScale(core::vector3df(30, 30, 30));
-    node->setMaterialFlag(video::EMF_LIGHTING, false);
-    _nodeBomb.push_back(node);
+    // std::string bonusType = _root.get<std::string>("bonusType");
+    // core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    // // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/" + bonusType + ".3ds");
+    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    // // node->setMaterialTexture(0, _driver->getTexture("client/res/" + bonusType + ".png"));
+    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    // node->setRotation(core::vector3df(0, 80, 0));
+    // node->setPosition(pos);
+    // node->setFrameLoop(0, 0);
+    // node->setScale(core::vector3df(30, 30, 30));
+    // node->setMaterialFlag(video::EMF_LIGHTING, false);
+    // _nodeBonus.push_back(node);
 }
 
 void client::EngineGraphic::destroy()
@@ -292,11 +294,11 @@ void client::EngineGraphic::bomb()
     core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("bomb"));
 
-    node->setMaterialTexture(0, _loader.getTexture("bomb"));
+    // node->setMaterialTexture(0, _loader.getTexture("bomb"));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(pos);
     node->setFrameLoop(0, 0);
-    node->setScale(core::vector3df(30, 30, 30));
+    node->setScale(core::vector3df(10, 10, 10));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
     _nodeBomb.push_back(node);
 }

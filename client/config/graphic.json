@@ -1,7 +1,7 @@
 {
     "models": {
         "ninja": "client/res/ninja.b3d",
-        "bomb": "client/res/Bomb.3ds"
+        "bomb": "client/res/powerUpBomb.obj"
     },
     "textures": {
         "nskinrd": "client/res/nskinrd.jpg",

@@ -61,24 +61,26 @@ void game::Game::destroyMap(size_t power, float x, float z)
         _packet.setType("destroy");
         _packet.addData("x", x);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.z += 10;
         _packet.addData("z", z + i * 10);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        pos_block.z += 10;
+        dropBonus(pos_block.x, pos_block.z);
+        _packet.clear();
     }
-    _packet.clear();
     pos_block.x = x;
     pos_block.z = z;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
         _packet.addData("x", x + i * 10);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.x += 10;
         _packet.addData("z", z);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        pos_block.x += 10;
+        dropBonus(pos_block.x, pos_block.z);
+        _packet.clear();
     }
-    _packet.clear();
     pos_block.x = x;
     pos_block.z = z;
 
@@ -86,21 +88,23 @@ void game::Game::destroyMap(size_t power, float x, float z)
         _packet.setType("destroy");
         _packet.addData("x", x - i * 10);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.x -= 10;
         _packet.addData("z", z);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        pos_block.x -= 10;
+        dropBonus(pos_block.x, pos_block.z);
     }
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         _packet.setType("destroy");
         _packet.addData("x", x);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
-        pos_block.z -= 10;
         _packet.addData("z", z - i * 10);
         for (auto &it : *_participants)
             it->deliver(_packet.getPacket());
+        pos_block.z -= 10;
+        dropBonus(pos_block.x, pos_block.z);
+        _packet.clear();
     }
-    _packet.clear();
 }
 
 void game::Game::refreshBomb()
@@ -136,7 +140,6 @@ game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
     if (sens.compare("up") == 0) {
         pos_bomb.z = z - (z % 10);
         pos_bomb.x = x - (x % 10);
-        std::cout << "Z: " << pos_bomb.z  << "X : " << pos_bomb.x << "\n";
     }
     else if (sens.compare("down") == 0) {
         pos_bomb.z = z + 10 - (z % 10);
@@ -179,7 +182,6 @@ void game::Game::putBomb(t_id id)
 bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
-    std::cout << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block
@@ -215,6 +217,33 @@ void game::Game::fillEntitiesMap(const std::string map)
             y = 0;
         }
     }
+}
+
+void game::Game::dropBonus(float x, float z)
+{
+    s_pos pos_entity;
+    pos_entity.x = x;
+    pos_entity.y = 5;
+    pos_entity.z = z;
+    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 8 != 1)
+        return;
+
+    int k = std::rand() % 4;
+    _packet.setType("dropBonus");
+    _packet.addData("x", x);
+    _packet.addData("z", z);
+    if (k == 0)
+        _packet.addData("bonusType", "BombUp");
+    else if (k == 1)
+        _packet.addData("bonusType", "SpeedUp");
+    else if (k == 2)
+        _packet.addData("bonusType", "FireUp");
+    else if (k == 3)
+        _packet.addData("bonusType", "WallPass");
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+    std::cout << "BONUS\n";
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)

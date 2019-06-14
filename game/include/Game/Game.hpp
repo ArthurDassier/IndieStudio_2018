@@ -55,6 +55,9 @@ namespace game
             void destroyMap(size_t power,float x, float z);
             s_pos determineBombPos(int x, int z, std::string sens);
 
+
+            void dropBonus(float x, float z);
+
         private:
             Generation _generation;
             EntityManager _EM;

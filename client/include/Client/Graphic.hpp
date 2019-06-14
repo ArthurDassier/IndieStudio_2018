@@ -125,7 +125,7 @@ namespace client
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
-
+            std::vector<scene::IAnimatedMeshSceneNode *> _nodeBonus;
             GraphicLoader _loader;
             std::map<int, const std::string> _skins = {
                 {0, "nskinrd"},
