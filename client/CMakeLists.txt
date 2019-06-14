@@ -74,7 +74,6 @@ else ()
         game
         error
         utils
-        bot
         boost_system
         pthread
         boost_timer

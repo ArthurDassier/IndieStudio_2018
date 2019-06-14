@@ -19,12 +19,6 @@ int run_server()
     return (0);
 }
 
-int run_bot()
-{
-
-    return (0);
-}
-
 client::Core::Core():
     _graph(),
     _logicPause(),
@@ -33,19 +27,16 @@ client::Core::Core():
 {
 }
 
-
-
 void client::Core::startCore()
 {
     std::string instruction = "";
-    std::thread tServ;
-    std::thread tBot;
+    std::thread t1;
 
     _graph.addCamera();
     forever (42) {
         instruction = _menuEvent.launchFunction(_graph.getGuiID());
         if (instruction == "quit") {
-            if (tServ.joinable()) {
+            if (t1.joinable()) {
                 _logicPause.buildJSON("quit");
                 _logicPause.getClient().sendToServer(_logicPause.getData());
             }
@@ -53,9 +44,8 @@ void client::Core::startCore()
         }
         if (instruction == "connectSolo" || instruction == "connectHost") {
             _isHost = true;
-            tServ = std::thread(run_server);
+            t1 = std::thread(run_server);
             std::this_thread::sleep_for(std::chrono::seconds(1));
-            tBot = std::thread(run_bot);
         }
         if (strStartWith(instruction, "connect")) {
             std::cout << "connection" << std::endl;
@@ -63,7 +53,7 @@ void client::Core::startCore()
             _logicPause.getClient().start_receive();
         }
         if (_graph.runGraph(_logicPause.getMode()) == 84) {
-            if (tServ.joinable()) {
+            if (t1.joinable()) {
                 _logicPause.buildJSON("quit");
                 _logicPause.getClient().sendToServer(_logicPause.getData());
             }
@@ -80,5 +70,5 @@ void client::Core::startCore()
             _logicPause.getClient().call_poll_one();
     }
     if (_isHost)
-        tServ.join();
+        t1.join();
 }
