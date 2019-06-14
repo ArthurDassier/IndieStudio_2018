@@ -136,7 +136,6 @@ game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
     if (sens.compare("up") == 0) {
         pos_bomb.z = z - (z % 10);
         pos_bomb.x = x - (x % 10);
-        std::cout << "Z: " << pos_bomb.z  << "X : " << pos_bomb.x << "\n";
     }
     else if (sens.compare("down") == 0) {
         pos_bomb.z = z + 10 - (z % 10);
@@ -179,7 +178,6 @@ void game::Game::putBomb(t_id id)
 bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
-    std::cout << pos_player.z << "\n";
     pos_player.z = roundDecimal(pos_player.z);
     pos_player.x = roundDecimal(pos_player.x);
     if (_EM.getEntityType(pos_player) == game::EntityType::block
