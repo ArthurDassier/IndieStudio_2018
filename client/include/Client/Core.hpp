@@ -13,8 +13,7 @@
 #include "Client/Graphic.hpp"
 #include "Client/LogicPause.hpp"
 #include "Client/MenuEvent.hpp"
-
-#define forever while (42)
+#include "Server/Server.hpp"
 
 namespace client
 {

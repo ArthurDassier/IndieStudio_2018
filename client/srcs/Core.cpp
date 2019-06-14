@@ -6,7 +6,6 @@
 */
 
 #include "Client/Core.hpp"
-#include "Server/Server.hpp"
 
 int run_server()
 {
@@ -107,6 +106,8 @@ void client::Core::startCore()
         if (_logicPause.getMode() != MAINMENU)
             _logicPause.getClient().call_poll_one();
     }
+    std::cout << "ok" << std::endl;
     if (_isHost)
         t1.join();
+    std::cout << "end" << std::endl;
 }

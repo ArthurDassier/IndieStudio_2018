@@ -25,15 +25,19 @@
 
 using boost::asio::ip::udp;
 
+#define forever while
+
 namespace server
 {
     class Server
     {
         public:
             Server();
+            ~Server();
 
             // Members
             void run();
+            void stop();
             bool getPause() const noexcept;
 
         private:
@@ -63,5 +67,6 @@ namespace server
             Room _room;
             bool _pause;
             bool _hasReceived;
+            bool _running;
     };
 }; // namespace server
