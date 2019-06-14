@@ -275,7 +275,7 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::refreshFire()
 {
-    boost::timer::nanosecond_type five(5000000000LL);
+    boost::timer::nanosecond_type five(2000000000LL);
 
     for (int i = 0; i != _listFire.size(); i++) {
         _listFire[i].second.setElapsedTime();
@@ -284,7 +284,6 @@ void client::EngineGraphic::refreshFire()
             for (int j = 0; j != _listFire[i].first.size(); j++) {
                 _listFire[i].first[j]->clearParticles();
                 _listFire[i].first[j]->remove();
-                //_listFire[i].first[j]->drop();
             }
             _listFire.erase(_listFire.begin() + i);
             i--;
@@ -296,7 +295,6 @@ void client::EngineGraphic::destroy()
 {
     std::vector<std::vector<int>> getPos;
     int i = 0;
-    Clock clock;
     std::vector<scene::IParticleSystemSceneNode *> flames;
     
     for (pt::ptree::value_type &row : _root.get_child("blocks")) {
@@ -306,20 +304,20 @@ void client::EngineGraphic::destroy()
         getPos.push_back(tmp);
     }
     for (auto &it : getPos) {
+        flames.push_back(fire(it.at(0), it.at(1)));
         for (; i != _map.size(); i++) {
             if (_map.at(i)->getPosition().X == it.at(0)
-                &&_map.at(i)->getPosition().Z == it.at(1)
-                &&_map.at(i)->getPosition().Y == 10)
+            &&_map.at(i)->getPosition().Z == it.at(1)
+            &&_map.at(i)->getPosition().Y == 10)
                 break;
         }
         if (i != _map.size()) {
             _map.at(i)->remove();
             _map.erase(_map.begin() + i);
-            flames.push_back(fire(it.at(0), it.at(1)));
         }
         i = 0;
     }
-    _listFire.push_back(std::pair<std::vector<scene::IParticleSystemSceneNode *>, Clock>(flames, clock));
+    _listFire.push_back(std::pair<std::vector<scene::IParticleSystemSceneNode *>, Clock>(flames, Clock()));
 }
 
 void client::EngineGraphic::death()
