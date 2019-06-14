@@ -29,13 +29,13 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
             pos_player = it->getPosition();
             it->setDirection(direction);
             if (direction.compare("up") == 0)
-                it->getPosition().z += 2;
+                it->getPosition().z += it->_speed;
             else if (direction.compare("down") == 0)
-                it->getPosition().z -= 2;
+                it->getPosition().z -= it->_speed;
             else if (direction.compare("left") == 0)
-                it->getPosition().x -= 2;
+                it->getPosition().x -= it->_speed;
             else if (direction.compare("right") == 0)
-                it->getPosition().x += 2;
+                it->getPosition().x += it->_speed;
             if (checkCollisions(it.get()) == false) {
                 it->setPosition(pos_player);
                 return;
@@ -134,27 +134,27 @@ float roundDecimal(int n)
     return (n - a >= b - n) ? b : a;
 }
 
-game::s_pos game::Game::determineBombPos(int x, int z, std::string sens)
+game::s_pos game::Game::roundPos(int x, int z, std::string sens)
 {
-    s_pos pos_bomb;
+    s_pos pos_entity;
     if (sens.compare("up") == 0) {
-        pos_bomb.z = z - (z % 10);
-        pos_bomb.x = x - (x % 10);
+        pos_entity.z = z - (z % 10);
+        pos_entity.x = x - (x % 10);
     }
     else if (sens.compare("down") == 0) {
-        pos_bomb.z = z + 10 - (z % 10);
-        pos_bomb.x = x - (x % 10);
+        pos_entity.z = z + 10 - (z % 10);
+        pos_entity.x = x - (x % 10);
     }
     else if (sens.compare("right") == 0) {
-        pos_bomb.x = x - (x % 10);
-        pos_bomb.z = z - (z % 10);
+        pos_entity.x = x - (x % 10);
+        pos_entity.z = z - (z % 10);
 
     }
     else if (sens.compare("left") == 0) {
-        pos_bomb.x = x + 10 - (x % 10);
-        pos_bomb.z = z - (z % 10);
+        pos_entity.x = x + 10 - (x % 10);
+        pos_entity.z = z - (z % 10);
     }
-    return pos_bomb;
+    return pos_entity;
 }
 
 
@@ -165,7 +165,7 @@ void game::Game::putBomb(t_id id)
     for (auto &it : *_participants) {
         if (it->getId() == id) {
             if (static_cast<Character *>(it.get())->getCooldownBomb() >= 0.5) {
-                pos_bomb = determineBombPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
+                pos_bomb = roundPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
                 _packet.setType("bomb");
                 _packet.addData("x", pos_bomb.x);
                 _packet.addData("z", pos_bomb.z);
@@ -187,6 +187,7 @@ bool game::Game::checkCollisions(t_entity::element_type* entity)
     if (_EM.getEntityType(pos_player) == game::EntityType::block
     || _EM.getEntityType(pos_player) == game::EntityType::brittleBlock)
         return false;
+    takeBonus(entity, entity->getPosition().x, entity->getPosition().z, entity->getDirection());
     return true;
 }
 
@@ -232,18 +233,50 @@ void game::Game::dropBonus(float x, float z)
     _packet.setType("dropBonus");
     _packet.addData("x", x);
     _packet.addData("z", z);
-    if (k == 0)
+    if (k == 0) {
+        BombUp b;
+        b.setPosition({x, 5, y});
+        _EM.addEntity(b);
         _packet.addData("bonusType", "BombUp");
-    else if (k == 1)
+    }
+    else if (k == 1) {
+        SpeedUp b;
+        b.setPosition({x, 5, y});
+        _EM.addEntity(b);
         _packet.addData("bonusType", "SpeedUp");
-    else if (k == 2)
+    }
+    else if (k == 2) {
+        FireUp b;
+        b.setPosition({x, 5, y});
+        _EM.addEntity(b);
         _packet.addData("bonusType", "FireUp");
-    else if (k == 3)
+    }
+    else if (k == 3) {
+        WallPass b;
+        b.setPosition({x, 5, y});
+        _EM.addEntity(b);
         _packet.addData("bonusType", "WallPass");
+    }
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();
-    std::cout << "BONUS\n";
+}
+
+void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std::string sens)
+{
+    s_pos pos_player = roundPos(x, z, sens);
+    if (_EM.getEntityType(pos_player) == game::EntityType::SpeedUp)
+        entity->_speed += 1;
+    else if (_EM.getEntityType(pos_player) == game::EntityType::BombUp) {
+    }
+    else if (_EM.getEntityType(pos_player) == game::EntityType::FireUp) {
+        entity->_power += 1;
+    }
+    else if (_EM.getEntityType(pos_player) == game::EntityType::WallPass) {
+        entity->canWallPass = true;
+    }
+    else
+        return;
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)

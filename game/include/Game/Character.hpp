@@ -47,6 +47,9 @@ namespace game
 
             size_t getPower();
 
+            size_t _power = 2;
+            size_t _speed = 2;
+            bool canWallPass = false;
         private:
             t_id _id;
             s_pos _pos;
@@ -56,7 +59,6 @@ namespace game
             std::string _direction;
             irr::scene::IAnimatedMeshSceneNode *_node;
             std::size_t _hp;
-            size_t _power = 2;
             std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBomb;
     };
 }; // namespace game

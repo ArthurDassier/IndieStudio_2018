@@ -91,6 +91,7 @@ namespace client
             void bomb();
             void destroy();
             void dropBonus();
+            void removeBonus();
 
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 

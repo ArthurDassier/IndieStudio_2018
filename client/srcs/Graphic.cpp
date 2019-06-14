@@ -38,6 +38,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("bomb", std::bind(&EngineGraphic::bomb, this)));
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
     _fMap.emplace(std::make_pair("dropBonus", std::bind(&EngineGraphic::dropBonus, this)));
+    _fMap.emplace(std::make_pair("removeBonus", std::bind(&EngineGraphic::removeBonus, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -252,6 +253,24 @@ void client::EngineGraphic::dropBonus()
     // node->setMaterialFlag(video::EMF_LIGHTING, false);
     // _nodeBonus.push_back(node);
 }
+
+void client::EngineGraphic::removeBonus()
+{
+    // std::string bonusType = _root.get<std::string>("bonusType");
+    // core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
+    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
+    // // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/" + bonusType + ".3ds");
+    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    // // node->setMaterialTexture(0, _driver->getTexture("client/res/" + bonusType + ".png"));
+    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    // node->setRotation(core::vector3df(0, 80, 0));
+    // node->setPosition(pos);
+    // node->setFrameLoop(0, 0);
+    // node->setScale(core::vector3df(30, 30, 30));
+    // node->setMaterialFlag(video::EMF_LIGHTING, false);
+    // _nodeBonus.push_back(node);
+}
+
 
 void client::EngineGraphic::destroy()
 {
