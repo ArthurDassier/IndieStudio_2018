@@ -12,7 +12,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_SOFTWARE,
-            core::dimension2d<u32>(500,600),
+            core::dimension2d<u32>(960,540),
             16,
             false,
             false,
