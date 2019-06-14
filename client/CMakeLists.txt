@@ -3,18 +3,24 @@ project(client)
 if (WIN32)
     include_directories(
         "C:/Boost/include/boost-1_70"
+        ../lib/include
+        ./include
+        ../game/include
+        ../utils/include
+        ../server/include
+        ../error/include
     )
     set(CMAKE_CXX_FLAGS "-D_WIN32_WINNT=0x0601 /EHsc")
+else ()
+    include_directories(
+        ../lib/include
+        ./include
+        ../game/include
+        ../utils/include
+        ../server/include
+        ../error/include
+    )
 endif ()
-
-include_directories(
-    ../lib/include
-    ./include
-    ../game/include
-    ../utils/include
-    ../server/include
-    ../error/include
-)
 
 add_library(client
     STATIC
@@ -38,15 +44,30 @@ if (WIN32)
     ENDIF()
 
     set_property(TARGET client PROPERTY CXX_STANDARD 11)
-    target_include_directories(bomberman PRIVATE "C:/Boost/include/boost-1_70")
-    target_include_directories(client INTERFACE ./include)
-
+    target_include_directories(client INTERFACE
+        "C:/Boost/include/boost-1_70"
+        ../lib/include
+        ./include
+        ../game/include
+        ../utils/include
+        ../server/include
+        ../error/include
+    )
     target_link_libraries(
         client
         game
         error
+        utils
     )
 else ()
+    target_include_directories(client INTERFACE
+        ../lib/include
+        ./include
+        ../game/include
+        ../utils/include
+        ../server/include
+        ../error/include
+    )
     target_link_libraries(
         client
         game
@@ -60,8 +81,6 @@ else ()
         X11
     )
 endif ()
-
-target_include_directories(client INTERFACE ./include ../lib/include)
 
 SET_TARGET_PROPERTIES(client PROPERTIES LINKER_LANGUAGE CXX)
 

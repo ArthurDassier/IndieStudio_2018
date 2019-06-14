@@ -2,17 +2,20 @@ project(game)
 
 if (WIN32)
     include_directories(
+        ./include
         "C:/Boost/include/boost-1_70"
+        ../lib/include
+        ../server/include
     )
     set(CMAKE_CXX_FLAGS "-D_WIN32_WINNT=0x0601 /EHsc")
+else ()
+    include_directories(
+        ./include
+        ../lib/include
+        ../server/include
+    )
+    set(CMAKE_CXX_FLAGS "-g3")
 endif ()
-
-include_directories(
-    ../lib/include
-    ./include
-    ../server/include
-    ../error/include
-)
 
 add_library(game STATIC
     ./srcs/Block.cpp
@@ -26,14 +29,27 @@ add_library(game STATIC
     ./srcs/Generation.cpp
 )
 
+if (WIN32)
+    target_include_directories(game INTERFACE
+        ./include
+        "C:/Boost/include/boost-1_70"
+        ../lib/include
+        ../server/include
+    )
+else ()
+    target_include_directories(game INTERFACE
+        ./include
+        ../lib/include
+        ../server/include
+    )
+endif ()
+
 target_link_libraries(
     game
     utils
     error
 )
 
-set(CMAKE_CXX_FLAGS "-g3")
-
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
 
-add_subdirectory(tests)
+# add_subdirectory(tests)
