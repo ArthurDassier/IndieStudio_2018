@@ -12,7 +12,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_SOFTWARE,
-            core::dimension2d<u32>(640, 480),
+            core::dimension2d<u32>(1920, 1080),
             16,
             false,
             false,
@@ -26,6 +26,10 @@ client::EngineGraphic::EngineGraphic():
     _driverType(video::EDT_OPENGL),
     _clock()
 {
+    _loader.setSceneManager(_smgr);
+    _loader.setVideoDriver(_driver);
+    _loader.loadModels();
+    _loader.loadTextures();
     _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
     _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
     _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
@@ -40,15 +44,17 @@ client::EngineGraphic::~EngineGraphic()
 {
 }
 
-int client::EngineGraphic::runGraph()
+int client::EngineGraphic::runGraph(const MODE &mode)
 {
     _clock.setElapsedTime();
     _clock.setElapsed();
     if (_device->run() == 0)
         return (84);
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
-    _smgr->drawAll();
-    _guienv->drawAll();
+    if (mode != MAINMENU)
+        _smgr->drawAll();
+    else if (mode != GAME)
+        _guienv->drawAll();
     _driver->endScene();
     return (0);
 }
@@ -74,10 +80,10 @@ void client::EngineGraphic::matchQuery()
 
 void client::EngineGraphic::addEntity(Character *player)
 {
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/ninja.b3d");
+    scene::IAnimatedMesh *mesh = _loader.getModel("ninja");
     scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
 
-    node->setMaterialTexture(0, _driver->getTexture(_skins[player->getSkin()]));
+    node->setMaterialTexture(0, _loader.getTexture(_skins[player->getSkin()]));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(player->getPosition());
     node->setFrameLoop(0, 0);
@@ -135,27 +141,27 @@ void client::EngineGraphic::create_map(std::string map)
     for (auto &it : map) {
         switch (it) {
             case '0': {
-                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
+                _map.push_back(createMapBlock("sand",
                     core::vector3df(posi_x, 0, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '1': {
-                _map.push_back(createMapBlock("client/res/wall_2.jpg",
+                _map.push_back(createMapBlock("wall",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/wall_2.jpg",
+                _map.push_back(createMapBlock("wall",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
                 break;
             }
             case '2': {
-                _map.push_back(createMapBlock("client/res/sand_sol.jpg",
+                _map.push_back(createMapBlock("sand",
                     core::vector3df(posi_x, 0, posi_z))
                 );
-                _map.push_back(createMapBlock("client/res/box.jpg",
+                _map.push_back(createMapBlock("box",
                     core::vector3df(posi_x, 10, posi_z))
                 );
                 posi_z += 10;
@@ -174,11 +180,11 @@ void client::EngineGraphic::create_map(std::string map)
     }
 }
 
-scene::IMeshSceneNode *client::EngineGraphic::createMapBlock(const io::path &filename, const core::vector3df pos)
+scene::IMeshSceneNode *client::EngineGraphic::createMapBlock(const std::string texture, const core::vector3df pos)
 {
     scene::IMeshSceneNode *tmp = _smgr->addCubeSceneNode();
 
-    tmp->setMaterialTexture(0, _driver->getTexture(filename));
+    tmp->setMaterialTexture(0, _loader.getTexture(texture));
     tmp->setMaterialFlag(video::EMF_LIGHTING, false);
     tmp->setPosition(pos);
     return tmp;
@@ -225,6 +231,7 @@ void client::EngineGraphic::explosion()
 {
     float x = _root.get<float>("x");
     float y = _root.get<float>("z");
+
     _nodeBomb[_root.get<size_t>("id")]->remove();
     _nodeBomb.erase(_nodeBomb.begin());
 }
@@ -283,10 +290,9 @@ void client::EngineGraphic::death()
 void client::EngineGraphic::bomb()
 {
     core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("bomb"));
 
-    node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
+    node->setMaterialTexture(0, _loader.getTexture("bomb"));
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(pos);
     node->setFrameLoop(0, 0);
@@ -303,4 +309,19 @@ void client::EngineGraphic::setRoot(const boost::property_tree::ptree root)
 std::shared_ptr<std::map<std::string, std::function<void()>>> client::EngineGraphic::getFunctionMap() noexcept
 {
     return std::make_shared<decltype(_fMap)>(_fMap);
+}
+
+video::IVideoDriver *client::EngineGraphic::getDriver() const
+{
+    return _driver;
+}
+
+gui::IGUIEnvironment *client::EngineGraphic::getGUIEnvironment() const
+{
+    return _guienv;
+}
+
+s32 client::EngineGraphic::getGuiID()
+{
+    return _receiver.getID();
 }

@@ -10,7 +10,7 @@
 
 LogicPause::LogicPause():
     _client(),
-    _mode(GAME),
+    _mode(MAINMENU),
     _lastKey(KEY_KEY_CODES_COUNT),
     _data("")
 {
@@ -19,16 +19,6 @@ LogicPause::LogicPause():
 void LogicPause::setKey(EKEY_CODE key)
 {
     _lastKey = key;
-}
-
-void LogicPause::setData(std::string data)
-{
-    _data = data;
-}
-
-std::string LogicPause::getData() const
-{
-    return _data;
 }
 
 void LogicPause::dataMove(std::string move)
@@ -41,20 +31,10 @@ void LogicPause::dataMove(std::string move)
     _data = buff.str();
 }
 
-void LogicPause::sendEscape()
+void LogicPause::buildJSON(std::string type)
 {
     boost::property_tree::ptree root;
-    root.put("type", "pause");
-    std::ostringstream buff;
-    boost::property_tree::write_json(buff, root, false);
-    _data = buff.str();
-}
-
-
-void LogicPause::sendSpace()
-{
-    boost::property_tree::ptree root;
-    root.put("type", "space");
+    root.put("type", type);
     std::ostringstream buff;
     boost::property_tree::write_json(buff, root, false);
     _data = buff.str();
@@ -86,15 +66,14 @@ void LogicPause::manageKey()
             _data.clear();
         }
         else if (_lastKey == KEY_ESCAPE) {
-            sendEscape();
+            buildJSON("pause");
             _client.sendToServer(_data);
             _mode = MENU;
         }
         else if (_lastKey == KEY_SPACE) {
-            sendSpace();
+            buildJSON("space");
             _client.sendToServer(_data);
             _data.clear();
-
         }
     }
     _lastKey = KEY_KEY_CODES_COUNT;
@@ -103,4 +82,14 @@ void LogicPause::manageKey()
 client::Client &LogicPause::getClient()
 {
     return _client;
+}
+
+MODE &LogicPause::getMode()
+{
+    return _mode;
+}
+
+std::string LogicPause::getData() const
+{
+    return _data;
 }

@@ -8,15 +8,15 @@
 #pragma once
 
 #include <fstream>
-
 #include "Client/Client.hpp"
 #include "irrlicht/irrlicht.h"
 
 using namespace irr;
 
 enum MODE {
-    MENU,
-    GAME
+    MAINMENU,
+    GAME,
+    MENU
 };
 
 class LogicPause
@@ -27,15 +27,14 @@ class LogicPause
 
         void setKey(EKEY_CODE key);
         void setData(std::string data);
-        std::string getData() const;
         void manageKey();
 
         client::Client &getClient();
 
         void dataMove(std::string move);
-        void sendEscape();
-        void sendSpace();
-
+        void buildJSON(std::string type);
+        MODE &getMode();
+        std::string getData() const;
     private:
         client::Client _client;
         MODE _mode;
