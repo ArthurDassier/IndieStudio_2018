@@ -1,7 +1,13 @@
 project(sfx)
 
 if (WIN32)
-    include_directories(./include)
+  include_directories(
+      ./include
+	    ../lib/include
+	)
+	link_directories(
+		../lib
+	)
     set(CMAKE_CXX_FLAGS "-D_WIN32_WINNT=0x0601 /EHsc")
 else ()
     include_directories(./include)
@@ -14,18 +20,18 @@ add_library(sfx
 )
 
 if (WIN32)
-    #FOUND SFML
     target_include_directories(sfx INTERFACE
-        #"C:SFML" ...
         ./include
     )
     target_link_libraries(
         sfx
         utils
+        sfml-audio
     )
 else ()
     target_include_directories(sfx INTERFACE
         ./include
+        ../lib/include
     )
     target_link_libraries(
         sfx
