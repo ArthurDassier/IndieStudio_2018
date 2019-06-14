@@ -1,10 +1,18 @@
 {
-    "textures": ["./client/res/brick.png"],
+    "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
+    "imageBackground": {
+        "pos": [],
+        "texture": 1,
+        "id": 0
+    },
+    "scrollBarSound": {
+        "pos": []
+    },
     "button1": {
-        "pos": [900,300,1200,350],
+        "pos": [450,150,600,175],
         "texture": 0,
-        "id": 0,
-        "name": "startSolo",
-        "text": "Play"
+        "id": 1,
+        "name": "return",
+        "text": "Return"
     }
 }

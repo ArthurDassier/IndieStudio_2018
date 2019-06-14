@@ -12,7 +12,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_SOFTWARE,
-            core::dimension2d<u32>(1920, 1080),
+            core::dimension2d<u32>(960, 540),
             16,
             false,
             false,
@@ -26,6 +26,7 @@ client::EngineGraphic::EngineGraphic():
     _driverType(video::EDT_OPENGL),
     _clock()
 {
+    _device->setResizable(false);
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
     _loader.loadModels();
@@ -52,8 +53,9 @@ int client::EngineGraphic::runGraph(const MODE &mode)
     _driver->beginScene(true, true, video::SColor(255,100,101,140));
     if (mode != MAINMENU)
         _smgr->drawAll();
-    else if (mode != GAME)
+    if (mode != GAME){
         _guienv->drawAll();
+    }
     _driver->endScene();
     return (0);
 }

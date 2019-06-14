@@ -11,6 +11,7 @@
 LogicPause::LogicPause():
     _client(),
     _mode(MAINMENU),
+    _key(KEY_KEY_CODES_COUNT),
     _lastKey(KEY_KEY_CODES_COUNT),
     _data("")
 {
@@ -18,7 +19,12 @@ LogicPause::LogicPause():
 
 void LogicPause::setKey(EKEY_CODE key)
 {
-    _lastKey = key;
+    _key = key;
+}
+
+void LogicPause::setMode(MODE mode)
+{
+    _mode = mode;
 }
 
 void LogicPause::dataMove(std::string move)
@@ -42,41 +48,48 @@ void LogicPause::buildJSON(std::string type)
 
 void LogicPause::manageKey()
 {
-    if (_lastKey == KEY_KEY_CODES_COUNT)
+    if (_key == KEY_KEY_CODES_COUNT) {
+        _lastKey = _key;
         return;
+    }
     if (_mode == GAME) {
-        if (_lastKey == KEY_KEY_Z) {
+        if (_key == KEY_KEY_Z) {
             dataMove("up");
             _client.sendToServer(_data);
             _data.clear();
         }
-        else if (_lastKey == KEY_KEY_S) {
+        else if (_key == KEY_KEY_S) {
             dataMove("down");
             _client.sendToServer(_data);
             _data.clear();
         }
-        else if (_lastKey == KEY_KEY_Q) {
+        else if (_key == KEY_KEY_Q) {
             dataMove("left");
             _client.sendToServer(_data);
             _data.clear();
         }
-        else if (_lastKey == KEY_KEY_D) {
+        else if (_key == KEY_KEY_D) {
             dataMove("right");
             _client.sendToServer(_data);
             _data.clear();
-        }
-        else if (_lastKey == KEY_ESCAPE) {
+        } else if (_key == KEY_ESCAPE && _lastKey != KEY_ESCAPE) {
             buildJSON("pause");
             _client.sendToServer(_data);
             _mode = MENU;
-        }
-        else if (_lastKey == KEY_SPACE) {
+        } else if (_key == KEY_SPACE && _lastKey != KEY_SPACE) {
             buildJSON("space");
             _client.sendToServer(_data);
             _data.clear();
         }
+    } else if (_mode == MENU) {
+        if (_key == KEY_ESCAPE && _lastKey != KEY_ESCAPE) {
+            buildJSON("pause");
+            _client.sendToServer(_data);
+            _mode = GAME;
+        }
     }
-    _lastKey = KEY_KEY_CODES_COUNT;
+    _lastKey = _key;
+    _key = KEY_KEY_CODES_COUNT;
 }
 
 client::Client &LogicPause::getClient()
