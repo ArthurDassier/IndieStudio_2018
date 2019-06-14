@@ -7,7 +7,7 @@
 
 #include "Game/BombUp.hpp"
 
-game::BombUp::BombUp():
-    Entity(game::block)
+game::Bombup::Bombup():
+    Entity(game::BombUp)
 {
 }

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** BombUp.hpp
+** Bombup.hpp
 */
 
 #pragma once
@@ -11,11 +11,11 @@
 
 namespace game
 {
-    class BombUp : public Entity
+    class Bombup : public Entity
     {
         public:
-            BombUp();
-            ~BombUp() = default;
+            Bombup();
+            ~Bombup() = default;
 
         private:
     };

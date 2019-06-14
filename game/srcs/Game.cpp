@@ -241,7 +241,7 @@ void game::Game::dropBonus(float x, float z)
     _packet.addData("x", x);
     _packet.addData("z", z);
     if (k == 0) {
-        BombUp toto;
+        Bombup b;
         // b.setPosition({x, 5, y});
         // _EM.addEntity(b);
         // _packet.addData("bonusType", "BombUp");
