@@ -15,25 +15,38 @@ server::Server::Server() :
         )
     ),
     _pause(false),
-    _hasReceived(false)
+    _hasReceived(false),
+    _running(true)
 {
     _fMap.emplace(std::make_pair("connection", std::bind(&Server::connection, this)));
     _fMap.emplace(std::make_pair("movement", std::bind(&Server::movement, this)));
     _fMap.emplace(std::make_pair("pause", std::bind(&Server::pause, this)));
     _fMap.emplace(std::make_pair("space", std::bind(&Server::space, this)));
+    _fMap.emplace(std::make_pair("quit", std::bind(&Server::stop, this)));
     _room.setMap(_game.getMap());
     start_receive();
 }
 
+server::Server::~Server()
+{
+    std::cout << "Server successfully exited" << std::endl;
+}
+
 void server::Server::run()
 {
-    while (true) {
+    forever (_running) {
         _io_service.poll();
         if (getHasReceived()) {
             _game.updateParticipants(_session->getRoom().getParticipants());
             _game.gameLoop();
         }
     }
+}
+
+void server::Server::stop()
+{
+    _io_service.stop();
+    _running = false;
 }
 
 void server::Server::start_receive()
