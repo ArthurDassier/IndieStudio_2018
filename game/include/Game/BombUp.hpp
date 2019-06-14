@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** BrittleBlock
+** Bombup.hpp
 */
 
 #pragma once
@@ -11,10 +11,11 @@
 
 namespace game
 {
-    class BrittleBlock : public Entity
+    class Bombup : public Entity
     {
         public:
-            BrittleBlock();
+            Bombup();
+            ~Bombup() = default;
 
         private:
     };

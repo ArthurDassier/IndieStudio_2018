@@ -20,6 +20,7 @@ endif ()
 add_library(game STATIC
     ./srcs/Block.cpp
     ./srcs/Bomb.cpp
+    ./srcs/BombUp.cpp
     ./srcs/BrittleBlock.cpp
     ./srcs/Ground.cpp
     ./srcs/Character.cpp
