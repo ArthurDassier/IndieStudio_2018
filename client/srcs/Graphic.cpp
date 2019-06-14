@@ -275,7 +275,7 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::refreshFire()
 {
-    boost::timer::nanosecond_type five(2000000000LL);
+    boost::timer::nanosecond_type five(1000000000LL);
 
     for (int i = 0; i != _listFire.size(); i++) {
         _listFire[i].second.setElapsedTime();
