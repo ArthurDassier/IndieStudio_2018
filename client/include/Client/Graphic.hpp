@@ -87,7 +87,6 @@ namespace client
             void new_player();
             void new_power_up();
             void new_bomb();
-            void fire(float, float);
             void explosion();
             void death();
             void bomb();
@@ -95,6 +94,7 @@ namespace client
             void dropBonus();
             void removeBonus();
 
+            scene::IParticleSystemSceneNode *fire(float, float);
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
             Character createCharacter();
@@ -107,6 +107,7 @@ namespace client
             void create_map(std::string map);
             void sendEscape();
             void sendSpace();
+            void refreshFire();
             scene::IMeshSceneNode *createMapBlock(const std::string, const core::vector3df);
 
             void setKey(std::string);
@@ -128,7 +129,7 @@ namespace client
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
-            std::vector<scene::IParticleSystemSceneNode *> _listFire;
+            std::vector<std::pair<std::vector<scene::IParticleSystemSceneNode *>, Clock>> _listFire;
 
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBonus;
             GraphicLoader _loader;

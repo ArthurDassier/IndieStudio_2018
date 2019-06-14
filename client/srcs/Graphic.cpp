@@ -59,6 +59,7 @@ int client::EngineGraphic::runGraph(const MODE &mode)
         _guienv->drawAll();
     }
     _driver->endScene();
+    refreshFire();
     return (0);
 }
 
@@ -105,7 +106,7 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
-    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-20), core::vector3df(35,25,10)));
+    return (_smgr->addCameraSceneNode(0, core::vector3df(43.8935,63.3423,-18.6599), core::vector3df(43.7971,4.3018,34.2673)));
 }
 
 void client::EngineGraphic::moveEntity(std::string sens, std::string id)
@@ -238,9 +239,32 @@ void client::EngineGraphic::new_player()
     _charList.push_back(player);
 }
 
-void client::EngineGraphic::fire(float x, float z)
+scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
 {
-    // sz
+    scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
+    scene::IParticleEmitter *em = ps->createBoxEmitter(
+        core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
+        core::vector3df(0.0f, 0.02f, 0.0f),
+        20, 50,
+        video::SColor(0, 255, 255, 255),
+        video::SColor(0, 255, 255, 255),
+        300, 550, 0,
+        core::dimension2df(3.f, 3.f),
+        core::dimension2df(5.f, 5.f));
+
+    ps->setEmitter(em);
+    em->drop();
+    scene::IParticleAffector *paf = ps->createFadeOutParticleAffector();
+
+    ps->addAffector(paf);
+    paf->drop();
+    ps->setPosition(core::vector3df(x, 12, z));
+    ps->setScale(core::vector3df(0.3, 0.3, 0.3));
+    ps->setMaterialFlag(video::EMF_LIGHTING, false);
+    ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+    ps->setMaterialTexture(0,  _loader.getTexture("fire"));
+    ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    return ps;
 }
 
 void client::EngineGraphic::explosion()
@@ -289,8 +313,27 @@ void client::EngineGraphic::removeBonus()
     // _nodeBonus.push_back(node);
 }
 
+void client::EngineGraphic::refreshFire()
+{
+    boost::timer::nanosecond_type five(1000000000LL);
+
+    for (int i = 0; i != _listFire.size(); i++) {
+        _listFire[i].second.setElapsedTime();
+        _listFire[i].second.setElapsed();
+        if (_listFire[i].second.getElapsed() > five) {
+            for (int j = 0; j != _listFire[i].first.size(); j++) {
+                _listFire[i].first[j]->clearParticles();
+                _listFire[i].first[j]->remove();
+            }
+            _listFire.erase(_listFire.begin() + i);
+            i--;
+        }
+    }
+}
+
 void client::EngineGraphic::destroy()
 {
+    std::vector<scene::IParticleSystemSceneNode *> flames;
     std::vector<std::vector<int>> getPos;
     int i = 0;
 
@@ -305,10 +348,11 @@ void client::EngineGraphic::destroy()
         throw(error::ClientError("DESTROY"));
     }
     for (auto &it : getPos) {
+        flames.push_back(fire(it.at(0), it.at(1)));
         for (; i != _map.size(); i++) {
             if (_map.at(i)->getPosition().X == it.at(0)
-                &&_map.at(i)->getPosition().Z == it.at(1)
-                &&_map.at(i)->getPosition().Y == 10)
+            &&_map.at(i)->getPosition().Z == it.at(1)
+            &&_map.at(i)->getPosition().Y == 10)
                 break;
         }
         if (i != _map.size()) {
@@ -317,6 +361,7 @@ void client::EngineGraphic::destroy()
         }
         i = 0;
     }
+    _listFire.push_back(std::pair<std::vector<scene::IParticleSystemSceneNode *>, Clock>(flames, Clock()));
 }
 
 void client::EngineGraphic::death()
