@@ -64,6 +64,5 @@ namespace game
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
             std::vector<Bomb> _allBomb;
-            std::vector<Fire> _allFire;
     };
 }; // namespace game
