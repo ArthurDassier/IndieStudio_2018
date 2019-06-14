@@ -95,7 +95,7 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
-    return (_smgr->addCameraSceneNode(0, core::vector3df(22,71,-20), core::vector3df(35,25,10)));
+    return (_smgr->addCameraSceneNode(0, core::vector3df(43.8935,63.3423,-18.6599), core::vector3df(43.7971,4.3018,34.2673)));
 }
 
 void client::EngineGraphic::moveEntity(std::string sens, std::string id)
