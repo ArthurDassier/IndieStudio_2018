@@ -52,5 +52,10 @@ namespace game
         {
             return (p.x == x && p.y == y && p.z == z);
         }
+
+        inline bool operator!=(s_pos p)
+        {
+            return (p.x != x || p.y != y || p.z != z);
+        }
     };
 }; // namespace game

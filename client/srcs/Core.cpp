@@ -100,8 +100,9 @@ void client::Core::startCore()
             _graph.matchQuery();
             _logicPause.getClient().clearRoot();
         }
-        if (_logicPause.getMode() != MAINMENU)
+        if (_logicPause.getMode() != MAINMENU) {
             _logicPause.getClient().call_poll_one();
+        }
     }
     if (_isHost)
         _t1.join();

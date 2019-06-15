@@ -39,6 +39,30 @@ game::EntityType game::EntityManager::getEntityType(s_pos pos)
         return undefined;
 }
 
+std::vector<game::p_entity::pointer> game::EntityManager::getEntitiesInRange(s_pos pos, int range)
+{
+    std::vector<game::p_entity::pointer> v;
+
+    for (int i = 0; i != range + 1; i++) {
+        std::vector<s_pos> v_pos = {
+            {pos.x + i * 10, pos.y, pos.z},
+            {pos.x, pos.y, pos.z + i * 10},
+            {pos.x - i * 10, pos.y, pos.z},
+            {pos.x, pos.y, pos.z - i * 10}
+        };
+
+        auto it = std::unique(v_pos.begin(), v_pos.end());
+        v_pos.erase(it, v_pos.end());
+
+        for (auto &pos : v_pos) {
+            auto tmp = getEntity(pos);
+            if (tmp != nullptr )
+                v.push_back(tmp);
+        }
+    }
+    return v;
+}
+
 std::vector<game::p_entity> const &game::EntityManager::getEntities() const noexcept
 {
     return _entities;

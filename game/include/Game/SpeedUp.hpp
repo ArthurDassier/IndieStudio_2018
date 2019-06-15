@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** SpeedUp.hpp
+** Speedup.hpp
 */
 
 #pragma once
@@ -11,11 +11,11 @@
 
 namespace game
 {
-    class SpeedUp : public Entity
+    class Speedup : public Entity
     {
         public:
-            SpeedUp();
-            ~SpeedUp() = default;
+            Speedup();
+            ~Speedup() = default;
 
         private:
     };

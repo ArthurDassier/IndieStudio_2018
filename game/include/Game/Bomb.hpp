@@ -9,31 +9,20 @@
 
 #include <chrono>
 
-#include "Game/Entity.hpp"
+#include "Game/Explosion.hpp"
 
 namespace game
 {
-    class Bomb : public Entity
+    class Bomb : public Explosion
     {
         public:
-            Bomb() = default;
+            Bomb();
             Bomb(float x, float y, size_t _power);
             ~Bomb() = default;
             
-            Bomb & operator = (Bomb const &);
-            
-            bool getAlive();
-            size_t checkTimeExplosion();
-            void RefreshBomb();
-            float getPosX() const noexcept;
-            float getPosZ() const noexcept;
+            Bomb operator = (Bomb const &);
             size_t getPower() const noexcept;
         private:
-            size_t _power = 2;
-            float _posX = 0;
-            float _posY = 0;
-            bool _alive = true;
-            std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownExplose;
-
+            size_t _power;
     };
 }; // namespace game
