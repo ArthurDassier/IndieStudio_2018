@@ -67,6 +67,8 @@ namespace game
 
             void dropBonus(float x, float z);
             void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
+
+            void checkDeath(float x, float z);
         private:
             Generation _generation;
             EntityManager _EM;
