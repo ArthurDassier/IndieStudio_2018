@@ -15,14 +15,16 @@
 #include "Character.hpp"
 #include "EntityManager.hpp"
 #include "Game/Bomb.hpp"
+#include "Game/Fire.hpp"
 #include "Game/Character.hpp"
 #include "Game/EntityManager.hpp"
 #include "Game/Ground.hpp"
 #include "Game/IEntity.hpp"
+#include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
+// #include "Utils/ConfigManager.hpp"
 #include "Utils/Packet.hpp"
-#include "Game/Lib.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -46,6 +48,8 @@ namespace game
             void setPlayer(boost::shared_ptr<game::Character>);
             boost::shared_ptr<game::Character> getPlayer() const noexcept;
 
+            void sendPacket(const std::string packet);
+
             void updateParticipants(std::shared_ptr<t_vector>);
 
             std::string const getMap();
@@ -53,6 +57,11 @@ namespace game
             void putBomb(t_id);
             void refreshBomb();
             void destroyMap(size_t power,float x, float z);
+
+            void destroyV(size_t power, s_pos pos);
+            void destroyH(size_t power, s_pos pos);
+
+            s_pos determineBombPos(int x, int z, std::string sens);
             s_pos roundPos(int x, int z, std::string sens);
 
 

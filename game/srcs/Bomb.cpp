@@ -7,55 +7,26 @@
 
 #include "Game/Bomb.hpp"
 
-game::Bomb::Bomb(float x, float y, size_t power):
-    Entity(game::bomb)
+game::Bomb::Bomb():
+    Explosion(game::bomb, 0, 0),
+    _power(2)
 {
-    _posX = x;
-    _posY = y;
-    _power = power;
-    _cooldownExplose = std::chrono::high_resolution_clock::now();
-
 }
 
-size_t game::Bomb::checkTimeExplosion()
+game::Bomb::Bomb(float x, float y, size_t power = 2):
+    Explosion(game::bomb, x, y),
+    _power(power)
 {
-    auto delay = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = delay - _cooldownExplose;
-
-    return elapsed.count() / 1000;
+    // _cooldownExplose = std::chrono::high_resolution_clock::now();
 }
 
-float game::Bomb::getPosX() const noexcept
+game::Bomb game::Bomb::operator=(Bomb const &other)
 {
-    return _posX;
-}
-
-
-float game::Bomb::getPosZ() const noexcept
-{
-    return _posY;
-}
-
-game::Bomb &game::Bomb::operator=(Bomb const &other)
-{
-    Bomb b(_posX, _posY, _power);
+    Bomb b(other.getPosX(), other.getPosZ(), _power);
     return b;
-}
-
-void game::Bomb::RefreshBomb()
-{
-    if (checkTimeExplosion() < 1)
-        return;
-    _alive = false;
 }
 
 size_t game::Bomb::getPower() const noexcept
 {
     return _power;
-}
-
-
-bool game::Bomb::getAlive()
-{
-    return _alive;
 }

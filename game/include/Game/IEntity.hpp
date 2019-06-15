@@ -22,6 +22,7 @@ namespace game
         bomb,
         brittleBlock,
         character,
+        fire,
         ground,
         FireUp,
         SpeedUp,

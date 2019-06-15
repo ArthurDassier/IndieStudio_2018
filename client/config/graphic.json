@@ -11,6 +11,7 @@
         "sand": "client/res/sand_sol.jpg",
         "wall": "client/res/wall_2.jpg",
         "box": "client/res/box.jpg",
-        "bomb": "client/res/Albedo.png"
+        "bomb": "client/res/Albedo.png",
+        "fire": "client/res/fire.bmp"
     }
 }
