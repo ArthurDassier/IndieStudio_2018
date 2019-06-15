@@ -1,7 +1,7 @@
 {
     "models": {
         "ninja": "client/res/ninja.b3d",
-        "bomb": "client/res/SA_LD_Chalice.obj",
+        "bomb": "client/res/ARK_COFFEE_CUP.obj",
         "rose": "client/res/rose.obj"
     },
     "textures": {

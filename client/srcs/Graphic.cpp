@@ -404,7 +404,7 @@ void client::EngineGraphic::bomb()
         node->setRotation(core::vector3df(0, 80, 0));
         node->setPosition(pos);
         node->setFrameLoop(0, 0);
-        node->setScale(core::vector3df(2, 2, 2));
+        node->setScale(core::vector3df(0.5, 0.5, 0.5));
         node->setMaterialFlag(video::EMF_LIGHTING, false);
         _nodeBomb.push_back(node);
     } catch(const std::exception &e) {
