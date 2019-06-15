@@ -43,7 +43,6 @@ int client::Core::menuEvent()
 {
     _instruction = _menuEvent.launchFunction(_graph.getGuiID());
     if (strStartWith(_instruction, "join")) {
-            std::cout << "join" << std::endl;
             _infosConnect = getInfos(_instruction);
             _logicPause.getClient().connect(_infosConnect[0], _infosConnect[1]);
             _logicPause.getClient().start_receive();
@@ -57,7 +56,6 @@ int client::Core::menuEvent()
             return (1);
         }
         if (_instruction == "endPause") {
-            std::cout << "pause" << std::endl;
             _logicPause.buildJSON("pause");
             _logicPause.getClient().sendToServer(_logicPause.getData());
             _logicPause.setMode(GAME);
