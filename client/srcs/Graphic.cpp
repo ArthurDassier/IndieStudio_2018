@@ -25,15 +25,17 @@ client::EngineGraphic::EngineGraphic():
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
+    _sfx("client/config/audio.json"),
     _clock(),
     _oldMode(MAINMENU)
 {
     _device->setResizable(false);
-    _device->setWindowCaption(L"Bomberman");
+    _device->setWindowCaption(L"Bomber Ninja");
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
     _loader.loadModels();
     _loader.loadTextures();
+    _sfx.loadConfig();
     _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
     _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
     _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
@@ -128,7 +130,13 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
     scene::IAnimatedMeshSceneNode *tmp;
     auto it = _charList.begin();
     core::vector3df posi;
+    static bool walk = false;
 
+    if (walk == false) {
+        _sfx.playSound("walk");
+        _sfx.getSound("walk")->get()->setLoop(true);
+        walk = true;
+    }
     for (; it != _charList.end(); it++)
         if (it->getId() == std::stol(id))
             break;
@@ -255,7 +263,6 @@ void client::EngineGraphic::new_player()
 
 scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
 {
-    std::cout << "FIRE" << std::endl;
     scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
     scene::IParticleEmitter *em = ps->createBoxEmitter(
         core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
@@ -277,15 +284,13 @@ scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
     ps->setScale(core::vector3df(0.3, 0.3, 0.3));
     ps->setMaterialFlag(video::EMF_LIGHTING, false);
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-    ps->setMaterialTexture(0,  _loader.getTexture("fire"));
+    ps->setMaterialTexture(0, _loader.getTexture("fire"));
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-    std::cout << "END FIRE" << std::endl;
     return ps;
 }
 
 void client::EngineGraphic::explosion()
 {
-    std::cout << "EXPLOSION" << std::endl;
     try {
         float x = _root.get<float>("x");
         float y = _root.get<float>("z");
@@ -295,7 +300,6 @@ void client::EngineGraphic::explosion()
     } catch (const std::exception &e) {
         throw(error::ClientError(e.what()));
     }
-    std::cout << "END EXPLOSION" << std::endl;
 }
 
 void client::EngineGraphic::dropBonus()
@@ -347,6 +351,7 @@ void client::EngineGraphic::refreshFire()
             }
             _listFire.erase(_listFire.begin() + i);
             i--;
+            _sfx.stopSound("fire");
         }
     }
 }
@@ -367,6 +372,7 @@ void client::EngineGraphic::destroy()
     } catch (const std::exception &e) {
         throw(error::ClientError("DESTROY"));
     }
+    _sfx.playSound("fire");
     for (auto &it : getPos) {
         flames.push_back(fire(it.at(0), it.at(1)));
         for (; i != _map.size(); i++) {
@@ -405,6 +411,7 @@ void client::EngineGraphic::death()
 
 void client::EngineGraphic::bomb()
 {
+    _sfx.playSound("bomb");
     try {
         core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
         scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("bomb"));
