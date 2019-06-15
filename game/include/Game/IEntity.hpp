@@ -22,8 +22,13 @@ namespace game
         bomb,
         brittleBlock,
         character,
+        fire,
         ground,
         bot,
+        FireUp,
+        SpeedUp,
+        WallPass,
+        BombUp,
         undefined
     };
 

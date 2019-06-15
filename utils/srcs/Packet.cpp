@@ -19,6 +19,16 @@ void utils::Packet::setType(const std::string type)
     root.put("type", type);
 }
 
+std::vector<std::array<float, 2>> utils::Packet::getVector() const noexcept
+{
+    return v;
+}
+
+std::size_t utils::Packet::getVectorSize() const noexcept
+{
+    return v.size();
+}
+
 void utils::Packet::clear()
 {
     root.clear();

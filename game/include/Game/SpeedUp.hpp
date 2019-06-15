@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** BrittleBlock
+** SpeedUp.hpp
 */
 
 #pragma once
@@ -11,10 +11,11 @@
 
 namespace game
 {
-    class BrittleBlock : public Entity
+    class SpeedUp : public Entity
     {
         public:
-            BrittleBlock();
+            SpeedUp();
+            ~SpeedUp() = default;
 
         private:
     };

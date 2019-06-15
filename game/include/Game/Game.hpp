@@ -15,12 +15,15 @@
 #include "Character.hpp"
 #include "EntityManager.hpp"
 #include "Game/Bomb.hpp"
+#include "Game/Fire.hpp"
 #include "Game/Character.hpp"
 #include "Game/EntityManager.hpp"
 #include "Game/Ground.hpp"
 #include "Game/IEntity.hpp"
+#include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
+// #include "Utils/ConfigManager.hpp"
 #include "Utils/Packet.hpp"
 #include "Game/Lib.hpp"
 #include "Game/Bot.hpp"
@@ -39,7 +42,7 @@ namespace game
 
             void gameLoop();
 
-            bool checkCollisions(t_entity::element_type*);//Entity& entity);
+            bool checkCollisions(t_entity::element_type*);
 
             void fillEntitiesMap(const std::string);
 
@@ -47,6 +50,8 @@ namespace game
 
             void setPlayer(boost::shared_ptr<game::Character>);
             boost::shared_ptr<game::Character> getPlayer() const noexcept;
+
+            void sendPacket(const std::string packet);
 
             void updateParticipants(std::shared_ptr<t_vector>);
 
@@ -57,12 +62,19 @@ namespace game
             void putBomb(t_id);
             void refreshBomb();
             void destroyMap(size_t power,float x, float z);
+
+            void destroyV(size_t power, s_pos pos);
+            void destroyH(size_t power, s_pos pos);
+
             s_pos determineBombPos(int x, int z, std::string sens);
             bool isBotActive() {return _botActive;}
             void setBotActive(bool newState) {_botActive = newState;}
             game::p_entity::pointer getBot();
             void updatePositionBot(const std::string direction);
+            s_pos roundPos(int x, int z, std::string sens);
 
+            void dropBonus(float x, float z);
+            void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
         private:
             Generation _generation;
             EntityManager _EM;

@@ -47,7 +47,9 @@ namespace game
 
             EntityType getEntityType(s_pos pos);
 
+            std::vector<p_entity::pointer> getEntitiesInRange(s_pos pos, int range);
             std::vector<p_entity> const &getEntities() const noexcept;
+
             void deleteFromPos(float x, float y);
             p_entity::pointer getBot();
 

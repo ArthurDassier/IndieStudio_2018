@@ -1,0 +1,34 @@
+{
+    "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
+    "imageBackground": {
+        "pos": [],
+        "texture": 1,
+        "id": 0
+    },
+    "buttonJoin": {
+        "pos": [500, 150, 600, 175],
+        "texture": 0,
+        "id": 1,
+        "name": "joinServer",
+        "text": "Join"
+    },
+    "buttonReturn": {
+        "pos": [400, 225, 550, 250],
+        "texture": 0,
+        "id": 2,
+        "name": "return",
+        "text": "Return"
+    },
+    "editBoxIP": {
+        "pos": [200, 150, 350, 175],
+        "id": 3,
+        "name": "EditBoxIP",
+        "text": "IP Address"
+    },
+    "editBoxPort": {
+        "pos": [400, 150, 450, 175],
+        "id": 4,
+        "name": "EditBoxPort",
+        "text": "PORT"
+    }
+}
