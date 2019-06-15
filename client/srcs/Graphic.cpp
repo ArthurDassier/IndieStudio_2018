@@ -283,8 +283,9 @@ void client::EngineGraphic::explosion()
     try {
         float x = _root.get<float>("x");
         float y = _root.get<float>("z");
-        _nodeBomb[_root.get<size_t>("id")]->remove();
-        _nodeBomb.erase(_nodeBomb.begin());
+        size_t id = _root.get<size_t>("id");
+        _nodeBomb.at(id)->remove();
+        _nodeBomb.erase(_nodeBomb.begin() + id);
     } catch (const std::exception &e) {
         throw(error::ClientError(e.what()));
     }
