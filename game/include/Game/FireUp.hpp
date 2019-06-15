@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** FireUp.hpp
+** Fireup.hpp
 */
 
 #pragma once
@@ -11,11 +11,11 @@
 
 namespace game
 {
-    class FireUp : public Entity
+    class Fireup : public Entity
     {
         public:
-            FireUp();
-            ~FireUp() = default;
+            Fireup();
+            ~Fireup() = default;
 
         private:
     };

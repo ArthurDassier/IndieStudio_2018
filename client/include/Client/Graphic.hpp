@@ -153,9 +153,12 @@ namespace client
                 {0, "nskinrd"},
                 {1, "nskinbl"},
                 {2, "nskingr"},
-                {3, "nskinpu"}};
+                {3, "nskinpu"},
+                {4, "SpeedUp"}
+                };
 
             std::map<int, const scene::IAnimatedMesh *> _models;
             MODE _oldMode;
+            float _walk;
     };
 }; // namespace client

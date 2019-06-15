@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** WallPass.hpp
+** Wallpass.hpp
 */
 
 #pragma once
@@ -11,11 +11,11 @@
 
 namespace game
 {
-    class WallPass : public Entity
+    class Wallpass : public Entity
     {
         public:
-            WallPass();
-            ~WallPass() = default;
+            Wallpass();
+            ~Wallpass() = default;
 
         private:
     };

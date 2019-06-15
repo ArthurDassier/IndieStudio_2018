@@ -13,7 +13,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_OPENGL,
-            core::dimension2d<u32>(960, 540),
+            core::dimension2d<u32>(1920, 1080),
             16,
             false,
             false,
@@ -26,9 +26,10 @@ client::EngineGraphic::EngineGraphic():
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
     _clock(),
-    _oldMode(MAINMENU)
+    _oldMode(MAINMENU),
+    _walk(0)
 {
-    _device->setResizable(false);
+    _device->setResizable(true);
     _device->setWindowCaption(L"Bomberman");
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
@@ -153,10 +154,6 @@ const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
     it->getNode()->setRotation(rotation);
-    if (it->getNode()->getEndFrame() != 13) {
-        it->getNode()->setFrameLoop(0, 13);
-        it->getNode()->setAnimationSpeed(15);
-    }
 }
 
 void client::EngineGraphic::create_map(std::string map)
@@ -286,8 +283,9 @@ void client::EngineGraphic::explosion()
     try {
         float x = _root.get<float>("x");
         float y = _root.get<float>("z");
-        _nodeBomb[_root.get<size_t>("id")]->remove();
-        _nodeBomb.erase(_nodeBomb.begin());
+        size_t id = _root.get<size_t>("id");
+        _nodeBomb.at(id)->remove();
+        _nodeBomb.erase(_nodeBomb.begin() + id);
     } catch (const std::exception &e) {
         throw(error::ClientError(e.what()));
     }
@@ -295,37 +293,51 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::dropBonus()
 {
+    scene::IAnimatedMeshSceneNode *node;
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     std::string bonusType = _root.get<std::string>("bonusType");
-    if (bonusType.compare("SpeedUp") != 0)
-        return;
-    std::cout << "rose\n";
-    core::vector3df pos(20, 20, 20);
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("rose"));
+    core::vector3df pos(x, 5, z);
+
+    if (bonusType.compare("SpeedUp") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("SpeedUp"));
+        node->setMaterialTexture(0, _loader.getTexture(_skins[4]));
+        node->setScale(core::vector3df(2, 2, 2));
+
+    }
+    if (bonusType.compare("BombUp") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("BombUp"));
+        node->setScale(core::vector3df(1, 1, 1));
+
+    }
+    if (bonusType.compare("FireUp") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("FireUp"));
+        node->setScale(core::vector3df(0.5, 0.5, 0.5));
+
+    }
+    if (bonusType.compare("WallPass") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("WallPass"));
+        node->setScale(core::vector3df(2, 2, 2));
+    }
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(pos);
     node->setFrameLoop(0, 0);
-    node->setScale(core::vector3df(100, 100, 100));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
     _nodeBonus.push_back(node);
 }
 
 void client::EngineGraphic::removeBonus()
 {
-    // std::string bonusType = _root.get<std::string>("bonusType");
-    // core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
-    // // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/" + bonusType + ".3ds");
-    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
-    // // node->setMaterialTexture(0, _driver->getTexture("client/res/" + bonusType + ".png"));
-    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
-    // node->setRotation(core::vector3df(0, 80, 0));
-    // node->setPosition(pos);
-    // node->setFrameLoop(0, 0);
-    // node->setScale(core::vector3df(30, 30, 30));
-    // node->setMaterialFlag(video::EMF_LIGHTING, false);
-    // _nodeBonus.push_back(node);
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    int i = 0;
+    for (; i != _nodeBonus.size(); i++)
+        if (_nodeBonus[i]->getPosition().X == x && _nodeBonus[i]->getPosition().Z == z &&  _nodeBonus[i]->getPosition().Y == 5)
+            break;
+    if (i == _nodeBonus.size())
+        return;
+    _nodeBonus[i]->remove();
+    _nodeBonus.erase(_nodeBonus.begin() + i);
 }
 
 void client::EngineGraphic::refreshFire()
