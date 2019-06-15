@@ -7,14 +7,17 @@
 
 #pragma once
 
-namespace Bot
+#include "Game/Entity.hpp"
+
+
+namespace engineBot
 {
-    class Bot
+    class EngineBot
     {
         public:
-            Bot();
-            ~Bot() = default;
-            static void run();
+            EngineBot();
+            ~EngineBot() = default;
+            void updateBot(game::Entity *);
         private:
     };
 }; // namespace bot

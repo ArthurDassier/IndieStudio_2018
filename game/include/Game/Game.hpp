@@ -23,6 +23,7 @@
 #include "Server/Session.hpp"
 #include "Utils/Packet.hpp"
 #include "Game/Lib.hpp"
+#include "Bot/Bot.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -50,10 +51,15 @@ namespace game
 
             std::string const getMap();
 
+            void iniNewBot();
+
             void putBomb(t_id);
             void refreshBomb();
             void destroyMap(size_t power,float x, float z);
             s_pos determineBombPos(int x, int z, std::string sens);
+            bool isBotActive() {return _botActive;}
+            void setBotActive(bool newState) {_botActive = newState;}
+            game::p_entity::pointer getBot();
 
         private:
             Generation _generation;
@@ -62,5 +68,7 @@ namespace game
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
             std::vector<Bomb> _allBomb;
+            engineBot::EngineBot _handleBot;
+            bool _botActive;
     };
 }; // namespace game

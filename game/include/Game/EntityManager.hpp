@@ -49,6 +49,7 @@ namespace game
 
             std::vector<p_entity> const &getEntities() const noexcept;
             void deleteFromPos(float x, float y);
+            p_entity::pointer getBot();
 
         private:
             std::vector<p_entity> _entities;

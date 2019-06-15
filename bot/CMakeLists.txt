@@ -18,6 +18,11 @@ else ()
     target_include_directories(bot INTERFACE ./include)
 endif ()
 
+target_link_libraries(
+    bot
+    game
+)
+
 SET_TARGET_PROPERTIES(bot PROPERTIES LINKER_LANGUAGE CXX)
 
 # add_subdirectory(tests)

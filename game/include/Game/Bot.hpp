@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** IndieStudio_2018
 ** File description:
-** Character.hpp
+** Bot.hpp
 */
 
 #pragma once
@@ -14,11 +14,11 @@
 
 namespace game
 {
-    class Character : public MovableEntity
+    class Bot : public MovableEntity
     {
         public:
-            Character();
-            ~Character() = default;
+            Bot();
+            ~Bot() = default;
 
             void deliver(std::string);
             player &get_playerdata();

@@ -53,3 +53,12 @@ void game::EntityManager::deleteFromPos(float x, float z)
         }
     }
 }
+
+game::p_entity::pointer game::EntityManager::getBot()
+{
+    for (auto i = 0; i != _entities.size(); i++) {
+        if (_entities[i]->getType() == bot)
+            return _entities[i].get();
+    }
+    return (nullptr);
+}

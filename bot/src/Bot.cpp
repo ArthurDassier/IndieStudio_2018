@@ -9,6 +9,12 @@
 #include <iostream>
 #include "Bot/Bot.hpp"
 
-Bot::Bot::Bot()
+engineBot::EngineBot::EngineBot()
 {
 }
+
+void engineBot::EngineBot::updateBot(game::Entity *)
+{
+
+}
+

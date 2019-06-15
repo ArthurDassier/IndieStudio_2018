@@ -23,6 +23,7 @@ namespace game
         brittleBlock,
         character,
         ground,
+        bot,
         undefined
     };
 

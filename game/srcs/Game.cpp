@@ -10,11 +10,14 @@
 #include "Game/Character.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Game/IEntity.hpp"
+#include "Game/Bot.hpp"
 
 void game::Game::gameLoop()
 {
     for (auto &it : *_participants) {
         refreshBomb();
+        if (isBotActive())
+            _handleBot.updateBot(getBot());
         if (it->getId() != _player->getId())
             continue;
     }
@@ -235,4 +238,21 @@ std::string const game::Game::getMap()
 
     fillEntitiesMap(map);
     return map;
+}
+
+void game::Game::iniNewBot()
+{
+    Bot bot;
+    game::s_pos pos;
+    
+    pos = {81, 5, 11};
+    bot.setPosition(pos);
+    bot.setSpawn(pos);
+    bot.setSkin(1);
+    _EM.addEntity(bot);
+}
+
+game::p_entity::pointer game::Game::getBot()
+{
+    return _EM.getBot();
 }

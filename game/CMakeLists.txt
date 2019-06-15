@@ -27,6 +27,7 @@ add_library(game STATIC
     ./srcs/EntityManager.cpp
     ./srcs/Game.cpp
     ./srcs/Generation.cpp
+    ./srcs/Bot.cpp
 )
 
 if (WIN32)
@@ -48,6 +49,7 @@ target_link_libraries(
     game
     utils
     error
+    bot
 )
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)
