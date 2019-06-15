@@ -52,41 +52,33 @@ void LogicPause::manageKey()
         _lastKey = _key;
         return;
     }
-    if (_mode == GAME) {
-        if (_key == KEY_KEY_Z) {
-            dataMove("up");
-            _client.sendToServer(_data);
-            _data.clear();
-        }
-        else if (_key == KEY_KEY_S) {
-            dataMove("down");
-            _client.sendToServer(_data);
-            _data.clear();
-        }
-        else if (_key == KEY_KEY_Q) {
-            dataMove("left");
-            _client.sendToServer(_data);
-            _data.clear();
-        }
-        else if (_key == KEY_KEY_D) {
-            dataMove("right");
-            _client.sendToServer(_data);
-            _data.clear();
-        } else if (_key == KEY_ESCAPE && _lastKey != KEY_ESCAPE) {
-            buildJSON("pause");
-            _client.sendToServer(_data);
-            _mode = MENU;
-        } else if (_key == KEY_SPACE && _lastKey != KEY_SPACE) {
-            buildJSON("space");
-            _client.sendToServer(_data);
-            _data.clear();
-        }
-    } else if (_mode == MENU) {
-        if (_key == KEY_ESCAPE && _lastKey != KEY_ESCAPE) {
-            buildJSON("pause");
-            _client.sendToServer(_data);
-            _mode = GAME;
-        }
+    if (_key == KEY_KEY_Z) {
+        dataMove("up");
+        _client.sendToServer(_data);
+        _data.clear();
+    }
+    else if (_key == KEY_KEY_S) {
+        dataMove("down");
+        _client.sendToServer(_data);
+        _data.clear();
+    }
+    else if (_key == KEY_KEY_Q) {
+        dataMove("left");
+        _client.sendToServer(_data);
+        _data.clear();
+    }
+    else if (_key == KEY_KEY_D) {
+        dataMove("right");
+        _client.sendToServer(_data);
+        _data.clear();
+    } else if (_key == KEY_ESCAPE && _lastKey != KEY_ESCAPE) {
+        buildJSON("pause");
+        _client.sendToServer(_data);
+        _mode = MENU;
+    } else if (_key == KEY_SPACE && _lastKey != KEY_SPACE) {
+        buildJSON("space");
+        _client.sendToServer(_data);
+        _data.clear();
     }
     _lastKey = _key;
     _key = KEY_KEY_CODES_COUNT;

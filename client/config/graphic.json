@@ -1,7 +1,11 @@
 {
     "models": {
         "ninja": "client/res/ninja.b3d",
-        "bomb": "client/res/Bomb.3ds"
+        "bomb": "client/res/Bomb.3ds",
+        "SpeedUp": "client/res/lotus_OBJ_high.obj",
+        "BombUp": "client/res/pizza.obj",
+        "FireUp": "client/res/ARK_COFFEE_CUP.obj",
+        "WallPass": "client/res/SA_LD_Chalice.obj"
     },
     "textures": {
         "nskinrd": "client/res/nskinrd.jpg",
@@ -12,6 +16,7 @@
         "wall": "client/res/wall_2.jpg",
         "box": "client/res/box.jpg",
         "bomb": "client/res/Albedo.png",
+        "SpeedUp": "client/res/lotus_petal_diffuse.jpg",
         "fire": "client/res/fire.bmp"
     }
 }
