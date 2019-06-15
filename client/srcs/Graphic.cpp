@@ -284,18 +284,24 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::dropBonus()
 {
+    scene::IAnimatedMeshSceneNode *node;
     float x = _root.get<float>("x");
     float z = _root.get<float>("z");
     std::string bonusType = _root.get<std::string>("bonusType");
-    if (bonusType.compare("SpeedUp") != 0)
+    if (bonusType.compare("SpeedUp") != 0 && bonusType.compare("BombUp") != 0)
         return;
-    std::cout << "rose\n";
-    core::vector3df pos(20, 20, 20);
-    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("rose"));
+    core::vector3df pos(x, 5, z);
+    if (bonusType.compare("SpeedUp") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("SpeedUp"));
+        node->setMaterialTexture(0, _loader.getTexture(_skins[4]));
+    }
+    if (bonusType.compare("BombUp") == 0) {
+        node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("BombUp"));
+    }
     node->setRotation(core::vector3df(0, 80, 0));
     node->setPosition(pos);
     node->setFrameLoop(0, 0);
-    node->setScale(core::vector3df(100, 100, 100));
+    node->setScale(core::vector3df(1, 1, 1));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
     _nodeBonus.push_back(node);
 }

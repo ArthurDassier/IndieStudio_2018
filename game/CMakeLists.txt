@@ -22,6 +22,8 @@ add_library(game STATIC
     ./srcs/Bomb.cpp
     ./srcs/BombUp.cpp
     ./srcs/SpeedUp.cpp
+    ./srcs/FireUp.cpp
+    ./srcs/WallPass.cpp
     ./srcs/BrittleBlock.cpp
     ./srcs/Ground.cpp
     ./srcs/Character.cpp

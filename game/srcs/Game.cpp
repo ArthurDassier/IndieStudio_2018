@@ -312,30 +312,30 @@ void game::Game::dropBonus(float x, float z)
     _packet.setType("dropBonus");
     _packet.addData("x", x);
     _packet.addData("z", z);
-    // if (k == 0) {
-        // Bombup b;
-        // b.setPosition({x, 5, y});
-        // _EM.addEntity(b);
-        // _packet.addData("bonusType", "BombUp");
-    // }
-    // else if (k == 1) {
+    if (k == 0) {
+        Bombup b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "BombUp");
+    }
+    else if (k == 1) {
         Speedup b;
         b.setPosition({x, 5, z});
         _EM.addEntity(b);
         _packet.addData("bonusType", "SpeedUp");
-    // }
-    // else if (k == 2) {
-    //     FireUp b;
-    //     b.setPosition({x, 5, y});
-    //     _EM.addEntity(b);
-    //     _packet.addData("bonusType", "FireUp");
-    // }
-    // else if (k == 3) {
-    //     WallPass b;
-    //     b.setPosition({x, 5, y});
-    //     _EM.addEntity(b);
-    //     _packet.addData("bonusType", "WallPass");
-    // }
+    }
+    else if (k == 2) {
+        Fireup b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "FireUp");
+    }
+    else if (k == 3) {
+        Wallpass b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "WallPass");
+    }
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();
