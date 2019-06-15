@@ -6,10 +6,10 @@
         "id": 0
     },
     "button1": {
-        "pos": [800,800,1100,850],
+        "pos": [400,400,550,425],
         "texture": 0,
         "id": 1,
-        "name": "returnMain",
+        "name": "return",
         "text": "Return"
     }
 }

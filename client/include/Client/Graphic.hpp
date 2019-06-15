@@ -31,10 +31,11 @@ namespace client
             virtual bool OnEvent(const SEvent& event)
             {
                 // Remember whether each key is down or up
-                if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+                if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
                     KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+                }
                 if (event.EventType == EET_GUI_EVENT) {
-                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED)
+                    if (event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED || event.GUIEvent.EventType == gui::EGET_SCROLL_BAR_CHANGED)
                         _guiID = event.GUIEvent.Caller->getID();
                     return true;
                 } else {
@@ -93,6 +94,7 @@ namespace client
             void dropBonus();
             void removeBonus();
 
+            scene::IParticleSystemSceneNode *fire(float, float);
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
 
             Character createCharacter();
@@ -105,6 +107,7 @@ namespace client
             void create_map(std::string map);
             void sendEscape();
             void sendSpace();
+            void refreshFire();
             scene::IMeshSceneNode *createMapBlock(const std::string, const core::vector3df);
 
             void setKey(std::string);
@@ -126,8 +129,11 @@ namespace client
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBomb;
+            std::vector<std::pair<std::vector<scene::IParticleSystemSceneNode *>, Clock>> _listFire;
+
             std::vector<scene::IAnimatedMeshSceneNode *> _nodeBonus;
             GraphicLoader _loader;
+            utils::ConfigManager _config;
             std::map<int, const std::string> _skins = {
                 {0, "nskinrd"},
                 {1, "nskinbl"},

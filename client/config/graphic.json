@@ -13,7 +13,7 @@
         "wall": "client/res/wall_2.jpg",
         "box": "client/res/box.jpg",
         "bomb": "client/res/Albedo.png",
-        "rose": "client/res/rose_texture.jpg"
-
+        "rose": "client/res/rose_texture.jpg",
+        "fire": "client/res/fire.bmp"
     }
 }

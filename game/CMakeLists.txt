@@ -27,6 +27,8 @@ add_library(game STATIC
     ./srcs/Character.cpp
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp
+    ./srcs/Explosion.cpp
+    ./srcs/Fire.cpp
     ./srcs/Game.cpp
     ./srcs/Generation.cpp
 )
