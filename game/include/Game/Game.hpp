@@ -70,7 +70,7 @@ namespace game
             bool isBotActive() {return _botActive;}
             void setBotActive(bool newState) {_botActive = newState;}
             game::p_entity::pointer getBot();
-            void updatePositionBot(const std::string direction);
+            bool updatePositionBot(const std::string direction);
             s_pos roundPos(int x, int z, std::string sens);
 
             void dropBonus(float x, float z);
@@ -86,5 +86,9 @@ namespace game
             std::vector<Bomb> _allBomb;
             game::Bot _bot;
             bool _botActive = false;
+            std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownMove;
+            std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBombBot;
+            size_t sens_bot = 0;
+            std::vector<std::string> sens = {"left", "up", "right", "down"};
     };
 }; // namespace game

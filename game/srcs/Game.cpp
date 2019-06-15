@@ -70,7 +70,7 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.clear();
 }
 
-void game::Game::updatePositionBot(const std::string direction)
+bool game::Game::updatePositionBot(const std::string direction)
 {
     s_pos pos_player;
 
@@ -86,7 +86,7 @@ void game::Game::updatePositionBot(const std::string direction)
         _bot.getPosition().x += 2;
     if (checkCollisions(&_bot) == false) {
         _bot.setPosition(pos_player);
-        return;
+        return true;
     }
 
     _packet.addData("id", _bot.getId());
@@ -96,6 +96,7 @@ void game::Game::updatePositionBot(const std::string direction)
         it->deliver(_packet.getPacket());
     }
     _packet.clear();
+    return false;
 }
 
 void game::Game::destroyV(size_t power, s_pos pos)
@@ -466,6 +467,18 @@ game::p_entity::pointer game::Game::getBot()
 
 void game::Game::updateBot()
 {
-    updatePositionBot(std::string("left"));
-    putBombBot(_bot.getId());
+    auto delay = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = delay - _cooldownMove;
+    std::chrono::duration<double, std::milli> elapsed2 = delay - _cooldownBombBot;
+    bool ret;
+
+    if (elapsed.count() / 1000 >= 0.3) {
+        _cooldownMove = std::chrono::high_resolution_clock::now();
+        ret = updatePositionBot(std::string(sens[sens_bot]));
+        sens_bot = ret ? (sens_bot + 1 > 3 ? 0 : sens_bot + 1) : sens_bot;
+    }
+    if (elapsed2.count() / 1000 >= 8) {
+        _cooldownBombBot = std::chrono::high_resolution_clock::now();
+        putBombBot(_bot.getId());
+    }
 }
