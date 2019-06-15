@@ -55,6 +55,7 @@ int client::Core::menuEvent()
             return (1);
         }
         if (_instruction == "endPause") {
+            std::cout << "pause" << std::endl;
             _logicPause.buildJSON("pause");
             _logicPause.getClient().sendToServer(_logicPause.getData());
             _logicPause.setMode(GAME);

@@ -8,23 +8,25 @@
 #include "Client/Graphic.hpp"
 
 client::EngineGraphic::EngineGraphic():
-    _receiver(),
+    _receiverGUI(),
+    _receiverGame(),
     _device(
         irr::createDevice(
-            video::EDT_SOFTWARE,
+            video::EDT_OPENGL,
             core::dimension2d<u32>(960, 540),
             16,
             false,
             false,
             false,
-            &_receiver
+            &_receiverGUI
         )
     ),
     _driver(_device->getVideoDriver()),
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
-    _clock()
+    _clock(),
+    _oldMode(MAINMENU)
 {
     _device->setResizable(false);
     _loader.setSceneManager(_smgr);
@@ -48,6 +50,14 @@ client::EngineGraphic::~EngineGraphic()
 
 int client::EngineGraphic::runGraph(const MODE &mode)
 {
+    if (mode != _oldMode) {
+        if (mode == GAME) {
+            _device->setEventReceiver(&_receiverGame);
+        } else {
+            _device->setEventReceiver(&_receiverGUI);
+        }
+        _oldMode = mode;
+    }
     _clock.setElapsedTime();
     _clock.setElapsed();
     if (_device->run() == 0)
@@ -66,7 +76,7 @@ EKEY_CODE client::EngineGraphic::input()
 {
     if (_clock.getElapsed() >= _clock.getSecond()) {
         for (unsigned int i = KEY_LBUTTON; i < KEY_KEY_CODES_COUNT; i++)
-            if (_receiver.IsKeyDown((EKEY_CODE)i))
+            if (_receiverGame.IsKeyDown((EKEY_CODE)i))
                 return (EKEY_CODE)i;
         _clock.getClock().stop();
         _clock.getClock().start();
@@ -343,5 +353,5 @@ gui::IGUIEnvironment *client::EngineGraphic::getGUIEnvironment() const
 
 s32 client::EngineGraphic::getGuiID()
 {
-    return _receiver.getID();
+    return _receiverGUI.getID();
 }
