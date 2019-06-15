@@ -154,10 +154,6 @@ const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
     it->getNode()->setRotation(rotation);
-    it->getNode()->setFrameLoop(_walk, _walk);
-    _walk+= 1;
-    if (_walk == 14)
-        _walk = 0;
 }
 
 void client::EngineGraphic::create_map(std::string map)
