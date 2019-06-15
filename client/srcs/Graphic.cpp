@@ -8,25 +8,28 @@
 #include "Client/Graphic.hpp"
 
 client::EngineGraphic::EngineGraphic():
-    _receiver(),
+    _receiverGUI(),
+    _receiverGame(),
     _device(
         irr::createDevice(
-            video::EDT_SOFTWARE,
+            video::EDT_OPENGL,
             core::dimension2d<u32>(960, 540),
             16,
             false,
             false,
             false,
-            &_receiver
+            &_receiverGUI
         )
     ),
     _driver(_device->getVideoDriver()),
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
-    _clock()
+    _clock(),
+    _oldMode(MAINMENU)
 {
     _device->setResizable(false);
+    _device->setWindowCaption(L"Bomberman");
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
     _loader.loadModels();
@@ -48,6 +51,14 @@ client::EngineGraphic::~EngineGraphic()
 
 int client::EngineGraphic::runGraph(const MODE &mode)
 {
+    if (mode != _oldMode) {
+        if (mode == GAME) {
+            _device->setEventReceiver(&_receiverGame);
+        } else {
+            _device->setEventReceiver(&_receiverGUI);
+        }
+        _oldMode = mode;
+    }
     _clock.setElapsedTime();
     _clock.setElapsed();
     if (_device->run() == 0)
@@ -67,7 +78,7 @@ EKEY_CODE client::EngineGraphic::input()
 {
     if (_clock.getElapsed() >= _clock.getSecond()) {
         for (unsigned int i = KEY_LBUTTON; i < KEY_KEY_CODES_COUNT; i++)
-            if (_receiver.IsKeyDown((EKEY_CODE)i))
+            if (_receiverGame.IsKeyDown((EKEY_CODE)i))
                 return (EKEY_CODE)i;
         _clock.getClock().stop();
         _clock.getClock().start();
@@ -106,6 +117,9 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
+    irr::core::array<irr::scene::ISceneNode *>	nodes;
+    _smgr->loadScene("map.irr");
+    _smgr->getSceneNodesFromType(irr::scene::ESNT_CUBE, nodes);
     return (_smgr->addCameraSceneNode(0, core::vector3df(43.8935,63.3423,-18.6599), core::vector3df(43.7971,4.3018,34.2673)));
 }
 
@@ -241,6 +255,7 @@ void client::EngineGraphic::new_player()
 
 scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
 {
+    std::cout << "FIRE" << std::endl;
     scene::IParticleSystemSceneNode *ps = _smgr->addParticleSystemSceneNode(false);
     scene::IParticleEmitter *em = ps->createBoxEmitter(
         core::aabbox3d<f32>(-10, 0, -10, 10, 1, 10),
@@ -264,36 +279,41 @@ scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
     ps->setMaterialTexture(0,  _loader.getTexture("fire"));
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    std::cout << "END FIRE" << std::endl;
     return ps;
 }
 
 void client::EngineGraphic::explosion()
 {
+    std::cout << "EXPLOSION" << std::endl;
     try {
         float x = _root.get<float>("x");
         float y = _root.get<float>("z");
-        _nodeBomb[_root.get<size_t>("id")]->remove();
-        _nodeBomb.erase(_nodeBomb.begin());
+        size_t pos = _root.get<size_t>("id");
+        _nodeBomb.at(pos)->remove();
+        _nodeBomb.erase(_nodeBomb.begin() + pos);
     } catch (const std::exception &e) {
         throw(error::ClientError(e.what()));
     }
+    std::cout << "END EXPLOSION" << std::endl;
 }
 
 void client::EngineGraphic::dropBonus()
 {
-    // std::string bonusType = _root.get<std::string>("bonusType");
-    // core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
-    // // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/" + bonusType + ".3ds");
-    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
-    // // node->setMaterialTexture(0, _driver->getTexture("client/res/" + bonusType + ".png"));
-    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
-    // node->setRotation(core::vector3df(0, 80, 0));
-    // node->setPosition(pos);
-    // node->setFrameLoop(0, 0);
-    // node->setScale(core::vector3df(30, 30, 30));
-    // node->setMaterialFlag(video::EMF_LIGHTING, false);
-    // _nodeBonus.push_back(node);
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    std::string bonusType = _root.get<std::string>("bonusType");
+    if (bonusType.compare("SpeedUp") != 0)
+        return;
+    std::cout << "rose\n";
+    core::vector3df pos(20, 20, 20);
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("rose"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(100, 100, 100));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBonus.push_back(node);
 }
 
 void client::EngineGraphic::removeBonus()
@@ -422,5 +442,5 @@ gui::IGUIEnvironment *client::EngineGraphic::getGUIEnvironment() const
 
 s32 client::EngineGraphic::getGuiID()
 {
-    return _receiver.getID();
+    return _receiverGUI.getID();
 }
