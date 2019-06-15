@@ -29,6 +29,7 @@ client::EngineGraphic::EngineGraphic():
     _oldMode(MAINMENU)
 {
     _device->setResizable(false);
+    _device->setWindowCaption(L"Bomberman");
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
     _loader.loadModels();

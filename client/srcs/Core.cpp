@@ -34,8 +34,8 @@ std::array<std::string, 2> getInfos(std::string str)
     std::array<std::string, 2> infos;
     size_t ip = str.find_first_of(':');
     size_t port = str.find_last_of(':');
-    infos[0] = str.substr(ip, port);
-    infos[1] = str.substr(port);
+    infos[0] = str.substr(ip + 1, port - ip - 1);
+    infos[1] = str.substr(port + 1);
     return infos;
 }
 
@@ -43,9 +43,11 @@ int client::Core::menuEvent()
 {
     _instruction = _menuEvent.launchFunction(_graph.getGuiID());
     if (strStartWith(_instruction, "join")) {
+            std::cout << "join" << std::endl;
             _infosConnect = getInfos(_instruction);
             _logicPause.getClient().connect(_infosConnect[0], _infosConnect[1]);
             _logicPause.getClient().start_receive();
+            _logicPause.setMode(GAME);
         }
         if (_instruction == "quit") {
             if (_t1.joinable()) {
