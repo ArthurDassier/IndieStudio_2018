@@ -52,7 +52,6 @@ target_link_libraries(
     game
     utils
     error
-    bot
 )
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINKER_LANGUAGE CXX)

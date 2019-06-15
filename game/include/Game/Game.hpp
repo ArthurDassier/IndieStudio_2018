@@ -27,7 +27,6 @@
 #include "Utils/Packet.hpp"
 #include "Game/Lib.hpp"
 #include "Game/Bot.hpp"
-#include "Bot/EngineBot.hpp"
 
 using t_entity = boost::shared_ptr<game::Character>;
 using t_vector = std::vector<t_entity>;
@@ -60,6 +59,7 @@ namespace game
             void iniNewBot();
 
             void putBomb(t_id);
+            void putBombBot(t_id id);
             void refreshBomb();
             void destroyMap(size_t power,float x, float z);
 
@@ -75,6 +75,8 @@ namespace game
 
             void dropBonus(float x, float z);
             void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
+            void updateBot();    
+
         private:
             Generation _generation;
             EntityManager _EM;
@@ -82,8 +84,7 @@ namespace game
             boost::shared_ptr<game::Character> _player;
             std::shared_ptr<t_vector> _participants;
             std::vector<Bomb> _allBomb;
-            engineBot::EngineBot _handleBot;
             game::Bot _bot;
-            bool _botActive;
+            bool _botActive = false;
     };
 }; // namespace game

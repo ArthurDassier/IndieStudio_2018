@@ -20,6 +20,8 @@ else ()
         ../server/include
         ../error/include
     )
+    set(CMAKE_CXX_FLAGS "-g3")
+
 endif ()
 
 add_library(client

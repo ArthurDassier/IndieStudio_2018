@@ -219,6 +219,7 @@ client::Character client::EngineGraphic::createCharacter()
 
 void client::EngineGraphic::move_other()
 {
+    std::cout << "Hey ça recoit" << std::endl;
     moveEntity(_root.get<std::string>("sens"), _root.get<std::string>("id"));
 }
 
@@ -269,14 +270,14 @@ scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
 
 void client::EngineGraphic::explosion()
 {
-    try {
-        float x = _root.get<float>("x");
-        float y = _root.get<float>("z");
-        _nodeBomb[_root.get<size_t>("id")]->remove();
-        _nodeBomb.erase(_nodeBomb.begin());
-    } catch (const std::exception &e) {
-        throw(error::ClientError(e.what()));
-    }
+    // try {
+    //     float x = _root.get<float>("x");
+    //     float y = _root.get<float>("z");
+    //     _nodeBomb[_root.get<size_t>("id")]->remove();
+    //     // _nodeBomb.erase(_nodeBomb.begin());
+    // } catch (const std::exception &e) {
+    //     throw(error::ClientError(e.what()));
+    // }
 }
 
 void client::EngineGraphic::dropBonus()

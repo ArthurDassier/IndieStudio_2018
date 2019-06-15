@@ -18,17 +18,15 @@
 
 void game::Game::gameLoop()
 {
-    static bool lol = false;
-    
-    if (_participants->size() && !lol) {
-        lol = true;
+    if (_participants->size() && !_botActive) {
+        _botActive = true;
         iniNewBot();
         setBotActive(true);
     }
     for (auto &it : *_participants) {
         refreshBomb();
         if (isBotActive())
-            _handleBot.updateBot(getBot());
+            updateBot();
         if (it->getId() != _player->getId())
             continue;
     }
@@ -86,15 +84,17 @@ void game::Game::updatePositionBot(const std::string direction)
         _bot.getPosition().x -= 2;
     else if (direction.compare("right") == 0)
         _bot.getPosition().x += 2;
-    // if (checkCollisions(_bot.get()) == false) {
-    _bot.setPosition(pos_player);
+    if (checkCollisions(&_bot) == false) {
+        _bot.setPosition(pos_player);
         return;
+    }
 
     _packet.addData("id", _bot.getId());
     _packet.addData("sens", direction);
     _packet.setType("move_other");
-    for (auto &it : *_participants)
+    for (auto &it : *_participants) {
         it->deliver(_packet.getPacket());
+    }
     _packet.clear();
 }
 
@@ -267,7 +267,6 @@ game::s_pos game::Game::roundPos(int x, int z, std::string sens)
     return pos_entity;
 }
 
-
 void game::Game::putBomb(t_id id)
 {
     s_pos pos_bomb;
@@ -285,6 +284,28 @@ void game::Game::putBomb(t_id id)
                 send = true;
             }
         }
+    }
+    if (send == false)
+        return;
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
+
+void game::Game::putBombBot(t_id id)
+{
+    s_pos pos_bomb;
+    bool send = false;
+
+    if (_bot.getCooldownBomb() >= 0.5) {
+        pos_bomb = roundPos(_bot.getPosition().x, _bot.getPosition().z, _bot.getDirection());
+        _packet.setType("bomb");
+        _packet.addData("x", pos_bomb.x);
+        _packet.addData("z", pos_bomb.z);
+        _bot.setCooldownBomb();
+        _allBomb.emplace_back(pos_bomb.x, pos_bomb.z, _bot.getPower());
+        send = true;
     }
     if (send == false)
         return;
@@ -441,4 +462,10 @@ void game::Game::iniNewBot()
 game::p_entity::pointer game::Game::getBot()
 {
     return _EM.getBot();
+}
+
+void game::Game::updateBot()
+{
+    updatePositionBot(std::string("left"));
+    putBombBot(_bot.getId());
 }
