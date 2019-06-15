@@ -105,5 +105,5 @@ std::string MenuEvent::joinServer(s32 id)
     ipAndPort += _menu[4]->getText();
     std::string txt(ipAndPort.length(), ' ');
     std::copy(ipAndPort.begin(), ipAndPort.end(), txt.begin());
-    return "";
+    return txt;
 }
