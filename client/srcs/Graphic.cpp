@@ -26,7 +26,8 @@ client::EngineGraphic::EngineGraphic():
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
     _clock(),
-    _oldMode(MAINMENU)
+    _oldMode(MAINMENU),
+    _walk(0)
 {
     _device->setResizable(false);
     _device->setWindowCaption(L"Bomberman");
@@ -153,10 +154,10 @@ const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
     it->getNode()->setRotation(rotation);
-    if (it->getNode()->getEndFrame() != 13) {
-        it->getNode()->setFrameLoop(0, 13);
-        it->getNode()->setAnimationSpeed(15);
-    }
+    it->getNode()->setFrameLoop(_walk, _walk);
+    _walk+= 1;
+    if (_walk == 14)
+        _walk = 0;
 }
 
 void client::EngineGraphic::create_map(std::string map)

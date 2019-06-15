@@ -157,5 +157,6 @@ namespace client
 
             std::map<int, const scene::IAnimatedMesh *> _models;
             MODE _oldMode;
+            float _walk;
     };
 }; // namespace client
