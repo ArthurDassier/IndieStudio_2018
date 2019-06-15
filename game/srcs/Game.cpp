@@ -312,17 +312,17 @@ void game::Game::dropBonus(float x, float z)
     _packet.setType("dropBonus");
     _packet.addData("x", x);
     _packet.addData("z", z);
-    if (k == 0) {
-        Bombup b;
+    // if (k == 0) {
+        // Bombup b;
         // b.setPosition({x, 5, y});
         // _EM.addEntity(b);
         // _packet.addData("bonusType", "BombUp");
-    }
+    // }
     // else if (k == 1) {
-    //     SpeedUp b;
-    //     b.setPosition({x, 5, y});
-    //     _EM.addEntity(b);
-    //     _packet.addData("bonusType", "SpeedUp");
+        Speedup b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "SpeedUp");
     // }
     // else if (k == 2) {
     //     FireUp b;

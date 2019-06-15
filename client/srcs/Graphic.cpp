@@ -11,8 +11,8 @@ client::EngineGraphic::EngineGraphic():
     _receiver(),
     _device(
         irr::createDevice(
-            video::EDT_SOFTWARE,
-            core::dimension2d<u32>(960, 540),
+            video::EDT_OPENGL,
+            core::dimension2d<u32>(1920,1080),
             16,
             false,
             false,
@@ -106,6 +106,9 @@ void client::EngineGraphic::addEntity(Character *player)
 
 scene::ICameraSceneNode *client::EngineGraphic::addCamera()
 {
+    irr::core::array<irr::scene::ISceneNode *>	nodes;
+    _smgr->loadScene("map.irr");
+    _smgr->getSceneNodesFromType(irr::scene::ESNT_CUBE, nodes);
     return (_smgr->addCameraSceneNode(0, core::vector3df(43.8935,63.3423,-18.6599), core::vector3df(43.7971,4.3018,34.2673)));
 }
 
@@ -281,19 +284,20 @@ void client::EngineGraphic::explosion()
 
 void client::EngineGraphic::dropBonus()
 {
-    // std::string bonusType = _root.get<std::string>("bonusType");
-    // core::vector3df pos(_root.get<float>("x"), 5, _root.get<float>("z"));
-    // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/Bomb.3ds");
-    // // scene::IAnimatedMesh* mesh = _smgr->getMesh("client/res/" + bonusType + ".3ds");
-    // scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(mesh);
-    // // node->setMaterialTexture(0, _driver->getTexture("client/res/" + bonusType + ".png"));
-    // node->setMaterialTexture(0, _driver->getTexture("client/res/Albedo.png"));
-    // node->setRotation(core::vector3df(0, 80, 0));
-    // node->setPosition(pos);
-    // node->setFrameLoop(0, 0);
-    // node->setScale(core::vector3df(30, 30, 30));
-    // node->setMaterialFlag(video::EMF_LIGHTING, false);
-    // _nodeBonus.push_back(node);
+    float x = _root.get<float>("x");
+    float z = _root.get<float>("z");
+    std::string bonusType = _root.get<std::string>("bonusType");
+    if (bonusType.compare("SpeedUp") != 0)
+        return;
+    std::cout << "rose\n";
+    core::vector3df pos(20, 20, 20);
+    scene::IAnimatedMeshSceneNode *node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("rose"));
+    node->setRotation(core::vector3df(0, 80, 0));
+    node->setPosition(pos);
+    node->setFrameLoop(0, 0);
+    node->setScale(core::vector3df(100, 100, 100));
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    _nodeBonus.push_back(node);
 }
 
 void client::EngineGraphic::removeBonus()
