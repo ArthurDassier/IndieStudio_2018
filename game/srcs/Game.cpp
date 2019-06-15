@@ -305,9 +305,9 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.x = x;
     pos_entity.y = 5;
     pos_entity.z = z;
+
     if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 8 != 1)
         return;
-
     int k = std::rand() % 4;
     _packet.setType("dropBonus");
     _packet.addData("x", x);
@@ -356,6 +356,13 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     }
     else
         return;
+    _EM.deleteFromPos(x, z);
+    _packet.setType("removeBonus");
+    _packet.addData("x", pos_player.x);
+    _packet.addData("z", pos_player.z);
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)
