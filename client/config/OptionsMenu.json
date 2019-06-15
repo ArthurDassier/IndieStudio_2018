@@ -6,13 +6,41 @@
         "id": 0
     },
     "scrollBarSound": {
-        "pos": []
-    },
-    "button1": {
-        "pos": [450,150,600,175],
-        "texture": 0,
+        "pos": [200,150,350,175],
         "id": 1,
+        "name": "sound",
+        "text": "Sound Volume"
+    },
+    "textSound": {
+        "pos": [275,200,300,225],
+        "id": 2,
+        "name": "textSound",
+        "text": "100"
+    },
+    "scrollBarMusic": {
+        "pos": [400,150,550,175],
+        "id": 3,
+        "name": "music",
+        "text": "Music Volume"
+    },
+    "textMusic": {
+        "pos": [475,200,500,225],
+        "id": 4,
+        "name": "textMusic",
+        "text": "100"
+    },
+    "buttonReturn": {
+        "pos": [250,300,350,325],
+        "texture": 0,
+        "id": 5,
         "name": "return",
         "text": "Return"
+    },
+    "buttonSave": {
+        "pos": [400,300,500,325],
+        "texture": 0,
+        "id": 6,
+        "name": "saveOption",
+        "text": "Save"
     }
 }

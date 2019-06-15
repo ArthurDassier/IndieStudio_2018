@@ -14,9 +14,9 @@ class MenuEvent
         void startPause();
         std::string endPause(s32 id);
         // std::string menuMulti(S32 id);
-        // std::string soundVolume(S32 id);
-        // std::string musicVolume(S32 id);
     private:
+        std::string soundVolume(s32 id);
+        std::string musicVolume(s32 id);
         std::string startSolo(s32 id);
         std::string host(s32 id);
         std::string menuMulti(s32 id);
