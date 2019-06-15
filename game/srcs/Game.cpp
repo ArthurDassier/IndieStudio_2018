@@ -14,10 +14,14 @@
 
 void game::Game::gameLoop()
 {
+    if (_participants->size()) {
+        iniNewBot();
+        setBotActive(true);
+    }
     for (auto &it : *_participants) {
         refreshBomb();
-        if (isBotActive())
-            _handleBot.updateBot(getBot());
+        // if (isBotActive())
+        //     _handleBot.updateBot(getBot());
         if (it->getId() != _player->getId())
             continue;
     }
@@ -47,6 +51,32 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
         }
     }
     _packet.addData("id", id);
+    _packet.addData("sens", direction);
+    _packet.setType("move_other");
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
+void game::Game::updatePositionBot(const std::string direction)
+{
+    s_pos pos_player;
+
+    pos_player = _bot.getPosition();
+    _bot.setDirection(direction);
+    if (direction.compare("up") == 0)
+        _bot.getPosition().z += 2;
+    else if (direction.compare("down") == 0)
+        _bot.getPosition().z -= 2;
+    else if (direction.compare("left") == 0)
+        _bot.getPosition().x -= 2;
+    else if (direction.compare("right") == 0)
+        _bot.getPosition().x += 2;
+    // if (checkCollisions(_bot.get()) == false) {
+    _bot.setPosition(pos_player);
+        return;
+
+    _packet.addData("id", _bot.getId());
     _packet.addData("sens", direction);
     _packet.setType("move_other");
     for (auto &it : *_participants)
@@ -242,14 +272,24 @@ std::string const game::Game::getMap()
 
 void game::Game::iniNewBot()
 {
-    Bot bot;
     game::s_pos pos;
-    
+
     pos = {81, 5, 11};
-    bot.setPosition(pos);
-    bot.setSpawn(pos);
-    bot.setSkin(1);
-    _EM.addEntity(bot);
+    // _bot.setDirection("right");
+    _bot.setPosition(pos);
+    _bot.setSpawn(pos);
+    _bot.setSkin(1);
+    _EM.addEntity(_bot);
+
+    _packet.setType("new_player");
+    _packet.addData("id", _bot.getId());
+    _packet.addData("x", _bot.getPosition().x);
+    _packet.addData("y", _bot.getPosition().y);
+    _packet.addData("z", _bot.getPosition().z);
+    _packet.addData("skin", "1");
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
 }
 
 game::p_entity::pointer game::Game::getBot()

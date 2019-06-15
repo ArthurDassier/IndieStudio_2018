@@ -24,8 +24,6 @@ server::Server::Server() :
     _fMap.emplace(std::make_pair("space", std::bind(&Server::space, this)));
     _fMap.emplace(std::make_pair("quit", std::bind(&Server::stop, this)));
     _room.setMap(_game.getMap());
-    _game.iniNewBot();
-    //creer une entité et l'ajouter à game.
     start_receive();
 }
 
@@ -99,12 +97,13 @@ void server::Server::connection()
     _session->start();
     setHasReceived(true);
     
+
     if (_room.nbParticipants() == 1) {
-        _game.setBotActive(true);
+        // _game.setBotActive(true);
         _game.setPlayer(_room.getParticipants()->front());
     }
-    else
-        _game.setBotActive(false);
+    // else
+        // _game.setBotActive(false);
 }
 
 void server::Server::movement()

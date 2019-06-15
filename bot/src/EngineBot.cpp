@@ -7,7 +7,7 @@
 
 #include <thread>
 #include <iostream>
-#include "Bot/Bot.hpp"
+#include "Bot/EngineBot.hpp"
 
 engineBot::EngineBot::EngineBot()
 {

@@ -9,7 +9,7 @@ endif ()
 
 add_library(bot
     STATIC
-    ./src/Bot.cpp
+    ./src/EngineBot.cpp
 )
 
 if (WIN32)

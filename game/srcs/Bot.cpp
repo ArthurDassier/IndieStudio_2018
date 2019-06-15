@@ -9,7 +9,8 @@
 
 game::Bot::Bot():
     MovableEntity(bot),
-    _hp(3)
+    _hp(3),
+    _id(300)
 {
     _cooldownBomb = std::chrono::high_resolution_clock::now();
 }
