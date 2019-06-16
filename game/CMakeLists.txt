@@ -25,7 +25,6 @@ add_library(game STATIC
     ./srcs/FireUp.cpp
     ./srcs/WallPass.cpp
     ./srcs/BrittleBlock.cpp
-    ./srcs/Ground.cpp
     ./srcs/Character.cpp
     ./srcs/Entity.cpp
     ./srcs/EntityManager.cpp

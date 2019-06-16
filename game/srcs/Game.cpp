@@ -8,7 +8,6 @@
 #include "Game/BombUp.hpp"
 #include "Game/Character.hpp"
 #include "Game/Game.hpp"
-#include "Game/Ground.hpp"
 #include "Game/FireUp.hpp"
 #include "Game/IEntity.hpp"
 #include "Game/MovableEntity.hpp"
@@ -320,12 +319,7 @@ void game::Game::fillEntitiesMap(const std::string map)
     float y = 0;
 
     for (int i = 0; i != map.size(); i++) {
-        if (map[i] == '0') {
-            Ground g;
-            g.setPosition({x, 0, y});
-            _EM.addEntity(g);
-        }
-        else if (map[i] == '1') {
+        if (map[i] == '1') {
             Block b;
             b.setPosition({x, 0, y});
             _EM.addEntity(b);
@@ -350,7 +344,7 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.y = 5;
     pos_entity.z = z;
 
-    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 8 != 1)
+    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 20 != 1)
         return;
     int k = std::rand() % 4;
     _packet.setType("dropBonus");
@@ -400,7 +394,7 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     }
     else
         return;
-    _EM.deleteFromPos(x, z);
+    _EM.deleteFromPos(pos_player.x, pos_player.z);
     _packet.setType("removeBonus");
     _packet.addData("x", pos_player.x);
     _packet.addData("z", pos_player.z);
@@ -483,8 +477,6 @@ void game::Game::checkDeath(float x, float z)
 
     for (auto &it : *_participants) {
         pos_player = roundPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
-        std::cout << "DEBUG1 : " << x << ", " << z << "\n";
-        std::cout << "DEBUG2 : " << pos_player.x << ", " << pos_player.z << "\n";
         if (pos_player.x == x && pos_player.z == z) {
             _packet.setType("death");
             it->deliver(_packet.getPacket());

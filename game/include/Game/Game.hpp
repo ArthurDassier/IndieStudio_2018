@@ -18,7 +18,6 @@
 #include "Game/Fire.hpp"
 #include "Game/Character.hpp"
 #include "Game/EntityManager.hpp"
-#include "Game/Ground.hpp"
 #include "Game/IEntity.hpp"
 #include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
