@@ -52,16 +52,16 @@ namespace sfx
             void stopMusic(const std::string &);
             void stopSound(const std::string &);
 
-            void setGeneralVolume(const float &);
-            float getGeneralVolume();
+            void setGeneralVolume(const int &);
+            int getGeneralVolume();
 
-            void setMusicVolume(const float &);
-            float getMusicVolume();
+            void setMusicVolume(const int &);
+            int getMusicVolume();
 
-            void setSoundVolume(const float &);
-            float getSoundVolume();
+            void setSoundVolume(const int &);
+            int getSoundVolume();
 
-            float getVolume(const std::string &) const noexcept;
+            int getVolume(const std::string &) const noexcept;
             void resetVolume();
 
         private:
@@ -69,7 +69,7 @@ namespace sfx
             utils::ConfigManager _config;
             std::vector<std::shared_ptr<Music>> _music;
             std::vector<std::shared_ptr<Sound>> _sound;
-            std::unordered_map<std::string, float> _settings = {
+            std::unordered_map<std::string, int> _settings = {
                 {"general_volume", 100},
                 {"music_volume", 100},
                 {"sound_volume", 100}

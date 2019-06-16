@@ -92,8 +92,10 @@ void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
     std::copy(txt.begin(), txt.end(), wtxt.begin());
     gui::IGUIScrollBar *newElem = _env->addScrollBar(true, rect, 0, elem.get<int>("id"));
 
+    newElem->setSmallStep(1);
     newElem->setMax(100);
     newElem->setMin(0);
+    newElem->setPos(100);
     newElem->setName(elem.get<std::string>("name").c_str());
     newElem->setText(wtxt.c_str());
     _elems.push_back(newElem);

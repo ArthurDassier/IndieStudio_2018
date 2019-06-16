@@ -18,6 +18,9 @@ MenuEvent::MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MOD
     _functions["resumeGame"] = &MenuEvent::endPause;
     _functions["return"] = &MenuEvent::returnLastMenu;
     _functions["joinServer"] = &MenuEvent::joinServer;
+    _functions["sound"] = &MenuEvent::soundVolume;
+    _functions["music"] = &MenuEvent::musicVolume;
+    _functions["saveOption"] = &MenuEvent::saveOptions;
 }
 
 std::string MenuEvent::launchFunction(s32 id)
@@ -80,6 +83,10 @@ std::string MenuEvent::menuOptions(s32 id)
     (void)id;
     _sfx.playSound("button");
     _menu.changeMenu("client/config/OptionsMenu.json");
+    ((gui::IGUIScrollBar *)_menu[1])->setPos(_sfx.getSoundVolume());
+    _menu[2]->setText(std::to_wstring(_sfx.getSoundVolume()).c_str());
+    ((gui::IGUIScrollBar *)_menu[3])->setPos(_sfx.getMusicVolume());
+    _menu[4]->setText(std::to_wstring(_sfx.getMusicVolume()).c_str());
     return "";
 }
 
@@ -124,4 +131,26 @@ std::string MenuEvent::joinServer(s32 id)
     std::string txt(ipAndPort.length(), ' ');
     std::copy(ipAndPort.begin(), ipAndPort.end(), txt.begin());
     return txt;
+}
+
+std::string MenuEvent::soundVolume(s32 id)
+{
+    int volume = ((gui::IGUIScrollBar *)_menu[id])->getPos();
+    _sfx.setSoundVolume(volume);
+    _menu[id + 1]->setText(std::to_wstring(volume).c_str());
+    return "";
+}
+
+std::string MenuEvent::musicVolume(s32 id)
+{
+    int volume = ((gui::IGUIScrollBar *)_menu[id])->getPos();
+    _sfx.setMusicVolume(volume);
+    _menu[id + 1]->setText(std::to_wstring(volume).c_str());
+    return "";
+}
+
+std::string MenuEvent::saveOptions(s32 id)
+{
+    _sfx.updateConfig();
+    return "";
 }

@@ -149,20 +149,20 @@ void sfx::SFX::stopSound(const std::string &sound)
     getSound(sound)->get()->stop();
 }
 
-void sfx::SFX::setGeneralVolume(const float &volume)
+void sfx::SFX::setGeneralVolume(const int &volume)
 {
     _settings["general_volume"] = volume;
     setMusicVolume(volume);
     setSoundVolume(volume);
 }
 
-float sfx::SFX::getGeneralVolume()
+int sfx::SFX::getGeneralVolume()
 {
-    return _config.getConfig<float>("volume");
+    return _config.getConfig<int>("volume");
     // return _settings.find("general_volume")->second;
 }
 
-void sfx::SFX::setMusicVolume(const float &volume)
+void sfx::SFX::setMusicVolume(const int &volume)
 {
     // _settings["music_volume"] = volume;
     _config.setConfig("music.volume", volume);
@@ -170,13 +170,13 @@ void sfx::SFX::setMusicVolume(const float &volume)
         it->get()->setVolume(volume);
 }
 
-float sfx::SFX::getMusicVolume()// const noexcept
+int sfx::SFX::getMusicVolume()// const noexcept
 {
-    return _config.getConfig<float>("music.volume");
+    return _config.getConfig<int>("music.volume");
     // return _settings.find("music_volume")->second;
 }
 
-void sfx::SFX::setSoundVolume(const float &volume)
+void sfx::SFX::setSoundVolume(const int &volume)
 {
     // _settings["sound_volume"] = volume;
     _config.setConfig("sound.volume", volume);
@@ -184,14 +184,14 @@ void sfx::SFX::setSoundVolume(const float &volume)
         it->get()->setVolume(volume);
 }
 
-float sfx::SFX::getSoundVolume()// const noexcept
+int sfx::SFX::getSoundVolume()// const noexcept
 {
-    return _config.getConfig<float>("sound.volume");
-    // // float volume = _config.getConfig<float>("sound.volume");
+    return _config.getConfig<int>("sound.volume");
+    // // int volume = _config.getConfig<int>("sound.volume");
     // return _settings.find("sound_volume")->second;
 }
 
-float sfx::SFX::getVolume(const std::string &setting) const noexcept
+int sfx::SFX::getVolume(const std::string &setting) const noexcept
 {
     return _settings.find(setting)->second;
 }

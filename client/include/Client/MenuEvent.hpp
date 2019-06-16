@@ -16,9 +16,10 @@ class MenuEvent
         std::string endPause(s32 id);
         // std::string menuMulti(S32 id);
     private:
+        sfx::SFX _sfx;
+        std::string saveOptions(s32 id);
         std::string soundVolume(s32 id);
         std::string musicVolume(s32 id);
-        sfx::SFX _sfx;
         std::string startSolo(s32 id);
         std::string host(s32 id);
         std::string menuMulti(s32 id);
