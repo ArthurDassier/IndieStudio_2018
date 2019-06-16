@@ -8,5 +8,9 @@ int main(int ac, char **av, char **env)
     if (env[0] == nullptr)
         return (84);
     client::Core all;
-    all.startCore();
+    try {
+        all.startCore();
+    } catch (...) {
+        return 84;
+    }
 }

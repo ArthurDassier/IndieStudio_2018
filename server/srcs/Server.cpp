@@ -100,7 +100,7 @@ void server::Server::connection()
     _session.reset(new Session(_socket, _remote_endpoint, _room));
     _session->start();
     setHasReceived(true);
-    
+
 
     if (_room.nbParticipants() == 1) {
         _game.setPlayer(_room.getParticipants()->front());
