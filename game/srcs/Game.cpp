@@ -305,37 +305,37 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.x = x;
     pos_entity.y = 5;
     pos_entity.z = z;
+
     if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 8 != 1)
         return;
-
     int k = std::rand() % 4;
     _packet.setType("dropBonus");
     _packet.addData("x", x);
     _packet.addData("z", z);
-    // if (k == 0) {
-        // Bombup b;
-        // b.setPosition({x, 5, y});
-        // _EM.addEntity(b);
-        // _packet.addData("bonusType", "BombUp");
-    // }
-    // else if (k == 1) {
+    if (k == 0) {
+        Bombup b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "BombUp");
+    }
+    else if (k == 1) {
         Speedup b;
         b.setPosition({x, 5, z});
         _EM.addEntity(b);
         _packet.addData("bonusType", "SpeedUp");
-    // }
-    // else if (k == 2) {
-    //     FireUp b;
-    //     b.setPosition({x, 5, y});
-    //     _EM.addEntity(b);
-    //     _packet.addData("bonusType", "FireUp");
-    // }
-    // else if (k == 3) {
-    //     WallPass b;
-    //     b.setPosition({x, 5, y});
-    //     _EM.addEntity(b);
-    //     _packet.addData("bonusType", "WallPass");
-    // }
+    }
+    else if (k == 2) {
+        Fireup b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "FireUp");
+    }
+    else if (k == 3) {
+        Wallpass b;
+        b.setPosition({x, 5, z});
+        _EM.addEntity(b);
+        _packet.addData("bonusType", "WallPass");
+    }
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();
@@ -356,6 +356,13 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     }
     else
         return;
+    _EM.deleteFromPos(x, z);
+    _packet.setType("removeBonus");
+    _packet.addData("x", pos_player.x);
+    _packet.addData("z", pos_player.z);
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
 }
 
 void game::Game::setPlayer(boost::shared_ptr<game::Character> player)
