@@ -44,7 +44,7 @@ std::string MenuEvent::endPause(s32 id)
 std::string MenuEvent::startSolo(s32 id)
 {
     (void)id;
-    _sfx.playSound("button");
+    _sfx.playSound("play");
     if (_mode == MAINMENU) {
         _mode = GAME;
         _sfx.pauseMusic("menu");
@@ -57,7 +57,7 @@ std::string MenuEvent::startSolo(s32 id)
 std::string MenuEvent::host(s32 id)
 {
     (void)id;
-    _sfx.playSound("button");
+    _sfx.playSound("play");
     if (_mode == MAINMENU) {
         _mode = GAME;
         _sfx.pauseMusic("menu");
