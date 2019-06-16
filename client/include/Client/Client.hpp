@@ -23,7 +23,7 @@ namespace client
         public:
             Client();
             ~Client() = default;
-            void connect(std::string ip_addr = "127.0.0.1", std::string port = "7777");
+            void connect(std::string typeConnect = "solo",std::string ip_addr = "127.0.0.1", std::string port = "7777");
             void start_receive();
             void sendToServer(std::string msg);
             void handle_receive(const boost::system::error_code& error,

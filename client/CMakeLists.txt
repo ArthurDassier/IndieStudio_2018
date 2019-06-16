@@ -22,6 +22,8 @@ else ()
         ../error/include
         ../sfx/include
     )
+    set(CMAKE_CXX_FLAGS "-g3")
+
 endif ()
 
 add_library(client
@@ -61,6 +63,7 @@ if (WIN32)
         game
         error
         utils
+        bot
         sfx
     )
 else ()

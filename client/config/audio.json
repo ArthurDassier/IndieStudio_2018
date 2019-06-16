@@ -2,14 +2,14 @@
     "audio": {
         "volume": "50",
         "music": {
-            "volume": "100",
+            "volume": "12",
             "musics": {
                 "menu": "media\/musics\/menu2.ogg",
                 "game": "media\/musics\/game.ogg"
             }
         },
         "sound": {
-            "volume": "100",
+            "volume": "26",
             "sounds": {
                 "button": "media\/sounds\/button_effect3.ogg",
                 "play": "media\/sounds\/button_effect2.ogg",

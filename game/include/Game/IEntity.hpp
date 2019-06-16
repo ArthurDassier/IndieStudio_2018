@@ -24,6 +24,7 @@ namespace game
         character,
         fire,
         ground,
+        bot,
         FireUp,
         SpeedUp,
         WallPass,

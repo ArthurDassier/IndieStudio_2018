@@ -44,7 +44,7 @@ int client::Core::menuEvent()
     _instruction = _menuEvent.launchFunction(_graph.getGuiID());
     if (strStartWith(_instruction, "join")) {
         _infosConnect = getInfos(_instruction);
-        _logicPause.getClient().connect(_infosConnect[0], _infosConnect[1]);
+        _logicPause.getClient().connect("connection", _infosConnect[0], _infosConnect[1]);
         _logicPause.getClient().start_receive();
         _logicPause.setMode(GAME);
     }
@@ -67,7 +67,10 @@ int client::Core::menuEvent()
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     if (strStartWith(_instruction, "connect")) {
-        _logicPause.getClient().connect();
+        if (_instruction == "connectHost")
+            _logicPause.getClient().connect("connection");
+        else
+            _logicPause.getClient().connect();
         _logicPause.getClient().start_receive();
     }
     return (0);
