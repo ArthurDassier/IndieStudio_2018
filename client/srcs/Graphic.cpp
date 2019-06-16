@@ -244,7 +244,6 @@ client::Character client::EngineGraphic::createCharacter()
 
 void client::EngineGraphic::move_other()
 {
-    std::cout << "Hey ça recoit" << std::endl;
     moveEntity(_root.get<std::string>("sens"), _root.get<std::string>("id"));
 }
 

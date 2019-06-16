@@ -17,10 +17,11 @@
 
 void game::Game::gameLoop()
 {
-    if (_participants->size() && !_botActive) {
-        _botActive = true;
+    if (_isSolo && !_botCreated) {
+        std::cout << "new bot" << std::endl;
         iniNewBot();
         setBotActive(true);
+        setBotCreated(true);
     }
     for (auto &it : *_participants) {
         refreshBomb();
@@ -444,4 +445,19 @@ void game::Game::checkDeath(float x, float z)
             _packet.clear();
         }
     }
+}
+
+void game::Game::setSolo(bool solo)
+{
+    _isSolo = solo;
+}
+
+bool game::Game::isSolo()
+{
+    return _isSolo;
+}
+
+void game::Game::setBotCreated(bool bot)
+{
+    _botCreated = bot;
 }

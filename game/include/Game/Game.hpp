@@ -76,6 +76,9 @@ namespace game
             void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
             void updateBot();    
             void checkDeath(float x, float z);
+            void setSolo(bool solo);
+            bool isSolo();
+            void setBotCreated(bool bot);
         private:
             Generation _generation;
             EntityManager _EM;
@@ -89,5 +92,7 @@ namespace game
             std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBombBot;
             size_t sens_bot = 0;
             std::vector<std::string> sens = {"left", "up", "right", "down"};
+            bool _isSolo;
+            bool _botCreated;
     };
 }; // namespace game
