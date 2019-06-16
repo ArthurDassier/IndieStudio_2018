@@ -52,6 +52,7 @@ namespace server
             boost::property_tree::ptree getRoot() const noexcept;
 
             void connection();
+            void solo();
             void movement();
             void pause();
             void space();

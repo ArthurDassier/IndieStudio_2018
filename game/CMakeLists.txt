@@ -32,6 +32,7 @@ add_library(game STATIC
     ./srcs/Fire.cpp
     ./srcs/Game.cpp
     ./srcs/Generation.cpp
+    ./srcs/Bot.cpp
 )
 
 if (WIN32)

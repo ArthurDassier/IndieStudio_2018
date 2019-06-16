@@ -21,6 +21,16 @@ t_id game::Character::getId()
     return _id;
 }
 
+void game::Character::deliver(std::string str)
+{
+}
+
+player &game::Character::get_playerdata()
+{
+    player ok;
+    return ok;
+}
+
 void game::Character::setSpawn(const s_pos spawn)
 {
     _spawn = spawn;

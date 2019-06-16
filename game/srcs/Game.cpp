@@ -13,11 +13,20 @@
 #include "Game/MovableEntity.hpp"
 #include "Game/SpeedUp.hpp"
 #include "Game/WallPass.hpp"
+#include "Game/Bot.hpp"
 
 void game::Game::gameLoop()
 {
+    if (_isSolo && !_botCreated) {
+        std::cout << "new bot" << std::endl;
+        iniNewBot();
+        setBotActive(true);
+        setBotCreated(true);
+    }
     for (auto &it : *_participants) {
         refreshBomb();
+        if (isBotActive())
+            updateBot();
         if (it->getId() != _player->getId())
             continue;
     }
@@ -57,6 +66,35 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
     _packet.addData("sens", direction);
     _packet.setType("move_other");
     sendPacket(_packet.getPacket());
+}
+
+bool game::Game::updatePositionBot(const std::string direction)
+{
+    s_pos pos_player;
+
+    pos_player = _bot.getPosition();
+    _bot.setDirection(direction);
+    if (direction.compare("up") == 0)
+        _bot.getPosition().z += 2;
+    else if (direction.compare("down") == 0)
+        _bot.getPosition().z -= 2;
+    else if (direction.compare("left") == 0)
+        _bot.getPosition().x -= 2;
+    else if (direction.compare("right") == 0)
+        _bot.getPosition().x += 2;
+    if (checkCollisions(&_bot) == false) {
+        _bot.setPosition(pos_player);
+        return true;
+    }
+
+    _packet.addData("id", _bot.getId());
+    _packet.addData("sens", direction);
+    _packet.setType("move_other");
+    for (auto &it : *_participants) {
+        it->deliver(_packet.getPacket());
+    }
+    _packet.clear();
+    return false;
 }
 
 void game::Game::destroyV(size_t power, s_pos pos)
@@ -170,7 +208,6 @@ game::s_pos game::Game::roundPos(int x, int z, std::string sens)
     else if (sens.compare("right") == 0) {
         pos_entity.x = x - (x % 10);
         pos_entity.z = z - (z % 10);
-
     }
     else if (sens.compare("left") == 0) {
         pos_entity.x = x + 10 - (x % 10);
@@ -178,7 +215,6 @@ game::s_pos game::Game::roundPos(int x, int z, std::string sens)
     }
     return pos_entity;
 }
-
 
 void game::Game::putBomb(t_id id)
 {
@@ -203,6 +239,28 @@ void game::Game::putBomb(t_id id)
     sendPacket(_packet.getPacket());
 }
 
+
+void game::Game::putBombBot(t_id id)
+{
+    s_pos pos_bomb;
+    bool send = false;
+
+    if (_bot.getCooldownBomb() >= 0.5) {
+        pos_bomb = roundPos(_bot.getPosition().x, _bot.getPosition().z, _bot.getDirection());
+        _packet.setType("bomb");
+        _packet.addData("x", pos_bomb.x);
+        _packet.addData("z", pos_bomb.z);
+        _bot.setCooldownBomb();
+        _allBomb.emplace_back(pos_bomb.x, pos_bomb.z, _bot.getPower());
+        send = true;
+    }
+    if (send == false)
+        return;
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
 bool game::Game::checkCollisions(t_entity::element_type* entity)
 {
     s_pos pos_player = entity->getPosition();
@@ -223,7 +281,7 @@ void game::Game::fillEntitiesMap(const std::string map)
     for (auto &it : map) {
         if (it == '1') {
             Block b;
-            b.setPosition({x, 0, y});
+            b.setPosition({x, 5, y});
             _EM.addEntity(b);
         }
         else if (it == '2') {
@@ -245,8 +303,9 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.x = x;
     pos_entity.y = 5;
     pos_entity.z = z;
-
-    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 10 != 1)
+    if (_EM.getEntityType(pos_entity) == game::EntityType::brittleBlock 
+        && _EM.getEntityType(pos_entity)== game::EntityType::block 
+        && std::rand() % 8 != 1)
         return;
     int k = std::rand() % 4;
     _packet.setType("dropBonus");
@@ -329,6 +388,48 @@ std::string const game::Game::getMap()
     return map;
 }
 
+void game::Game::iniNewBot()
+{
+    game::s_pos pos = {81, 5, 11};
+    
+    _bot.setPosition(pos);
+    _bot.setSpawn(pos);
+    _bot.setSkin(1);
+    _EM.addEntity(_bot);
+
+    _packet.setType("new_player");
+    _packet.addData("id", _bot.getId());
+    _packet.addData("x", _bot.getPosition().x);
+    _packet.addData("y", _bot.getPosition().y);
+    _packet.addData("z", _bot.getPosition().z);
+    _packet.addData("skin", "1");
+    for (auto &it : *_participants)
+        it->deliver(_packet.getPacket());
+    _packet.clear();
+}
+
+game::p_entity::pointer game::Game::getBot()
+{
+    return _EM.getBot();
+}
+
+void game::Game::updateBot()
+{
+    auto delay = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = delay - _cooldownMove;
+    std::chrono::duration<double, std::milli> elapsed2 = delay - _cooldownBombBot;
+    bool ret;
+
+    if (elapsed.count() / 1000 >= 0.3) {
+        _cooldownMove = std::chrono::high_resolution_clock::now();
+        ret = updatePositionBot(std::string(sens[sens_bot]));
+        sens_bot = ret ? (sens_bot + 1 > 3 ? 0 : sens_bot + 1) : sens_bot;
+    }
+    if (elapsed2.count() / 1000 >= 8) {
+        _cooldownBombBot = std::chrono::high_resolution_clock::now();
+        putBombBot(_bot.getId());
+    }
+}
 
 void game::Game::checkDeath(float x, float z)
 {
@@ -342,4 +443,19 @@ void game::Game::checkDeath(float x, float z)
             _packet.clear();
         }
     }
+}
+
+void game::Game::setSolo(bool solo)
+{
+    _isSolo = solo;
+}
+
+bool game::Game::isSolo()
+{
+    return _isSolo;
+}
+
+void game::Game::setBotCreated(bool bot)
+{
+    _botCreated = bot;
 }

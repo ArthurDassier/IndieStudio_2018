@@ -133,16 +133,13 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
     scene::IAnimatedMeshSceneNode *tmp;
     auto it = _charList.begin();
     core::vector3df posi;
-    static bool walk = false;
 
-    if (walk == false) {
-        _sfx.playSound("walk");
-        _sfx.getSound("walk")->setLoop(true);
-        walk = true;
-    }
-    for (; it != _charList.end(); it++)
-        if (it->getId() == std::stol(id))
-            break;
+    it = std::find_if(_charList.begin(), _charList.end(),
+                      [&](client::Character i) {
+                          return i.getId() == std::stol(id);
+                      });
+    if (it == _charList.end())
+        return;
     posi = it->getNode()->getPosition();
     if (sens.compare("up") == 0) {
         posi.Z += _speed;
@@ -389,7 +386,7 @@ void client::EngineGraphic::destroy()
             getPos.push_back(tmp);
         }
     } catch (const std::exception &e) {
-        throw(error::ClientError("DESTROY"));
+        throw(error::ClientError(e.what()));
     }
     _sfx.playSound("fire");
     for (auto &it : getPos) {
@@ -411,22 +408,7 @@ void client::EngineGraphic::destroy()
 
 void client::EngineGraphic::death()
 {
-    // exit(0);
-    // std::size_t id = _root.get<std::size_t>("id");
-    // float x = _root.get<float>("x");
-    // float y = _root.get<float>("y");
-    // float z = _root.get<float>("z");
-    // core::vector3df pos = {x, y, z};
-    //
-    // for (auto &it : _charList) {
-    //     if (it.getId() != id)
-    //         continue;
-    //     it.getNode()->setPosition(pos);
-    //     if (it.getNode()->getEndFrame() != 13) {
-    //         it.getNode()->setFrameLoop(0, 13);
-    //         it.getNode()->setAnimationSpeed(15);
-    //     }
-    // }
+    exit(0);
 }
 
 void client::EngineGraphic::bomb()

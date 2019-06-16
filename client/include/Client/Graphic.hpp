@@ -109,6 +109,7 @@ namespace client
             void dropBonus();
             void removeBonus();
             void setSpeed();
+            void respawn();
 
             scene::IParticleSystemSceneNode *fire(float, float);
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
