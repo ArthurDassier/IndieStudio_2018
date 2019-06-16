@@ -386,8 +386,8 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     if (_EM.getEntityType(pos_player) == game::EntityType::SpeedUp)
         entity->_speed += 1;
     else if (_EM.getEntityType(pos_player) == game::EntityType::BombUp) {
-        if (entity->_refreshTime > 1)
-            entity->_refreshTime -= 1;
+        if (entity->_refreshTime > 0.5)
+            entity->_refreshTime -= 0.1;
     }
     else if (_EM.getEntityType(pos_player) == game::EntityType::FireUp) {
         entity->_power += 1;
