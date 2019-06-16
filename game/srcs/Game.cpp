@@ -224,20 +224,6 @@ void game::Game::refreshBomb()
             i--;
         }
     }
-    // for (int i = 0; i != _allFire.size(); i++) {
-    //     _allFire[i].refresh();
-    //     if (_allFire[i].getAlive() == false) {
-    //         _packet.setType("water");
-    //         _packet.addData("x", _allFire[i].getPosX());
-    //         _packet.addData("z", _allFire[i].getPosZ());
-    //         _packet.addData("id", _allFire.size() - 1);
-    //         for (auto &it : *_participants)
-    //             it->deliver(_packet.getPacket());
-    //         _packet.clear();
-    //         _allFire.erase(_allFire.begin() + i);
-    //         i--;
-    //     }
-    // }
 }
 
 float roundDecimal(int n)

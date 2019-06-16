@@ -281,15 +281,15 @@ scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
 
 void client::EngineGraphic::explosion()
 {
-    // try {
-    //     float x = _root.get<float>("x");
-    //     float y = _root.get<float>("z");
-    //     size_t id = _root.get<size_t>("id");
-    //     _nodeBomb.at(id)->remove();
-    //     _nodeBomb.erase(_nodeBomb.begin() + id);
-    // } catch (const std::exception &e) {
-    //     throw(error::ClientError(e.what()));
-    // }
+    try {
+        float x = _root.get<float>("x");
+        float y = _root.get<float>("z");
+        size_t id = _root.get<size_t>("id");
+        _nodeBomb.at(id)->remove();
+        _nodeBomb.erase(_nodeBomb.begin() + id);
+    } catch (const std::exception &e) {
+        throw(error::ClientError(e.what()));
+    }
 }
 
 void client::EngineGraphic::dropBonus()
