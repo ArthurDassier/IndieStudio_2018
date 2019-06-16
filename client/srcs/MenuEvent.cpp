@@ -7,6 +7,7 @@ MenuEvent::MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MOD
 {
     _sfx.loadConfig();
     _sfx.playMusic("menu");
+    _sfx.getMusic("menu")->setLoop(true);
     _menu.changeMenu("client/config/MainMenu.json");
     _functions["startSolo"] = &MenuEvent::startSolo;
     _functions["host"] = &MenuEvent::host;
@@ -21,6 +22,7 @@ MenuEvent::MenuEvent(gui::IGUIEnvironment *env, video::IVideoDriver *driver, MOD
     _functions["sound"] = &MenuEvent::soundVolume;
     _functions["music"] = &MenuEvent::musicVolume;
     _functions["saveOption"] = &MenuEvent::saveOptions;
+    _functions["returnOptions"] = &MenuEvent::returnFromOptions;
 }
 
 std::string MenuEvent::launchFunction(s32 id)
@@ -52,6 +54,7 @@ std::string MenuEvent::startSolo(s32 id)
         _mode = GAME;
         _sfx.pauseMusic("menu");
         _sfx.playMusic("game");
+        _sfx.getMusic("game")->setLoop(true);
         return "connectSolo";
     }
     return "";
@@ -65,6 +68,7 @@ std::string MenuEvent::host(s32 id)
         _mode = GAME;
         _sfx.pauseMusic("menu");
         _sfx.playMusic("game");
+        _sfx.getMusic("game")->setLoop(true);
         return "connectHost";
     }
     return "";
@@ -151,6 +155,16 @@ std::string MenuEvent::musicVolume(s32 id)
 
 std::string MenuEvent::saveOptions(s32 id)
 {
+    _sfx.playSound("button");
     _sfx.updateConfig();
+    _menu.changeMenu(_menu.getLastMenu());
+    return "";
+}
+
+std::string MenuEvent::returnFromOptions(s32 id)
+{
+    _sfx.resetVolume();
+    _sfx.playSound("button");
+    _menu.changeMenu(_menu.getLastMenu());
     return "";
 }

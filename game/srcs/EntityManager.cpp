@@ -76,4 +76,5 @@ void game::EntityManager::deleteFromPos(float x, float z)
             return;
         }
     }
+    std::cout << "delete\n";
 }

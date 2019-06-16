@@ -9,11 +9,11 @@
 
 game::Bomb::Bomb():
     Explosion(game::bomb, 0, 0),
-    _power(2)
+    _power(3)
 {
 }
 
-game::Bomb::Bomb(float x, float y, size_t power = 2):
+game::Bomb::Bomb(float x, float y, size_t power = 3):
     Explosion(game::bomb, x, y),
     _power(power)
 {

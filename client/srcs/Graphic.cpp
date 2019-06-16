@@ -28,7 +28,8 @@ client::EngineGraphic::EngineGraphic():
     _sfx("client/config/audio.json"),
     _clock(),
     _oldMode(MAINMENU),
-    _walk(0)
+    _walk(0),
+    _speed(2)
 {
     _device->setResizable(true);
     _device->setWindowCaption(L"Bomber Ninja Gaiden");
@@ -46,6 +47,7 @@ client::EngineGraphic::EngineGraphic():
     _fMap.emplace(std::make_pair("destroy", std::bind(&EngineGraphic::destroy, this)));
     _fMap.emplace(std::make_pair("dropBonus", std::bind(&EngineGraphic::dropBonus, this)));
     _fMap.emplace(std::make_pair("removeBonus", std::bind(&EngineGraphic::removeBonus, this)));
+    _fMap.emplace(std::make_pair("setSpeed", std::bind(&EngineGraphic::setSpeed, this)));
 }
 
 client::EngineGraphic::~EngineGraphic()
@@ -135,7 +137,7 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
 
     if (walk == false) {
         _sfx.playSound("walk");
-        _sfx.getSound("walk")->get()->setLoop(true);
+        _sfx.getSound("walk")->setLoop(true);
         walk = true;
     }
     for (; it != _charList.end(); it++)
@@ -143,16 +145,16 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
             break;
     posi = it->getNode()->getPosition();
     if (sens.compare("up") == 0) {
-        posi.Z += 2;
+        posi.Z += _speed;
         updateEntity(it, posi, core::vector3df(0, 0, 0));
     } else if (sens.compare("down") == 0) {
-        posi.Z -= 2;
+        posi.Z -= _speed;
         updateEntity(it, posi, core::vector3df(0, 160, 0));
     } else if (sens.compare("left") == 0) {
-        posi.X -= 2;
+        posi.X -= _speed;
         updateEntity(it, posi, core::vector3df(0, -80, 0));
     } else if (sens.compare("right") == 0) {
-        posi.X += 2;
+        posi.X += _speed;
         updateEntity(it, posi, core::vector3df(0, 80, 0));
     }
 }
@@ -162,10 +164,10 @@ const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
     it->getNode()->setRotation(rotation);
-    if (it->getNode()->getEndFrame() != 13) {
-        it->getNode()->setFrameLoop(0, 13);
-        it->getNode()->setAnimationSpeed(15);
-    }
+    it->getNode()->setFrameLoop(_walk, _walk);
+    _walk++;
+    if (_walk == 14)
+        _walk = 0;
 }
 
 void client::EngineGraphic::create_map(std::string map)
@@ -315,17 +317,14 @@ void client::EngineGraphic::dropBonus()
         node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("SpeedUp"));
         node->setMaterialTexture(0, _loader.getTexture(_skins[4]));
         node->setScale(core::vector3df(2, 2, 2));
-
     }
     if (bonusType.compare("BombUp") == 0) {
         node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("BombUp"));
         node->setScale(core::vector3df(1, 1, 1));
-
     }
     if (bonusType.compare("FireUp") == 0) {
         node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("FireUp"));
         node->setScale(core::vector3df(0.5, 0.5, 0.5));
-
     }
     if (bonusType.compare("WallPass") == 0) {
         node = _smgr->addAnimatedMeshSceneNode(_loader.getModel("WallPass"));
@@ -350,6 +349,11 @@ void client::EngineGraphic::removeBonus()
         return;
     _nodeBonus[i]->remove();
     _nodeBonus.erase(_nodeBonus.begin() + i);
+}
+
+void client::EngineGraphic::setSpeed()
+{
+    _speed = _root.get<std::size_t>("speed");
 }
 
 void client::EngineGraphic::refreshFire()
@@ -407,7 +411,7 @@ void client::EngineGraphic::destroy()
 
 void client::EngineGraphic::death()
 {
-    exit(0);
+    // exit(0);
     // std::size_t id = _root.get<std::size_t>("id");
     // float x = _root.get<float>("x");
     // float y = _root.get<float>("y");

@@ -29,6 +29,7 @@ class MenuEvent
         std::string returnMain(s32 id);
         std::string returnLastMenu(s32 id);
         std::string joinServer(s32 id);
+        std::string returnFromOptions(s32 id);
         std::unordered_map<std::string, elem_f> _functions;
         CustomMenu _menu;
         MODE &_mode;

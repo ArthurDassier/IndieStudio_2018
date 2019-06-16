@@ -33,7 +33,7 @@
         "pos": [250,300,350,325],
         "texture": 0,
         "id": 5,
-        "name": "return",
+        "name": "returnOptions",
         "text": "Return"
     },
     "buttonSave": {

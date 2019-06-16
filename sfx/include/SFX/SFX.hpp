@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "Audio.hpp"
+#include "Error/Error.hpp"
 #include "Utils/ConfigManager.hpp"
 
 namespace sfx
@@ -37,11 +38,11 @@ namespace sfx
 
             void addMusic(const std::string &, const std::string &);
             void addMusic(const Music &);
-            std::shared_ptr<Music> getMusic(const std::string &) const noexcept;
+            std::shared_ptr<sf::Music> getMusic(const std::string &) const;
 
             void addSound(const std::string &, const std::string &);
             void addSound(const Sound &);
-            std::shared_ptr<Sound> getSound(const std::string &) const noexcept;
+            std::shared_ptr<sf::Sound> getSound(const std::string &) const;
 
             void playMusic(const std::string &);
             void playSound(const std::string &);

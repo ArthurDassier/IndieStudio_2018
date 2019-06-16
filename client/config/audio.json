@@ -9,9 +9,9 @@
             }
         },
         "sound": {
-            "volume": "60",
+            "volume": "100",
             "sounds": {
-                "button": "media\/sounds\/button_effect.ogg",
+                "button": "media\/sounds\/button_effect3.ogg",
                 "play": "media\/sounds\/button_effect2.ogg",
                 "damage": "media\/sounds\/minecraft2.ogg",
                 "bomb": "media\/sounds\/bomb.ogg",
