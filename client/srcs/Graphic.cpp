@@ -393,21 +393,22 @@ void client::EngineGraphic::destroy()
 
 void client::EngineGraphic::death()
 {
-    std::size_t id = _root.get<std::size_t>("id");
-    float x = _root.get<float>("x");
-    float y = _root.get<float>("y");
-    float z = _root.get<float>("z");
-    core::vector3df pos = {x, y, z};
-
-    for (auto &it : _charList) {
-        if (it.getId() != id)
-            continue;
-        it.getNode()->setPosition(pos);
-        if (it.getNode()->getEndFrame() != 13) {
-            it.getNode()->setFrameLoop(0, 13);
-            it.getNode()->setAnimationSpeed(15);
-        }
-    }
+    exit(0);
+    // std::size_t id = _root.get<std::size_t>("id");
+    // float x = _root.get<float>("x");
+    // float y = _root.get<float>("y");
+    // float z = _root.get<float>("z");
+    // core::vector3df pos = {x, y, z};
+    //
+    // for (auto &it : _charList) {
+    //     if (it.getId() != id)
+    //         continue;
+    //     it.getNode()->setPosition(pos);
+    //     if (it.getNode()->getEndFrame() != 13) {
+    //         it.getNode()->setFrameLoop(0, 13);
+    //         it.getNode()->setAnimationSpeed(15);
+    //     }
+    // }
 }
 
 void client::EngineGraphic::bomb()
