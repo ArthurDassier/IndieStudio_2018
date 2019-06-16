@@ -108,6 +108,7 @@ namespace client
             void destroy();
             void dropBonus();
             void removeBonus();
+            void setSpeed();
 
             scene::IParticleSystemSceneNode *fire(float, float);
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
@@ -162,5 +163,6 @@ namespace client
             std::map<int, const scene::IAnimatedMesh *> _models;
             MODE _oldMode;
             float _walk;
+            std::size_t _speed;
     };
 }; // namespace client
