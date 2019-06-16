@@ -321,7 +321,7 @@ void game::Game::fillEntitiesMap(const std::string map)
     for (int i = 0; i != map.size(); i++) {
         if (map[i] == '1') {
             Block b;
-            b.setPosition({x, 0, y});
+            b.setPosition({x, 5, y});
             _EM.addEntity(b);
         }
         else if (map[i] == '2') {
@@ -343,8 +343,9 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.x = x;
     pos_entity.y = 5;
     pos_entity.z = z;
-
-    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 20 != 1)
+    if (_EM.getEntityType(pos_entity) != game::EntityType::brittleBlock)
+        return;
+    if (std::rand() % 8 != 1)
         return;
     int k = std::rand() % 4;
     _packet.setType("dropBonus");

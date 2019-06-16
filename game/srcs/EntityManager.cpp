@@ -13,6 +13,7 @@ game::p_entity::pointer game::EntityManager::getEntity(s_pos pos)
                             [&](const std::unique_ptr<Entity> &i) {
                                 return i->getPosition().x == pos.x && i->getPosition().z == pos.z;
                             });
+    std::cout << _entities.size() << std::endl;
     if (it != _entities.end())
         return it->get();
     else
@@ -73,10 +74,11 @@ void game::EntityManager::deleteFromPos(float x, float z)
     for (int i = 0; i != _entities.size(); i++) {
         if (_entities[i].get()->getPosition().x == x && _entities[i].get()->getPosition().z == z) {
             _entities.erase(_entities.begin() + i);
+            std::cout << "ENTITY DELETED!!!" << std::endl;
             return;
         }
     }
-    std::cout << "delete\n";
+    // std::cout << "delete\n";
 }
 
 game::p_entity::pointer game::EntityManager::getBot()

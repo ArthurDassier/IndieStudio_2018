@@ -37,7 +37,7 @@ void server::Session::deliver(std::string message)
 {
     bool write_in_progress = !_message_queue.empty();
 
-    std::cout << "packet: " << message << std::endl;
+    // std::cout << "packet: " << message << std::endl;
     _message_queue.push_back(message);
     if (!write_in_progress) {
         try {
