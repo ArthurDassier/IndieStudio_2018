@@ -44,7 +44,7 @@ int client::Core::menuEvent()
     _instruction = _menuEvent.launchFunction(_graph.getGuiID());
     if (strStartWith(_instruction, "join")) {
         _infosConnect = getInfos(_instruction);
-        _logicPause.getClient().connect("connect", _infosConnect[0], _infosConnect[1]);
+        _logicPause.getClient().connect("connection", _infosConnect[0], _infosConnect[1]);
         _logicPause.getClient().start_receive();
         _logicPause.setMode(GAME);
     }
