@@ -385,10 +385,8 @@ std::string const game::Game::getMap()
 
 void game::Game::iniNewBot()
 {
-    game::s_pos pos;
-
-    pos = {81, 5, 11};
-    // _bot.setDirection("right");
+    game::s_pos pos = {81, 5, 11};
+    
     _bot.setPosition(pos);
     _bot.setSpawn(pos);
     _bot.setSkin(1);
@@ -400,6 +398,8 @@ void game::Game::iniNewBot()
     _packet.addData("y", _bot.getPosition().y);
     _packet.addData("z", _bot.getPosition().z);
     _packet.addData("skin", "1");
+    _cooldownMove = std::chrono::high_resolution_clock::now();
+    _cooldownBombBot = std::chrono::high_resolution_clock::now();
     for (auto &it : *_participants)
         it->deliver(_packet.getPacket());
     _packet.clear();

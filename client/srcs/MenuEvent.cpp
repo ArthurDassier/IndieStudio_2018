@@ -69,9 +69,7 @@ std::string MenuEvent::host(s32 id)
         _sfx.pauseMusic("menu");
         _sfx.playMusic("game");
         _sfx.getMusic("game")->setLoop(true);
-        return "connectHost";
     }
-    return "";
 }
 
 std::string MenuEvent::menuMulti(s32 id)

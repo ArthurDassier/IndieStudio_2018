@@ -22,7 +22,6 @@
 #include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
-// #include "Utils/ConfigManager.hpp"
 #include "Utils/Packet.hpp"
 #include "Game/Lib.hpp"
 #include "Game/Bot.hpp"
