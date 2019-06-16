@@ -22,7 +22,6 @@
 #include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
 #include "Server/Session.hpp"
-// #include "Utils/ConfigManager.hpp"
 #include "Utils/Packet.hpp"
 #include "Game/Lib.hpp"
 #include "Game/Bot.hpp"
@@ -74,11 +73,12 @@ namespace game
 
             void dropBonus(float x, float z);
             void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
-            void updateBot();    
+            void updateBot();
             void checkDeath(float x, float z);
             void setSolo(bool solo);
             bool isSolo();
             void setBotCreated(bool bot);
+            void deathBot();
         private:
             Generation _generation;
             EntityManager _EM;

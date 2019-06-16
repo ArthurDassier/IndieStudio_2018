@@ -50,12 +50,13 @@ namespace game
             size_t &getSpeed() noexcept;
 
             bool canWallPass = false;
+            size_t _refreshTime = 1;
+            size_t _power = 2;
+            size_t _speed = 2;
         private:
             t_id _id;
             s_pos _pos;
             s_pos _spawn;
-            size_t _power;
-            size_t _speed;
             std::size_t _hp;
             irr::core::vector3df _pos3df;
             int _skin;
