@@ -261,7 +261,7 @@ void game::Game::putBomb(t_id id)
 
     for (auto &it : *_participants) {
         if (it->getId() == id) {
-            if (static_cast<Character *>(it.get())->getCooldownBomb() >= 0.5) {
+            if (static_cast<Character *>(it.get())->getCooldownBomb() >= static_cast<Character *>(it.get())->_refreshTime) {
                 pos_bomb = roundPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
                 _packet.setType("bomb");
                 _packet.addData("x", pos_bomb.x);
@@ -386,12 +386,14 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     if (_EM.getEntityType(pos_player) == game::EntityType::SpeedUp)
         entity->_speed += 1;
     else if (_EM.getEntityType(pos_player) == game::EntityType::BombUp) {
+        if (entity->_refreshTime > 1)
+            entity->_refreshTime -= 1;
     }
     else if (_EM.getEntityType(pos_player) == game::EntityType::FireUp) {
         entity->_power += 1;
     }
     else if (_EM.getEntityType(pos_player) == game::EntityType::WallPass) {
-        entity->canWallPass = true;
+        entity->canWallPass = !entity->canWallPass;
     }
     else
         return;

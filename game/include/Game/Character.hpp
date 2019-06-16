@@ -50,6 +50,7 @@ namespace game
             size_t _power = 2;
             size_t _speed = 2;
             bool canWallPass = false;
+            size_t _refreshTime = 3;
         private:
             t_id _id;
             s_pos _pos;
