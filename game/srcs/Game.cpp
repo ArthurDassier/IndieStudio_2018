@@ -65,97 +65,38 @@ void game::Game::updatePosition(const t_id id, const std::string direction)
 void game::Game::destroyV(size_t power, s_pos pos)
 {
     s_pos pos_block = pos;
-    bool send = false;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z += 10;
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z + i * 10});
-        send = true;
-        if (_packet.getVectorSize() == 3) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-        dropBonus(pos_block.x, pos_block.z);
     }
-    if (send)
-        if (_packet.getVectorSize() != 0) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
     pos_block = pos;
-    send = false;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z -= 10;
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z - i * 10});
-        send = true;
-        if (_packet.getVectorSize() == 3) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-        dropBonus(pos_block.x, pos_block.z);
     }
-    if (send)
-        if (_packet.getVectorSize() != 0) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
 }
 
 void game::Game::destroyH(size_t power, s_pos pos)
 {
     s_pos pos_block = pos;
-    bool send = false;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.x += 10;
         _packet.addToVector<std::array<float, 2>>({pos.x + i * 10, pos.z});
-        send = true;
-        if (_packet.getVectorSize() == 3) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-        dropBonus(pos_block.x, pos_block.z);
     }
-    if (send) {
-        if (_packet.getVectorSize() != 0) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-    }
-    send = false;
     pos_block = pos;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
         checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.x -= 10;
         _packet.addToVector<std::array<float, 2>>({pos.x - i * 10, pos.z});
-        send = true;
-        if (_packet.getVectorSize() == 3) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-        dropBonus(pos_block.x, pos_block.z);
-    }
-    if (send) {
-        if(_packet.getVectorSize() != 0) {
-            _packet.setType("destroy");
-            _packet.addList("blocks", _packet.getVector());
-            sendPacket(_packet.getPacket());
-        }
-        dropBonus(pos_block.x, pos_block.z);
     }
 }
 
@@ -164,10 +105,15 @@ void game::Game::destroyMap(size_t power, float x, float z)
     s_pos pos_block;
     pos_block.x = x;
     pos_block.z = z;
-    bool send = false;
 
     destroyV(power, pos_block);
     destroyH(power, pos_block);
+    if (_packet.getVectorSize() != 0) {
+        _packet.setType("destroy");
+        _packet.addList("blocks", _packet.getVector());
+        sendPacket(_packet.getPacket());
+        dropBonus(pos_block.x, pos_block.y);
+    }
 }
 
 void game::Game::refreshBomb()
@@ -187,20 +133,6 @@ void game::Game::refreshBomb()
             i--;
         }
     }
-    // for (int i = 0; i != _allFire.size(); i++) {
-    //     _allFire[i].refresh();
-    //     if (_allFire[i].getAlive() == false) {
-    //         _packet.setType("water");
-    //         _packet.addData("x", _allFire[i].getPosX());
-    //         _packet.addData("z", _allFire[i].getPosZ());
-    //         _packet.addData("id", _allFire.size() - 1);
-    //         for (auto &it : *_participants)
-    //             it->deliver(_packet.getPacket());
-    //         _packet.clear();
-    //         _allFire.erase(_allFire.begin() + i);
-    //         i--;
-    //     }
-    // }
 }
 
 float roundDecimal(int n)

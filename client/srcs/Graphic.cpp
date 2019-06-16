@@ -13,7 +13,7 @@ client::EngineGraphic::EngineGraphic():
     _device(
         irr::createDevice(
             video::EDT_OPENGL,
-            core::dimension2d<u32>(1920, 1080),
+            core::dimension2d<u32>(960, 540),
             16,
             false,
             false,
@@ -25,16 +25,18 @@ client::EngineGraphic::EngineGraphic():
     _smgr(_device->getSceneManager()),
     _guienv(_device->getGUIEnvironment()),
     _driverType(video::EDT_OPENGL),
+    _sfx("client/config/audio.json"),
     _clock(),
     _oldMode(MAINMENU),
     _walk(0)
 {
     _device->setResizable(true);
-    _device->setWindowCaption(L"Bomberman");
+    _device->setWindowCaption(L"Bomber Ninja Gaiden");
     _loader.setSceneManager(_smgr);
     _loader.setVideoDriver(_driver);
     _loader.loadModels();
     _loader.loadTextures();
+    _sfx.loadConfig();
     _fMap.emplace(std::make_pair("move_other", std::bind(&EngineGraphic::move_other, this)));
     _fMap.emplace(std::make_pair("local_player", std::bind(&EngineGraphic::local_player, this)));
     _fMap.emplace(std::make_pair("new_player", std::bind(&EngineGraphic::new_player, this)));
@@ -129,7 +131,13 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
     scene::IAnimatedMeshSceneNode *tmp;
     auto it = _charList.begin();
     core::vector3df posi;
+    static bool walk = false;
 
+    if (walk == false) {
+        _sfx.playSound("walk");
+        _sfx.getSound("walk")->get()->setLoop(true);
+        walk = true;
+    }
     for (; it != _charList.end(); it++)
         if (it->getId() == std::stol(id))
             break;
@@ -154,6 +162,10 @@ const core::vector3df pos, const core::vector3df rotation)
 {
     it->getNode()->setPosition(pos);
     it->getNode()->setRotation(rotation);
+    if (it->getNode()->getEndFrame() != 13) {
+        it->getNode()->setFrameLoop(0, 13);
+        it->getNode()->setAnimationSpeed(15);
+    }
 }
 
 void client::EngineGraphic::create_map(std::string map)
@@ -273,7 +285,7 @@ scene::IParticleSystemSceneNode *client::EngineGraphic::fire(float x, float z)
     ps->setScale(core::vector3df(0.3, 0.3, 0.3));
     ps->setMaterialFlag(video::EMF_LIGHTING, false);
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-    ps->setMaterialTexture(0,  _loader.getTexture("fire"));
+    ps->setMaterialTexture(0, _loader.getTexture("fire"));
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
     return ps;
 }
@@ -354,6 +366,7 @@ void client::EngineGraphic::refreshFire()
             }
             _listFire.erase(_listFire.begin() + i);
             i--;
+            _sfx.stopSound("fire");
         }
     }
 }
@@ -374,6 +387,7 @@ void client::EngineGraphic::destroy()
     } catch (const std::exception &e) {
         throw(error::ClientError("DESTROY"));
     }
+    _sfx.playSound("fire");
     for (auto &it : getPos) {
         flames.push_back(fire(it.at(0), it.at(1)));
         for (; i != _map.size(); i++) {
@@ -423,6 +437,7 @@ void client::EngineGraphic::bomb()
         node->setScale(core::vector3df(30, 30, 30));
         node->setMaterialFlag(video::EMF_LIGHTING, false);
         _nodeBomb.push_back(node);
+        _sfx.playSound("bomb");
     } catch(const std::exception &e) {
         throw(error::ClientError("BOMB"));
     }

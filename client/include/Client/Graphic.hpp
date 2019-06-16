@@ -20,6 +20,7 @@
 #include "Client/GraphicLoader.hpp"
 #include "Client/LogicPause.hpp"
 #include "Game/Character.hpp"
+#include "SFX/SFX.hpp"
 
 using namespace irr;
 
@@ -138,6 +139,7 @@ namespace client
             scene::ISceneManager *_smgr;
             gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
+            sfx::SFX _sfx;
             std::vector<Character> _charList;
             std::vector<scene::ISceneNode*> _map;
             Clock _clock;
