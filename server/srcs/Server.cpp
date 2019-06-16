@@ -93,6 +93,7 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
 
 void server::Server::connection()
 {
+    std::cout << "multi" << std::endl;
     if (_room.nbParticipants() == 4)
         return;
     _pause = false;
@@ -102,15 +103,13 @@ void server::Server::connection()
     
 
     if (_room.nbParticipants() == 1) {
-        // _game.setBotActive(true);
         _game.setPlayer(_room.getParticipants()->front());
     }
-    // else
-        // _game.setBotActive(false);
 }
 
 void server::Server::solo()
 {
+    std::cout << "solo" << std::endl;
     _pause = false;
     _session.reset(new Session(_socket, _remote_endpoint, _room));
     _session->start();

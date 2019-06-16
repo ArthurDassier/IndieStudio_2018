@@ -67,8 +67,8 @@ int client::Core::menuEvent()
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     if (strStartWith(_instruction, "connect")) {
-        if (_instruction == "connectMulti")
-            _logicPause.getClient().connect("connect");
+        if (_instruction == "connectHost")
+            _logicPause.getClient().connect("connection");
         else
             _logicPause.getClient().connect();
         _logicPause.getClient().start_receive();
