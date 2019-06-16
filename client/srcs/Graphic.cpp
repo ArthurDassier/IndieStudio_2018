@@ -393,7 +393,7 @@ void client::EngineGraphic::destroy()
 
 void client::EngineGraphic::death()
 {
-    exit(0);
+    // exit(0);
     // std::size_t id = _root.get<std::size_t>("id");
     // float x = _root.get<float>("x");
     // float y = _root.get<float>("y");
