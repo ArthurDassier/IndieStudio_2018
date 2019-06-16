@@ -43,34 +43,37 @@ int client::Core::menuEvent()
 {
     _instruction = _menuEvent.launchFunction(_graph.getGuiID());
     if (strStartWith(_instruction, "join")) {
-            _infosConnect = getInfos(_instruction);
-            _logicPause.getClient().connect(_infosConnect[0], _infosConnect[1]);
-            _logicPause.getClient().start_receive();
-            _logicPause.setMode(GAME);
-        }
-        if (_instruction == "quit") {
-            if (_t1.joinable()) {
-                _logicPause.buildJSON("quit");
-                _logicPause.getClient().sendToServer(_logicPause.getData());
-            }
-            return (1);
-        }
-        if (_instruction == "endPause") {
-            _logicPause.buildJSON("pause");
+        _infosConnect = getInfos(_instruction);
+        _logicPause.getClient().connect("connection", _infosConnect[0], _infosConnect[1]);
+        _logicPause.getClient().start_receive();
+        _logicPause.setMode(GAME);
+    }
+    if (_instruction == "quit") {
+        if (_t1.joinable()) {
+            _logicPause.buildJSON("quit");
             _logicPause.getClient().sendToServer(_logicPause.getData());
-            _logicPause.setMode(GAME);
-            _isPause = false;
         }
-        if (_instruction == "connectSolo" || _instruction == "connectHost") {
-            _isHost = true;
-            _t1 = std::thread(run_server);
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-        }
-        if (strStartWith(_instruction, "connect")) {
+        return (1);
+    }
+    if (_instruction == "endPause") {
+        _logicPause.buildJSON("pause");
+        _logicPause.getClient().sendToServer(_logicPause.getData());
+        _logicPause.setMode(GAME);
+        _isPause = false;
+    }
+    if (_instruction == "connectSolo" || _instruction == "connectHost") {
+        _isHost = true;
+        _t1 = std::thread(run_server);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    if (strStartWith(_instruction, "connect")) {
+        if (_instruction == "connectHost")
+            _logicPause.getClient().connect("connection");
+        else
             _logicPause.getClient().connect();
-            _logicPause.getClient().start_receive();
-        }
-        return (0);
+        _logicPause.getClient().start_receive();
+    }
+    return (0);
 }
 
 void client::Core::startCore()

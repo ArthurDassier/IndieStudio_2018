@@ -52,6 +52,7 @@ namespace server
             boost::property_tree::ptree getRoot() const noexcept;
 
             void connection();
+            void solo();
             void movement();
             void pause();
             void space();
@@ -59,7 +60,7 @@ namespace server
             boost::asio::io_service _io_service;
             boost::shared_ptr<boost::asio::ip::udp::socket> _socket;
             boost::asio::ip::udp::endpoint _remote_endpoint;
-            std::array<char, 256> _recv_buffer = {0};
+            std::array<char, 1024> _recv_buffer = {0};
             boost::shared_ptr<Session> _session;
             boost::property_tree::ptree _root;
             std::map<std::string, std::function<void()>> _fMap;

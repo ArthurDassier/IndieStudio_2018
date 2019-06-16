@@ -1,35 +1,35 @@
 {
     "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
     "button1": {
-        "pos": [400,200,550,225],
+        "pos": [400,150,550,175],
         "texture": 0,
         "id": 0,
-        "name": "optionMenu",
-        "text": "Options"
-    },
-    "button2": {
-        "pos": [400,250,550,275],
-        "texture": 0,
-        "id": 1,
-        "name": "help",
-        "text": "Help"
-    },
-    "button3": {
-        "pos": [400,300,550,325],
-        "texture": 0,
-        "id": 2,
         "name": "resumeGame",
         "text": "Resume"
     },
+    "button2": {
+        "pos": [400,200,550,225],
+        "texture": 0,
+        "id": 1,
+        "name": "optionMenu",
+        "text": "Options"
+    },
+    "button3": {
+        "pos": [400,250,550,275],
+        "texture": 0,
+        "id": 2,
+        "name": "help",
+        "text": "Help"
+    },
     "button4": {
-        "pos": [400,350,550,375],
+        "pos": [400,300,550,325],
         "texture": 0,
         "id": 3,
         "name": "quitGame",
         "text": "Quit Game"
     },
     "button5": {
-        "pos": [400,400,550,425],
+        "pos": [400,350,550,375],
         "texture": 0,
         "id": 4,
         "name": "quit",

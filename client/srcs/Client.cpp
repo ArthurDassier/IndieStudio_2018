@@ -20,7 +20,7 @@ void client::Client::call_poll_one()
     _io_service.poll_one();
 }
 
-void client::Client::connect(std::string ip_addr, std::string port)
+void client::Client::connect(std::string typeConnect, std::string ip_addr, std::string port)
 {
     try {
         boost::asio::ip::udp::resolver resolver(_io_service);
@@ -28,13 +28,13 @@ void client::Client::connect(std::string ip_addr, std::string port)
         _remote_endpoint = *resolver.resolve(query);
         boost::property_tree::ptree root;
 
-        root.put("type", "connection");
+        root.put("type", typeConnect);
         std::ostringstream buf;
         boost::property_tree::write_json(buf, root, false);
         std::string data = buf.str();
 
         _sock.open(boost::asio::ip::udp::v4());
-        _sock.send_to(boost::asio::buffer(data), _remote_endpoint);
+        std::cout << _sock.send_to(boost::asio::buffer(data), _remote_endpoint) << std::endl;
     } catch (std::exception& e) {
         throw(error::ClientError(e.what()));
     }

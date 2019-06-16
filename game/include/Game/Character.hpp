@@ -45,21 +45,23 @@ namespace game
             void setCooldownBomb();
             size_t getCooldownBomb();
 
-            size_t getPower();
+            size_t &getPower() noexcept;
 
-            size_t _power = 2;
-            size_t _speed = 2;
+            size_t &getSpeed() noexcept;
+
             bool canWallPass = false;
             size_t _refreshTime = 1;
+            size_t _power = 2;
+            size_t _speed = 2;
         private:
             t_id _id;
             s_pos _pos;
             s_pos _spawn;
+            std::size_t _hp;
             irr::core::vector3df _pos3df;
             int _skin;
             std::string _direction;
             irr::scene::IAnimatedMeshSceneNode *_node;
-            std::size_t _hp;
             std::chrono::time_point<std::chrono::high_resolution_clock> _cooldownBomb;
     };
 }; // namespace game

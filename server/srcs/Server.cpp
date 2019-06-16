@@ -23,8 +23,11 @@ server::Server::Server() :
     _fMap.emplace(std::make_pair("pause", std::bind(&Server::pause, this)));
     _fMap.emplace(std::make_pair("space", std::bind(&Server::space, this)));
     _fMap.emplace(std::make_pair("quit", std::bind(&Server::stop, this)));
+    _fMap.emplace(std::make_pair("solo", std::bind(&Server::solo, this)));
     _room.setMap(_game.getMap());
     start_receive();
+    _game.setSolo(false);
+    _game.setBotCreated(false);
 }
 
 server::Server::~Server()
@@ -90,20 +93,29 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
 
 void server::Server::connection()
 {
+    std::cout << "multi" << std::endl;
     if (_room.nbParticipants() == 4)
         return;
     _pause = false;
     _session.reset(new Session(_socket, _remote_endpoint, _room));
     _session->start();
     setHasReceived(true);
-    
+
 
     if (_room.nbParticipants() == 1) {
-        // _game.setBotActive(true);
         _game.setPlayer(_room.getParticipants()->front());
     }
-    // else
-        // _game.setBotActive(false);
+}
+
+void server::Server::solo()
+{
+    std::cout << "solo" << std::endl;
+    _pause = false;
+    _session.reset(new Session(_socket, _remote_endpoint, _room));
+    _session->start();
+    setHasReceived(true);
+    _game.setSolo(true);
+    _game.setPlayer(_room.getParticipants()->front());
 }
 
 void server::Server::movement()
@@ -122,8 +134,10 @@ void server::Server::space()
 
 void server::Server::pause()
 {
-    if (_room.nbParticipants() == 1)
+    if (_game.isSolo()) {
+        _game.setBotActive(!_game.isBotActive());
         _pause = !_pause;
+    }
 }
 
 bool server::Server::getPause() const noexcept
