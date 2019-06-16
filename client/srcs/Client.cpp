@@ -34,7 +34,7 @@ void client::Client::connect(std::string ip_addr, std::string port)
         std::string data = buf.str();
 
         _sock.open(boost::asio::ip::udp::v4());
-        _sock.send_to(boost::asio::buffer(data), _remote_endpoint);
+        std::cout << _sock.send_to(boost::asio::buffer(data), _remote_endpoint) << std::endl;
     } catch (std::exception& e) {
         throw(error::ClientError(e.what()));
     }
