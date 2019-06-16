@@ -137,7 +137,7 @@ void client::EngineGraphic::moveEntity(std::string sens, std::string id)
 
     if (walk == false) {
         _sfx.playSound("walk");
-        _sfx.getSound("walk")->get()->setLoop(true);
+        _sfx.getSound("walk")->setLoop(true);
         walk = true;
     }
     for (; it != _charList.end(); it++)
