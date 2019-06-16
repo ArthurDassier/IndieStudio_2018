@@ -8,7 +8,6 @@
 #include "Game/BombUp.hpp"
 #include "Game/Character.hpp"
 #include "Game/Game.hpp"
-#include "Game/Ground.hpp"
 #include "Game/FireUp.hpp"
 #include "Game/IEntity.hpp"
 #include "Game/MovableEntity.hpp"
@@ -64,8 +63,8 @@ void game::Game::destroyV(size_t power, s_pos pos)
 {
     s_pos pos_block = pos;
 
-
     for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z + i * 10});
         if (_EM.getEntityType(pos_block) == game::EntityType::brittleBlock) {
             _EM.deleteFromPos(pos_block.x, pos_block.z);
@@ -77,6 +76,7 @@ void game::Game::destroyV(size_t power, s_pos pos)
     }
     pos_block = pos;
     for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z - i * 10});
         if (_EM.getEntityType(pos_block) == game::EntityType::brittleBlock) {
             _EM.deleteFromPos(pos_block.x, pos_block.z);
@@ -93,6 +93,7 @@ void game::Game::destroyH(size_t power, s_pos pos)
     s_pos pos_block = pos;
 
     for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _packet.addToVector<std::array<float, 2>>({pos.x + i * 10, pos.z});
         if (_EM.getEntityType(pos_block) == game::EntityType::brittleBlock) {
             _EM.deleteFromPos(pos_block.x, pos_block.z);
@@ -104,6 +105,7 @@ void game::Game::destroyH(size_t power, s_pos pos)
     }
     pos_block = pos;
     for (int i = 0; i != power && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _packet.addToVector<std::array<float, 2>>({pos.x - i * 10, pos.z});
         if (_EM.getEntityType(pos_block) == game::EntityType::brittleBlock) {
             _EM.deleteFromPos(pos_block.x, pos_block.z);
@@ -219,12 +221,7 @@ void game::Game::fillEntitiesMap(const std::string map)
     float y = 0;
 
     for (auto &it : map) {
-        if (it == '0') {
-            Ground g;
-            g.setPosition({x, 0, y});
-            _EM.addEntity(g);
-        }
-        else if (it == '1') {
+        if (it == '1') {
             Block b;
             b.setPosition({x, 0, y});
             _EM.addEntity(b);
@@ -249,7 +246,7 @@ void game::Game::dropBonus(float x, float z)
     pos_entity.y = 5;
     pos_entity.z = z;
 
-    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 5 != 1)
+    if (_EM.getEntityType(pos_entity) != game::EntityType::block && std::rand() % 10 != 1)
         return;
     int k = std::rand() % 4;
     _packet.setType("dropBonus");
@@ -302,7 +299,7 @@ void game::Game::takeBonus(t_entity::element_type* entity, float x, float z, std
     }
     else
         return;
-    _EM.deleteFromPos(x, z);
+    _EM.deleteFromPos(pos_player.x, pos_player.z);
     _packet.setType("removeBonus");
     _packet.addData("x", pos_player.x);
     _packet.addData("z", pos_player.z);
@@ -330,4 +327,19 @@ std::string const game::Game::getMap()
 
     fillEntitiesMap(map);
     return map;
+}
+
+
+void game::Game::checkDeath(float x, float z)
+{
+    s_pos pos_player;
+
+    for (auto &it : *_participants) {
+        pos_player = roundPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
+        if (pos_player.x == x && pos_player.z == z) {
+            _packet.setType("death");
+            it->deliver(_packet.getPacket());
+            _packet.clear();
+        }
+    }
 }

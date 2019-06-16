@@ -18,7 +18,6 @@
 #include "Game/Fire.hpp"
 #include "Game/Character.hpp"
 #include "Game/EntityManager.hpp"
-#include "Game/Ground.hpp"
 #include "Game/IEntity.hpp"
 #include "Game/Lib.hpp"
 #include "Game/MovableEntity.hpp"
@@ -67,6 +66,8 @@ namespace game
 
             void dropBonus(float x, float z);
             void takeBonus(t_entity::element_type* entity, float x, float z, std::string sens);
+
+            void checkDeath(float x, float z);
         private:
             Generation _generation;
             EntityManager _EM;
