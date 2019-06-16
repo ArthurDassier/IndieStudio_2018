@@ -87,12 +87,27 @@ void CustomMenu::addButton(pt::ptree elem, core::recti rect)
 
 void CustomMenu::addScrollbar(pt::ptree elem, core::recti rect)
 {
+    std::string txt = elem.get<std::string>("text");
+    std::wstring wtxt(txt.length(), L' ');
+    std::copy(txt.begin(), txt.end(), wtxt.begin());
     gui::IGUIScrollBar *newElem = _env->addScrollBar(true, rect, 0, elem.get<int>("id"));
 
+    newElem->setSmallStep(1);
     newElem->setMax(100);
     newElem->setMin(0);
+    newElem->setPos(100);
     newElem->setName(elem.get<std::string>("name").c_str());
+    newElem->setText(wtxt.c_str());
     _elems.push_back(newElem);
+}
+
+void CustomMenu::addText(pt::ptree elem, core::recti rect)
+{
+    std::string txt = elem.get<std::string>("text");
+    std::wstring wtxt(txt.length(), L' ');
+    std::copy(txt.begin(), txt.end(), wtxt.begin());
+    gui::IGUIStaticText *text =  _env->addStaticText(wtxt.c_str(), rect, false, true, 0, elem.get<int>("id"));
+    _elems.push_back(text);
 }
 
 void CustomMenu::addEditBox(pt::ptree elem, core::recti rect)
@@ -123,6 +138,8 @@ void CustomMenu::addElement(pt::ptree elem, const std::string name)
         this->addImage(elem);
     else if (strStartWith(name, "editBox"))
         this->addEditBox(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
+    else if (strStartWith(name, "text"))
+        this->addText(elem, core::recti(pos[0], pos[1], pos[2], pos[3]));
     else
         exit(84);
 }

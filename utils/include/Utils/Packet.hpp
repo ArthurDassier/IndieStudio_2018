@@ -7,8 +7,10 @@
 
 #pragma once
 
+#include <array>
 #include <ostream>
 #include <sstream>
+#include <vector>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

@@ -1,5 +1,5 @@
 {
-    "textures": ["./client/res/Button.png", "./client/res/menu_back.jpg"],
+    "textures": ["./client/res/Button.png", "./client/res/ninja2.png"],
     "imageBackground": {
         "pos": [],
         "texture": 1,

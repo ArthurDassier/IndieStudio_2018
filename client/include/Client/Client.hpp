@@ -39,7 +39,7 @@ namespace client
             boost::asio::io_service _io_service;
             boost::asio::ip::udp::socket _sock;
             boost::asio::ip::udp::endpoint _remote_endpoint;
-            std::array<char, 256> _recv_buffer = {0};
+            std::array<char, 1024> _recv_buffer = {0};
             boost::property_tree::ptree _root;
     };
 }; // namespace client

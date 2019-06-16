@@ -9,6 +9,7 @@ if (WIN32)
         ../utils/include
         ../server/include
         ../error/include
+        ../sfx/include
     )
     set(CMAKE_CXX_FLAGS "-D_WIN32_WINNT=0x0601 /EHsc")
 else ()
@@ -19,6 +20,7 @@ else ()
         ../utils/include
         ../server/include
         ../error/include
+        ../sfx/include
     )
     set(CMAKE_CXX_FLAGS "-g3")
 
@@ -54,6 +56,7 @@ if (WIN32)
         ../utils/include
         ../server/include
         ../error/include
+        ../sfx/include
     )
     target_link_libraries(
         client
@@ -61,6 +64,7 @@ if (WIN32)
         error
         utils
         bot
+        sfx
     )
 else ()
     target_include_directories(client INTERFACE
@@ -70,12 +74,14 @@ else ()
         ../utils/include
         ../server/include
         ../error/include
+        ../sfx/include
     )
     target_link_libraries(
         client
         game
         error
         utils
+        sfx
         boost_system
         pthread
         boost_timer

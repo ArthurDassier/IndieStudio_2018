@@ -20,6 +20,7 @@
 #include "Client/GraphicLoader.hpp"
 #include "Client/LogicPause.hpp"
 #include "Game/Character.hpp"
+#include "SFX/SFX.hpp"
 
 using namespace irr;
 
@@ -107,6 +108,7 @@ namespace client
             void destroy();
             void dropBonus();
             void removeBonus();
+            void setSpeed();
 
             scene::IParticleSystemSceneNode *fire(float, float);
             std::shared_ptr<std::map<std::string, std::function<void()>>> getFunctionMap() noexcept;
@@ -138,6 +140,7 @@ namespace client
             scene::ISceneManager *_smgr;
             gui::IGUIEnvironment *_guienv;
             video::E_DRIVER_TYPE _driverType;
+            sfx::SFX _sfx;
             std::vector<Character> _charList;
             std::vector<scene::ISceneNode*> _map;
             Clock _clock;
@@ -160,5 +163,6 @@ namespace client
             std::map<int, const scene::IAnimatedMesh *> _models;
             MODE _oldMode;
             float _walk;
+            std::size_t _speed;
     };
 }; // namespace client

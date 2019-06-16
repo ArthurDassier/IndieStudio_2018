@@ -33,6 +33,7 @@ private:
     void addButton(pt::ptree elem, core::recti rect);
     void addScrollbar(pt::ptree elem, core::recti rect);
     void addEditBox(pt::ptree elem, core::recti rect);
+    void addText(pt::ptree elem, core::recti rect);
     void setSpriteBank(pt::ptree menu);
     utils::ConfigManager _manager;
     gui::IGUIEnvironment *_env;

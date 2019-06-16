@@ -1,0 +1,23 @@
+{
+    "audio": {
+        "volume": "50",
+        "music": {
+            "volume": "100",
+            "musics": {
+                "menu": "media\/musics\/menu2.ogg",
+                "game": "media\/musics\/game.ogg"
+            }
+        },
+        "sound": {
+            "volume": "100",
+            "sounds": {
+                "button": "media\/sounds\/button_effect3.ogg",
+                "play": "media\/sounds\/button_effect2.ogg",
+                "damage": "media\/sounds\/minecraft2.ogg",
+                "bomb": "media\/sounds\/bomb.ogg",
+                "fire": "media\/sounds\/fire.ogg",
+                "walk": "media\/sounds\/walking2.ogg"
+            }
+        }
+    }
+}
