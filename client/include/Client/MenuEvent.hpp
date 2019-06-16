@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "Client/LogicPause.hpp"
 #include "Client/CustomMenu.hpp"
+#include "SFX/SFX.hpp"
 
 class MenuEvent
 {
@@ -17,6 +18,7 @@ class MenuEvent
         // std::string soundVolume(S32 id);
         // std::string musicVolume(S32 id);
     private:
+        sfx::SFX _sfx;
         std::string startSolo(s32 id);
         std::string host(s32 id);
         std::string menuMulti(s32 id);

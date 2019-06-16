@@ -9,6 +9,8 @@
 
 game::Character::Character():
     MovableEntity(game::character),
+    _power(3),
+    _speed(2),
     _hp(3)
 {
     _cooldownBomb = std::chrono::high_resolution_clock::now();
@@ -18,14 +20,6 @@ t_id game::Character::getId()
 {
     return _id;
 }
-//
-// void game::Character::deliver(std::string)
-// {
-// }
-// 
-// player &game::Character::get_playerdata()
-// {
-// }
 
 void game::Character::setSpawn(const s_pos spawn)
 {
@@ -92,9 +86,14 @@ void game::Character::setCooldownBomb()
     _cooldownBomb = std::chrono::high_resolution_clock::now();
 }
 
-size_t game::Character::getPower()
+size_t &game::Character::getPower() noexcept
 {
     return _power;
+}
+
+size_t &game::Character::getSpeed() noexcept
+{
+    return _speed;
 }
 
 size_t game::Character::getCooldownBomb()

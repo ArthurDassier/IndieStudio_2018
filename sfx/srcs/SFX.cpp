@@ -15,7 +15,7 @@ sfx::SFX::SFX(const std::string &config):
     // _defaultConfig.put("User.audio.sound.volume", 100);
     _config.setConfigFile(config);
     _config.openConfigFile(config);
-    _config.setNode("User.audio");
+    _config.setNode("audio");
     // loadConfig(config);
 
     // setConfig();
