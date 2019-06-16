@@ -105,6 +105,7 @@ void game::Game::destroyV(size_t power, s_pos pos)
     bool send = false;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z += 10;
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z + i * 10});
@@ -116,18 +117,16 @@ void game::Game::destroyV(size_t power, s_pos pos)
         }
         dropBonus(pos_block.x, pos_block.z);
     }
-    if (send) {
+    if (send)
         if (_packet.getVectorSize() != 0) {
             _packet.setType("destroy");
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
-        dropBonus(pos_block.x, pos_block.z);
-    }
-
     pos_block = pos;
     send = false;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.z -= 10;
         _packet.addToVector<std::array<float, 2>>({pos.x, pos.z - i * 10});
@@ -137,15 +136,14 @@ void game::Game::destroyV(size_t power, s_pos pos)
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
+        dropBonus(pos_block.x, pos_block.z);
     }
-    if (send) {
+    if (send)
         if (_packet.getVectorSize() != 0) {
             _packet.setType("destroy");
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
-        dropBonus(pos_block.x, pos_block.z);
-    }
 }
 
 void game::Game::destroyH(size_t power, s_pos pos)
@@ -154,6 +152,7 @@ void game::Game::destroyH(size_t power, s_pos pos)
     bool send = false;
 
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.x += 10;
         _packet.addToVector<std::array<float, 2>>({pos.x + i * 10, pos.z});
@@ -163,6 +162,7 @@ void game::Game::destroyH(size_t power, s_pos pos)
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
+        dropBonus(pos_block.x, pos_block.z);
     }
     if (send) {
         if (_packet.getVectorSize() != 0) {
@@ -170,11 +170,11 @@ void game::Game::destroyH(size_t power, s_pos pos)
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
-        dropBonus(pos_block.x, pos_block.z);
     }
     send = false;
     pos_block = pos;
     for (int i = 0; i != power + 1 && _EM.getEntityType(pos_block) != game::EntityType::block; i++) {
+        checkDeath(pos_block.x, pos_block.z);
         _EM.deleteFromPos(pos_block.x, pos_block.z);
         pos_block.x -= 10;
         _packet.addToVector<std::array<float, 2>>({pos.x - i * 10, pos.z});
@@ -184,6 +184,7 @@ void game::Game::destroyH(size_t power, s_pos pos)
             _packet.addList("blocks", _packet.getVector());
             sendPacket(_packet.getPacket());
         }
+        dropBonus(pos_block.x, pos_block.z);
     }
     if (send) {
         if(_packet.getVectorSize() != 0) {
@@ -487,5 +488,21 @@ void game::Game::updateBot()
     if (elapsed2.count() / 1000 >= 8) {
         _cooldownBombBot = std::chrono::high_resolution_clock::now();
         putBombBot(_bot.getId());
+    }
+}
+
+void game::Game::checkDeath(float x, float z)
+{
+    s_pos pos_player;
+
+    for (auto &it : *_participants) {
+        pos_player = roundPos(it.get()->getPosition().x, it.get()->getPosition().z, it.get()->getDirection());
+        std::cout << "DEBUG1 : " << x << ", " << z << "\n";
+        std::cout << "DEBUG2 : " << pos_player.x << ", " << pos_player.z << "\n";
+        if (pos_player.x == x && pos_player.z == z) {
+            _packet.setType("death");
+            it->deliver(_packet.getPacket());
+            _packet.clear();
+        }
     }
 }
